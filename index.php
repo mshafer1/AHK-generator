@@ -145,7 +145,7 @@
 			
 			function ready()
 			{
-				newRow();
+				//newRow();
 				$('#hotkeyRegion').submit(function() {
 					result = true;
 					for(var i=0; i < count; i++)
