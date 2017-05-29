@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AHK Generator</title>
+    <link rel="stylesheet" href="css/w3.css" />
+    <!--http://www.w3schools.com/lib/w3.css -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css" />
+
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/ahk.js"></script>
+    <script>
+        $(window).load(init);
+    </script>
+
+</head>
+
+<body>
+
+    <form id="hotkeyRegion">
+        <input type="hidden" id="inputLength" name="length" value="1" />
+        <div class="w3-row">
+            <div class="w3-col s12">
+                <button class="w3-btn">Submit!</button>
+            </div>
+        </div>
+        <div class="w3-row w3-dark-grey w3-center">
+            <div class="w3-col m6 w3-hide-small">
+                Key/String
+            </div>
+            <div class="w3-col m6 w3-hide-small">
+                Action
+            </div>
+        </div>
+    </form>
+    <div id="newRow" class="w3-row">
+        <div class="w3-col s12 w3-center">
+            <button class="w3-btn" onclick="newRow()"><i class="fa fa-plus" title="Delete hotkey"></i></button>
+        </div>
+    </div>
+</body>
+
+</html>
