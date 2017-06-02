@@ -56,6 +56,14 @@ function init() {
     }
 }
 
+function escapeRegExp(str) { // from https://stackoverflow.com/a/1144788/8100990
+    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/1144788/8100990
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 function load_get() { // https:///stackoverflow.com/a/12049737
     if (document.location.toString().indexOf('?') !== -1) {
         var query = document.location
@@ -64,7 +72,7 @@ function load_get() { // https:///stackoverflow.com/a/12049737
             .replace(/^.*?\?/, '')
             // and remove any existing hash string (thanks, @vrijdenker)
             .replace(/#.*$/, '')
-            .replace('+', ' ')
+            .replace(new RegExp(escapeRegExp('+'), 'g'), ' ')
             .split('&');
 
         for (var i = 0, l = query.length; i < l; i++) {
