@@ -1,1 +1,0 @@
-$('#inputLength').html() = $('#inputLength')(count);

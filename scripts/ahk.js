@@ -1,17 +1,119 @@
 var GET = {}
+var LOADED = false;
 
 function init() {
+
     load_get()
+
     if (GET.length > 0) {
-        // build form from GET
+        parse_get()
+        $.getScript("keygen.js", loaded)
+            // build form from GET
+            // console.log(GET)
+            //console.log(CONFIG)
+        num_keys = GET['length'];
+        //console.log(num_keys)
+        for (i = 0; i < num_keys; i++) {
+            // pass
+            newRow();
+            $('#func' + i + CONFIG[i]['func']).prop("checked", true)
+                //console.log(CONFIG[i]['func'])
+
+            if (CONFIG[i]['func'] == 'KEY') {
+                setHotKey(i);
+
+                //console.log(CONFIG[i]['skeyValue'])
+                $('#skey' + i + 'key').val(CONFIG[i]['skeyValue'])
+                modifiers = CONFIG[i]['modifiers[]']
+                    //console.log(modifiers)
+                modifiers.forEach(function(entry) {
+                    //console.log('#skey' + i + entry)
+                    $('#skey' + i + entry).prop("checked", true)
+                })
+            } else {
+                setHotString(i);
+                $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
+            }
+
+            select(CONFIG[i]['option'], i)
+
+            //console.log(CONFIG[i]['option'], i)
+            if (CONFIG[i]['option'] == 'Send' || CONFIG[i]['option'] == 'Replace') {
+                $('#input' + i).val(CONFIG[i]['input'])
+            } else if (CONFIG[i]['option'] == 'ActivateOrOpen') {
+                //console.log('activate mode')
+                //console.log(CONFIG[i]['Program'])
+                //console.log(CONFIG[i]['Window'])
+
+                $('#window' + i).val(CONFIG[i]['Window'])
+                $('#program' + i).val(CONFIG[i]['Program'])
+            }
+        }
+    } else {
+        //console.log("New row")
+        newRow()
     }
-    // add a new row to end
-    console.log("New row")
-    newRow()
 }
 
 function load_get() { // https:///stackoverflow.com/a/12049737
+    if (document.location.toString().indexOf('?') !== -1) {
+        var query = document.location
+            .toString()
+            // get the query string
+            .replace(/^.*?\?/, '')
+            // and remove any existing hash string (thanks, @vrijdenker)
+            .replace(/#.*$/, '')
+            .split('&');
 
+        for (var i = 0, l = query.length; i < l; i++) {
+            var aux = decodeURIComponent(query[i]).split('=');
+            if (aux[0] in GET) {
+                if (GET[aux[0]].constructor === Array) {
+                    GET[aux[0]].push(aux[1])
+                } else {
+                    GET[aux[0]] = [GET[aux[0]], aux[1]]
+                }
+            } else {
+                GET[aux[0]] = aux[1];
+            }
+        }
+    }
+}
+
+var CONFIG = {};
+
+function parse_get() {
+    //CONFIG['length'] = GET['length']
+    for (i = 0, k = 0; i < GET['length']; k++) {
+        if ('func' + k in GET) {
+            CONFIG[i] = {
+                'func': GET['func' + k],
+                'option': GET['option' + k],
+                'skeyValue': GET['skeyValue' + k]
+            }
+
+            if (CONFIG[i]['func'] == 'KEY') {
+                // hotkey
+                CONFIG[i]['modifiers[]'] = GET['skey' + k + '[]']
+            } else {
+                // hotsring - nothing more in this case
+            }
+
+            if (GET['option' + k] == 'Send') {
+                CONFIG[i]['option'] = 'Send'
+                CONFIG[i]['input'] = GET['input' + k]
+            } else if (GET['option' + k] == "ActivateOrOpen") {
+                CONFIG[i]['option'] = "ActivateOrOpen"
+                CONFIG[i]['Program'] = GET['Program' + k]
+                CONFIG[i]['Window'] = GET['Window' + k]
+            } else if (GET['option' + k] == "Replace") {
+                CONFIG[i]['option'] = 'Replace'
+                CONFIG[i]['input'] = GET['input' + k]
+            }
+
+            i++
+        }
+    }
 }
 
 function ready() {
@@ -31,7 +133,7 @@ function ready() {
 }
 
 function handleClick(ev) {
-    console.log('clicked on ' + this.tagName);
+    //console.log('clicked on ' + this.tagName);
     ev.stopPropagation();
 }
 
@@ -49,14 +151,14 @@ index = 0;
 count = 0;
 
 function dropdown(id) {
-    console.log('#key' + id);
+    //console.log('#key' + id);
     if ($('#key' + id).hasClass("w3-show")) {
-        console.log("Hide it");
+        //console.log("Hide it");
         $(".w3-dropdown-content").removeClass("w3-show");
         $(".w3-dropdown-content").removeClass("ontop");
         $(".fa-caret-right").removeClass("fa-rotate-90");
     } else {
-        console.log("show it");
+        //console.log("show it");
         $(".w3-dropdown-content").removeClass("w3-show"); //hide all - make sure none of the others are open
         $(".fa-caret-right").removeClass("fa-rotate-90");
         $('#arrow' + id).addClass('fa-rotate-90');
@@ -104,22 +206,22 @@ function remove(id) {
 
 function setHotKey(id) {
     $('#optionsShortcut' + id).html('<div class="w3-col s3">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/>Control</label>	 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="ALT"/>Alt</label>		 \
+												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/>Alt</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="SHIFT"/>Shift</label>		 \
+												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/>Shift</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" name="skeyValue{0}" style="width:5em;" maxlength="1" required/> \
+												<input type="text" placeholder="key" id="skey{0}key" name="skeyValue{0}" style="width:5em;" maxlength="1" required/> \
 											</div>'.format(id))
 }
 
 function setHotString(id) {
     $('#optionsShortcut' + id).html('<div class="w3-col s6">										 \
-												<input type="text" placeholder="string" name="skeyValue{0}" required/> \
+												<input type="text" id="skey{0}string" placeholder="string" name="skeyValue{0}" required/> \
 											</div>'.format(id))
 }
 
@@ -128,8 +230,8 @@ function newRow() {
 						<div class="w3-col m6 s12">																 \
 								<div class="w3-row">															 \
 									<div class="w3-col m4">														 \
-										<label><input type="radio" name="func{0}" value="KEY" onclick="setHotKey({0});" checked/> Hotkey</label>	 \
-										<label><input type="radio" name="func{0}" value="STRING" onclick="setHotString({0});"> Hotstring</input></label>	 \
+										<label><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0});" checked/> Hotkey</label>	 \
+										<label><input type="radio" id="func{0}STRING" name="func{0}" value="STRING" onclick="setHotString({0});"> Hotstring</input></label>	 \
 										|																		\
 									</div>																		 \
 									<div class="w3-col m8 w3-right">											 \
@@ -149,11 +251,11 @@ function newRow() {
 										</div>																	 \
 									</div>																		 \
 								</div>																			 \
-							</div>																				 \
+							</div>		                                                                         \
 						<div class="w3-col m6 s12">																 \
 							<div class="w3-row-padding">														 \
 								<div style="cursor:default" class="w3-col s10 w3-dropdown-click">				 \
-									<div class="w3-btn" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
+									<div class="w3-btn w3-centered" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
 									<div id="key{0}" class="w3-dropdown-content w3-border ontop">				 \
 											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')">ActivateOrOpen("Window","Program")</button>\
 											<br/>																 \
@@ -172,5 +274,16 @@ function newRow() {
     index += 1;
     count += 1;
     $('#inputLength').val(count);
+
     $('#hotkeyRegion').append(newDiv)
+}
+
+function loaded() {
+    //console.log("seeting url")
+    $('#downloadLink').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(keygen(CONFIG)))
+    setTimeout(download, 500)
+}
+
+function download() {
+    document.getElementById('downloadLink').click()
 }
