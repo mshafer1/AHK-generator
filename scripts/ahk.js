@@ -1,3 +1,5 @@
+$(window).load(init);
+
 var GET = {}
 var LOADED = false;
 
@@ -7,14 +9,13 @@ function init() {
 
     if (GET.length > 0) {
         parse_get()
-        $.getScript("keygen.js", loaded)
+        $.getScript("scripts/keygen.js", loaded)
             // build form from GET
-            // console.log(GET)
+            //console.log(GET)
             //console.log(CONFIG)
         num_keys = GET['length'];
         //console.log(num_keys)
         for (i = 0; i < num_keys; i++) {
-            // pass
             newRow();
             $('#func' + i + CONFIG[i]['func']).prop("checked", true)
                 //console.log(CONFIG[i]['func'])
@@ -35,7 +36,7 @@ function init() {
                 $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
             }
 
-            select(CONFIG[i]['option'], i)
+            select(CONFIG[i]['option'], i) // select drop down option
 
             //console.log(CONFIG[i]['option'], i)
             if (CONFIG[i]['option'] == 'Send' || CONFIG[i]['option'] == 'Replace') {
@@ -63,6 +64,7 @@ function load_get() { // https:///stackoverflow.com/a/12049737
             .replace(/^.*?\?/, '')
             // and remove any existing hash string (thanks, @vrijdenker)
             .replace(/#.*$/, '')
+            .replace('+', ' ')
             .split('&');
 
         for (var i = 0, l = query.length; i < l; i++) {

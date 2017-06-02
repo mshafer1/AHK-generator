@@ -1,4 +1,5 @@
 <?php
+	// obsolete - use index.html with ahk.js and keygen.js - these run client side and do not require special hosting.
 	function show_form()
 	{
 		?>
