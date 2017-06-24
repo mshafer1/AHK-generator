@@ -1,35 +1,8 @@
 # AHK-generator
-A single page website to provide a UI for the 3 most common uses for AHK and defining custom hotstrings and hotkeys to trigger them.
+A single page website to provide a UI for the some of the most common uses for [Auto Hotkey](https://autohotkey.com/ "Autohotkey.com") and defining custom hotstrings and hotkeys to trigger them.
 Published under MIT License.
 Available at <http://ahkgen.com>
 
-
-# Project dependencies
-This project relies on a couple of open source libraries
- 
-### JQuery
-#### License:
-[jquery.org/license](https://jquery.org/license "JQuery license page")
-#### Using:
-Version - v1.12.2
-#### Use:
-In page manipulation
-
-### W3 CSS
-#### License:
-[No license is necessary.](https://www.w3schools.com/w3css/ "W3 CSS home page")
-#### Using:
-Version - 2.64
-#### Use:
-Styling
-
-### [Font Awesome](http://fontawesome.io/icons)
-#### License:
-[MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" )
-#### Using:
-Version - 4.6.3
-#### Use:
-Icons
 
 # Usage
 * Go to <http://ahkgen.com>
@@ -68,3 +41,39 @@ Icons
     Custom
 
         A sandbox for creating your own usage of the hotkey/hotstring
+
+* Add more keys by pressing the "+" button at the bottom
+
+* Remove rows by clicking the "x" button on the right
+
+* Click submit to download generated AHK code (page will reload with different URL)
+
+* Share/save configuration by sending URL
+
+
+# Project dependencies
+This project relies on a couple of open source libraries
+ 
+### JQuery
+#### License:
+[jquery.org/license](https://jquery.org/license "JQuery license page")
+#### Using:
+Version - v1.12.2
+#### Use:
+In page manipulation
+
+### W3 CSS
+#### License:
+[No license is necessary.](https://www.w3schools.com/w3css/ "W3 CSS home page")
+#### Using:
+Version - 2.64
+#### Use:
+Styling
+
+### [Font Awesome](http://fontawesome.io/icons)
+#### License:
+[MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" )
+#### Using:
+Version - 4.6.3
+#### Use:
+Icons
