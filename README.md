@@ -44,14 +44,25 @@ Icons
 
 * Select a function
     ActivateOrOpen
+
         Brings a program whose title matches the Window (defaulting to 'contains' mode) to the front or runs the Program
+
     Send
+
         Sends input (types for you)
+
     Replace
+
         Removes what was just typed (for hotstring, treated like send for hotkey) and sends the value
+
     SendUnicodeChar
+
         Sends the unicode character given the UTF-16 value
+
     ActivateOrOpenChrome
+
         Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe "url" if not found
+
     Custom
+        
         A sandbox for creating your own usage of the hotkey/hotstring
