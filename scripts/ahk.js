@@ -36,18 +36,21 @@ function init() {
                 $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
             }
 
-            select(CONFIG[i]['option'], i) // select drop down option
+            option = CONFIG[i]['option'];
+            select(option, i) // select drop down option
 
             //console.log(CONFIG[i]['option'], i)
-            if (CONFIG[i]['option'] == 'Send' || CONFIG[i]['option'] == 'Replace') {
+            if (option == 'Send' || option == 'Replace' || option == 'SendUnicodeChar') {
                 $('#input' + i).val(CONFIG[i]['input'])
-            } else if (CONFIG[i]['option'] == 'ActivateOrOpen') {
+            } else if (option == 'ActivateOrOpen' || option == 'ActivateOrOpenChrome') {
                 //console.log('activate mode')
                 //console.log(CONFIG[i]['Program'])
                 //console.log(CONFIG[i]['Window'])
 
                 $('#window' + i).val(CONFIG[i]['Window'])
                 $('#program' + i).val(CONFIG[i]['Program'])
+            } else if (option == 'Custom') {
+                $('#code' + i).val(CONFIG[i]['Code'])
             }
         }
     } else {
@@ -109,16 +112,21 @@ function parse_get() {
                 // hotsring - nothing more in this case
             }
 
-            if (GET['option' + k] == 'Send') {
-                CONFIG[i]['option'] = 'Send'
+            option = GET['option' + k]
+
+            if (option == 'Send' || option == 'SendUnicodeChar') {
                 CONFIG[i]['input'] = GET['input' + k]
-            } else if (GET['option' + k] == "ActivateOrOpen") {
-                CONFIG[i]['option'] = "ActivateOrOpen"
+
+            } else if (option == "ActivateOrOpen" || option == 'ActivateOrOpenChrome') {
                 CONFIG[i]['Program'] = GET['Program' + k]
                 CONFIG[i]['Window'] = GET['Window' + k]
-            } else if (GET['option' + k] == "Replace") {
-                CONFIG[i]['option'] = 'Replace'
+
+            } else if (option == "Replace") {
                 CONFIG[i]['input'] = GET['input' + k]
+
+            } else if (option == 'Custom') {
+                CONFIG[i]['Code'] = GET['Code' + k]
+
             }
 
             i++
@@ -205,6 +213,32 @@ function select(item, id) {
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
+    } else if (item == 'ActivateOrOpenChrome') {
+        $('#function' + id).html('ActivateOrOpenChrome(\
+					<input type="text" name="Window{0}" id="window{0}" placeholder="tab name" style="width:10em" required/>,\
+					<input id="program{0}" type="text" name="Program{0}" placeholder="URL" style="width:10em" required/>)\
+					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
+
+        $("#program" + id).click(function(event) {
+            event.stopPropagation();
+        });
+        $("#window" + id).click(function(event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'Custom') {
+        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" required/>)\
+					<input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
+
+        $("#code" + id).click(function(event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'SendUnicodeChar') {
+        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" required/>)\
+					<input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
+
+        $("#input" + id).click(function(event) {
+            event.stopPropagation();
+        });
     }
 }
 
@@ -267,11 +301,17 @@ function newRow() {
 								<div style="cursor:default" class="w3-col s10 w3-dropdown-click">				 \
 									<div class="w3-btn w3-centered" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
 									<div id="key{0}" class="w3-dropdown-content w3-border ontop">				 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')">ActivateOrOpen("Window","Program")</button>\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')">ActivateOrOpen("Window", "Program")</button>\
 											<br/>																 \
 											<button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\')">Send("input")</button>\
 											<br/>																 \
 											<button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'{0}\')">Replace("input")</button>\
+                                            <br/>																 \
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'{0}\')">SendUnicodeChar("charCode")</button>\
+                                            <br/>																 \
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'{0}\')">ActivateOrOpenChrome("tab name", "url")</button>\
+                                            <br/>																 \
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'{0}\')">Custom("code")</button>\
 										</div>																	 \
 								</div>																			 \																			 \
 								<div class="w3-col s2">															 \
