@@ -36,6 +36,7 @@ Icons
 * Choose between Hotkey or Hotstring
 
    *Hotkey* is used for a key combination pressed at once (i.e. CTRL + SHIFT + I)
+   
    *Hotstring* is used for a series of keys pressed in order (i.e. ;internet)
 
 * Enter trigger value
@@ -43,6 +44,7 @@ Icons
     For hotstring, enter the value to be typed
 
 * Select a function
+
     ActivateOrOpen
 
         Brings a program whose title matches the Window (defaulting to 'contains' mode) to the front or runs the Program
@@ -64,5 +66,5 @@ Icons
         Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe "url" if not found
 
     Custom
-        
+
         A sandbox for creating your own usage of the hotkey/hotstring
