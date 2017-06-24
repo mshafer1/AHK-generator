@@ -1,5 +1,5 @@
 # AHK-generator
-A single page website to provide a UI for the 3 most common uses for AHK and defining custom hotstrings and hotkeys to trigger them.
+A single page website to provide a UI for the 3 most common uses for [AHK](http://authokey.com "Autohokey.com") and defining custom hotstrings and hotkeys to trigger them.
 Published under MIT License.
 Available at <http://ahkgen.com>
 
@@ -68,3 +68,11 @@ Icons
     Custom
 
         A sandbox for creating your own usage of the hotkey/hotstring
+
+* Add more keys by pressing the "+" button at the bottom
+
+* Remove rows by clicking the "x" button on the right
+
+* Click submit to download generated AHK code (page will reload with different URL)
+
+* Share configuration by sending URL
