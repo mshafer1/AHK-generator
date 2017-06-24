@@ -42,24 +42,28 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
                 func = 'ActivateOrOpenChrome("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")';
             } else if (option == 'Custom') {
                 func = data[i]['Code']
+            } else if (option == 'SendUnicodeChar') {
+                func = 'SendUnicodeChar(' + data[i]['input'] + ')';
             }
 
             key += func
         } else {
             // hotstring
-            key += ':*:' + data[i]['skeyValue'] + "::"
+            key += ':*c:' + data[i]['skeyValue'] + "::"
 
             func = "\nreturn";
             if (option == 'Send') { // replace doesn't make sense for hotkey, so treat like send
-                func = 'send, ' + data[i]["input"];
+                func = '\nsend, ' + data[i]["input"] + '\nreturn';
             } else if (option == 'ActivateOrOpen') {
-                func = 'ActivateOrOpen("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")';
+                func = '\nActivateOrOpen("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")\nreturn';
             } else if (option == 'Replace') {
                 func = data[i]["input"];
             } else if (option == 'ActivateOrOpenChrome') {
-                func = 'ActivateOrOpenChrome("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")';
+                func = '\nActivateOrOpenChrome("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")\nreturn';
             } else if (option == 'Custom') {
                 func = data[i]['Code']
+            } else if (option == 'SendUnicodeChar') {
+                func = '\nSendUnicodeChar(' + data[i]['input'] + ')\nreturn';
             }
 
             key += func
@@ -148,7 +152,7 @@ SendUnicodeChar(charCode)					                                            \n\
 											                                            \n\
 EncodeInteger(ref, val)						                                            \n\
 {											                                            \n\
-	DllCall("ntdll\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)            \n\
+	DllCall("ntdll\\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)            \n\
 }                                                                                       \n\
 '
 

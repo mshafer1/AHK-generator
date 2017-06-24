@@ -40,7 +40,7 @@ function init() {
             select(option, i) // select drop down option
 
             //console.log(CONFIG[i]['option'], i)
-            if (option == 'Send' || option == 'Replace') {
+            if (option == 'Send' || option == 'Replace' || option == 'SendUnicodeChar') {
                 $('#input' + i).val(CONFIG[i]['input'])
             } else if (option == 'ActivateOrOpen' || option == 'ActivateOrOpenChrome') {
                 //console.log('activate mode')
@@ -114,18 +114,19 @@ function parse_get() {
 
             option = GET['option' + k]
 
-            if (option == 'Send') {
+            if (option == 'Send' || option == 'SendUnicodeChar') {
                 CONFIG[i]['input'] = GET['input' + k]
-            } else if (option == "ActivateOrOpen") {
+
+            } else if (option == "ActivateOrOpen" || option == 'ActivateOrOpenChrome') {
                 CONFIG[i]['Program'] = GET['Program' + k]
                 CONFIG[i]['Window'] = GET['Window' + k]
+
             } else if (option == "Replace") {
                 CONFIG[i]['input'] = GET['input' + k]
-            } else if (option == 'ActivateOrOpenChrome') {
-                CONFIG[i]['Program'] = GET['Program' + k]
-                CONFIG[i]['Window'] = GET['Window' + k]
+
             } else if (option == 'Custom') {
                 CONFIG[i]['Code'] = GET['Code' + k]
+
             }
 
             i++
@@ -231,6 +232,13 @@ function select(item, id) {
         $("#code" + id).click(function(event) {
             event.stopPropagation();
         });
+    } else if (item == 'SendUnicodeChar') {
+        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" required/>)\
+					<input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
+
+        $("#input" + id).click(function(event) {
+            event.stopPropagation();
+        });
     }
 }
 
@@ -298,6 +306,8 @@ function newRow() {
 											<button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\')">Send("input")</button>\
 											<br/>																 \
 											<button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'{0}\')">Replace("input")</button>\
+                                            <br/>																 \
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'{0}\')">SendUnicodeChar("charCode")</button>\
                                             <br/>																 \
 											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'{0}\')">ActivateOrOpenChrome("tab name", "url")</button>\
                                             <br/>																 \
