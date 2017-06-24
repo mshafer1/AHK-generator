@@ -1,7 +1,7 @@
 # AHK-generator
 A single page website to provide a UI for the 3 most common uses for AHK and defining custom hotstrings and hotkeys to trigger them.
 Published under MIT License.
-Available at <pages.github.com/mshafer1/ahkgen> or <ahkgen.com>
+Available at <http://pages.github.com/mshafer1/ahkgen> or <http://ahkgen.com>
 
 
 # Project dependencies
