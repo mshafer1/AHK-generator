@@ -6,26 +6,26 @@ Published under MIT License
 # Project dependencies
 This project relies on a couple of open source libraries
  
-## JQuery
-### License:
-jquery.org/license
-### Using:
+### JQuery
+#### License:
+[jquery.org/license] (https://jquery.org/license "JQuery license page")
+#### Using:
 Version - v1.12.2
-### Use:
+#### Use:
 In page manipulation
 
-## W3 CSS
-### License:
-No license is necessary.
-### Using:
+### W3 CSS
+#### License:
+[No license is necessary.] (https://www.w3schools.com/w3css/ "W3 CSS home page")
+#### Using:
 Version - 2.64
-### Use:
+#### Use:
 Styling
 
-## Font Awesome
-### License:
-MIT License
-### Using:
+### [Font Awesome] (http://fontawesome.io/icons)
+#### License:
+[MIT License] (https:https://opensource.org/licenses/MIT "OpenSource.org page" )
+#### Using:
 Version - 4.6.3
-### Use:
+#### Use:
 Icons
