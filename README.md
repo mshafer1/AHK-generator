@@ -24,7 +24,7 @@ Styling
 
 ### [Font Awesome](http://fontawesome.io/icons)
 #### License:
-[MIT License](https:https://opensource.org/licenses/MIT "OpenSource.org page" )
+[MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" )
 #### Using:
 Version - 4.6.3
 #### Use:
