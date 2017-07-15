@@ -10,12 +10,12 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
 
     //value = 'test\ncheck'
     // load in data
-    console.log(data)
+    //console.log(data)
     for (i in data) {
-        console.log("Key " + i)
+        //console.log("Key " + i)
         key = ''
 
-        console.log(data[i])
+        //console.log(data[i])
 
         if (data[i]['func'] == 'KEY') {
             // hotkey

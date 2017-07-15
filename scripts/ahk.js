@@ -37,6 +37,7 @@ function init() {
             }
 
             option = CONFIG[i]['option'];
+            console.log(option)
             select(option, i) // select drop down option
 
             //console.log(CONFIG[i]['option'], i)
@@ -87,7 +88,13 @@ function load_get() { // https:///stackoverflow.com/a/12049737
                     GET[aux[0]] = [GET[aux[0]], aux[1]]
                 }
             } else {
-                GET[aux[0]] = aux[1];
+                if (aux[0].includes('[]')) {
+                    GET[aux[0]] = [aux[1]];
+                    console.log([aux[1]])
+                } else {
+                    GET[aux[0]] = aux[1];
+                }
+
             }
         }
     }
