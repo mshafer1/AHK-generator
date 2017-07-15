@@ -37,7 +37,7 @@ function init() {
             }
 
             option = CONFIG[i]['option'];
-            console.log(option)
+            //console.log(option)
             select(option, i) // select drop down option
 
             //console.log(CONFIG[i]['option'], i)
