@@ -37,6 +37,7 @@ function init() {
             }
 
             option = CONFIG[i]['option'];
+            //console.log(option)
             select(option, i) // select drop down option
 
             //console.log(CONFIG[i]['option'], i)
@@ -67,7 +68,7 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
-function load_get() { // https:///stackoverflow.com/a/12049737
+function load_get() { //originally from https:///stackoverflow.com/a/12049737
     if (document.location.toString().indexOf('?') !== -1) {
         var query = document.location
             .toString()
@@ -87,7 +88,13 @@ function load_get() { // https:///stackoverflow.com/a/12049737
                     GET[aux[0]] = [GET[aux[0]], aux[1]]
                 }
             } else {
-                GET[aux[0]] = aux[1];
+                if (aux[0].includes('[]')) {
+                    GET[aux[0]] = [aux[1]];
+                    console.log([aux[1]])
+                } else {
+                    GET[aux[0]] = aux[1];
+                }
+
             }
         }
     }
@@ -330,8 +337,12 @@ function newRow() {
 
 function loaded() {
     //console.log("seeting url")
-    $('#downloadLink').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(keygen(CONFIG)))
-    setTimeout(download, 500)
+    script = keygen(CONFIG)
+    $('#downloadLink').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script))
+        //setTimeout(download, 500)
+    $('#scriptZone').html('<p><pre>' + script + '</pre></p>')
+    $('#scriptZone').removeClass("w3-hide")
+    $('#downloadLink').removeClass("w3-hide")
 }
 
 function download() {

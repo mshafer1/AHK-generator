@@ -1,21 +1,22 @@
 function keygen(data) {
     value = '\
+; Header - some configuration                                                               \n\
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.    \n\
 ; #Warn  ; Enable warnings to assist with detecting common errors.                          \n\
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.    \n\
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.                     \n\
 setTitleMatchMode, 2 ; set title match mode to "contains"                                   \n\
-\n\n'
+\n\n; Configured region - selected functions\n\n'
 
 
     //value = 'test\ncheck'
     // load in data
-    console.log(data)
+    //console.log(data)
     for (i in data) {
-        console.log("Key " + i)
+        //console.log("Key " + i)
         key = ''
 
-        console.log(data[i])
+        //console.log(data[i])
 
         if (data[i]['func'] == 'KEY') {
             // hotkey
@@ -74,7 +75,7 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
         value += key + "\n\n"
     }
     // append custom functions
-    value += 'ActivateOrOpen(window, program)                   \n\
+    value += '\n\n; Provided Functions -\n\nActivateOrOpen(window, program)                   \n\
 {                                                               \n\
 	; check if window exists                                    \n\
 	if WinExist(window)                                         \n\
@@ -132,7 +133,7 @@ ActivateOrOpenChrome(tab, url)                                  \n\
                                                                                         \n\
     ; If we did not find it, start it                                                   \n\
     if(found = "false"){                                                                \n\
-        Run chrome.exe %url%                                                            \n\
+        Run chrome.exe "%url%"                                                          \n\
     }                                                                                   \n\
 	return                                                                              \n\
 }                                                                                       \n\
@@ -152,7 +153,7 @@ SendUnicodeChar(charCode)					                                            \n\
 											                                            \n\
 EncodeInteger(ref, val)						                                            \n\
 {											                                            \n\
-	DllCall("ntdll\\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)            \n\
+	DllCall("ntdll\\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)           \n\
 }                                                                                       \n\
 '
 
