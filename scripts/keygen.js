@@ -27,6 +27,9 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
             if (data[i]['modifiers[]'].includes('ALT')) {
                 key += '!'
             }
+            if (data[i]['modifiers[]'].includes('WIN')) {
+                key += '#'
+            }
 
             key += data[i]['skeyValue']
             key += '::'
