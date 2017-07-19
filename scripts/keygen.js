@@ -52,7 +52,7 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
         } else {
             // hotstring
             key += ':*c:' + data[i]['skeyValue'] + "::"
-
+            option = data[i]['option'];
             func = "\r\nreturn";
             if (option == 'Send') { // replace doesn't make sense for hotkey, so treat like send
                 func = '\r\nsend, ' + data[i]["input"] + '\r\nreturn';
