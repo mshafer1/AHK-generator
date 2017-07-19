@@ -256,18 +256,22 @@ function remove(id) {
 }
 
 function setHotKey(id) {
-    $('#optionsShortcut' + id).html('<div class="w3-col s3">												 \
-												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+    $('#optionsShortcut' + id).html('<div class="w3-col s2">												 \
+												<label><input type="checkbox" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+											</div>																 \
+											<div class="w3-col s2">												 \
+												<label><input type="checkbox" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
+											</div>																 \
+											<div class="w3-col s2">												 \
+												<label><input type="checkbox" name="skey{0}[]" value="ALT"/>Alt</label>		    \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/>Alt</label>		 \
+												<label><input type="checkbox" name="skey{0}[]" value="WIN"/>Windows</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/>Shift</label>		 \
+												<input type="text" placeholder="key" name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
 											</div>																 \
-											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" id="skey{0}key" name="skeyValue{0}" style="width:5em;" maxlength="1" required/> \
-											</div>'.format(id))
+										</div>'.format(id))
 }
 
 function setHotString(id) {
@@ -277,27 +281,33 @@ function setHotString(id) {
 }
 
 function newRow() {
-    newDiv = '<div class="w3-row" id="shortcut{0}">													 \
+    newDiv = '<div class="w3-row-padding w3-padding-16" id="shortcut{0}">													 \
 						<div class="w3-col m6 s12">																 \
 								<div class="w3-row">															 \
 									<div class="w3-col m4">														 \
 										<label><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0});" checked/> Hotkey</label>	 \
+                                        <span class="w3-hide-large"><br/></span>                 \
 										<label><input type="radio" id="func{0}STRING" name="func{0}" value="STRING" onclick="setHotString({0});"> Hotstring</input></label>	 \
-										|																		\
-									</div>																		 \
-									<div class="w3-col m8 w3-right">											 \
+                                    </div>                                                                       \
+                                    <div class="w3-col m1">                                                      \
+                                         <span class="w3-hide-small w3-hide-medium" style="text-align:center">|</span>                                \
+                                    </div>                                                                       \
+									<div class="w3-col m7 w3-right">											 \
 										<div id="optionsShortcut{0}" class="w3-row">					         \
-											<div class="w3-col s3">												 \
+                                            <div class="w3-col s2">												 \
 												<label><input type="checkbox" name="skey{0}[]" value="CTRL"/>Control</label>	 \
 											</div>																 \
-											<div class="w3-col s3">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="ALT"/>Alt</label>		 \
+											<div class="w3-col s2">												 \
+												<label><input type="checkbox" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
+											</div>																 \
+											<div class="w3-col s2">												 \
+												<label><input type="checkbox" name="skey{0}[]" value="ALT"/>Alt</label>		    \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="SHIFT"/>Shift</label>		 \
+												<label><input type="checkbox" name="skey{0}[]" value="WIN"/>Windows</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" name="skeyValue{0}" style="width:5em;" maxlength="1" required/> \
+												<input type="text" placeholder="key" name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
 											</div>																 \
 										</div>																	 \
 									</div>																		 \

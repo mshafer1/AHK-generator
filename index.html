@@ -20,9 +20,7 @@
     <form id="hotkeyRegion">
         <input type="hidden" id="inputLength" name="length" value="1" />
         <div class="w3-row">
-            <div class="w3-col s6">
-                <button class="w3-btn">Submit!</button>
-            </div>
+
             <div class="w3-col s6">
                 <span style="text-align:right; float:right;">Source available at <a href="https://github.com/mshafer1/AHK-generator" target="_blank">Github.com</a><span>
             </div>
@@ -42,10 +40,14 @@
         </div>
     </div>
     <div class="w3-row">
-        <a id="downloadLink" href='' download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right">download</a>
-        <br/>
-        <div id="scriptZone" class="w3-border w3-hide w3-margin" contenteditable="true">        
+        <div class="w3-col s6">
+            <button class="w3-btn">Submit!</button>
         </div>
+        <div class="w3-col s6">
+            <a id="downloadLink" href='' download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right">download</a>
+        </div>
+    </div>
+    <div id="scriptZone" class="w3-border w3-hide w3-margin" contenteditable="true">        
     </div>
 </body>
 
