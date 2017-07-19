@@ -4,7 +4,7 @@ var GET = {}
 var LOADED = false;
 
 function init() {
-
+    ready()
     load_get()
 
     if (GET.length > 0) {
@@ -89,11 +89,14 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
                 }
             } else {
                 if (aux[0].includes('[]')) {
-                    GET[aux[0]] = [aux[1]];
-                    console.log([aux[1]])
+                    //console.log("Array detected")
+                    GET[aux[0]] = [];
+                    GET[aux[0]].push(aux[1])
                 } else {
                     GET[aux[0]] = aux[1];
                 }
+                //console.log(aux[0] + ":" + GET[aux[0]])
+                //console.log();
 
             }
         }
@@ -114,9 +117,15 @@ function parse_get() {
 
             if (CONFIG[i]['func'] == 'KEY') {
                 // hotkey
-                CONFIG[i]['modifiers[]'] = GET['skey' + k + '[]']
+                if ('skey' + k + '[]' in GET) {
+                    CONFIG[i]['modifiers[]'] = GET['skey' + k + '[]']
+                } else {
+                    CONFIG[i]['modifiers[]'] = []
+                        //console.log("empty list")
+                }
+
             } else {
-                // hotsring - nothing more in this case
+                // hotstring - nothing more in this case
             }
 
             option = GET['option' + k]
@@ -143,7 +152,9 @@ function parse_get() {
 
 function ready() {
     //newRow();
-    $('#hotkeyRegion').submit(function() {
+    console.log("Registering for check")
+    $('#hotkeyForm').submit(function() {
+        console.log("Checking for submit")
         result = true;
         for (var i = 0; i < count; i++) {
             if ($('#option' + i).length == 0 && $('#function' + i).length > 0) {
@@ -257,19 +268,19 @@ function remove(id) {
 
 function setHotKey(id) {
     $('#optionsShortcut' + id).html('<div class="w3-col s2">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/>Control</label>	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
+												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="ALT"/>Alt</label>		    \
+												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/>Alt</label>		    \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="WIN"/>Windows</label>		 \
+												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/>Windows</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
 											</div>																 \
 										</div>'.format(id))
 }
@@ -295,19 +306,19 @@ function newRow() {
 									<div class="w3-col m7 w3-right">											 \
 										<div id="optionsShortcut{0}" class="w3-row">					         \
                                             <div class="w3-col s2">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/>Control</label>	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
+												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="ALT"/>Alt</label>		    \
+												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/>Alt</label>		    \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" name="skey{0}[]" value="WIN"/>Windows</label>		 \
+												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/>Windows</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
 											</div>																 \
 										</div>																	 \
 									</div>																		 \
