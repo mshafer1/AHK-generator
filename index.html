@@ -20,11 +20,20 @@
     <form id="hotkeyForm">
         <input type="hidden" id="inputLength" name="length" value="1" />
         <div class="w3-row">
-            <div class="w3-col s6">
-                <span style="text-align:right; float:right;">Source available at <a href="https://github.com/mshafer1/AHK-generator" target="_blank">Github.com</a><span>
+            <div class="w3-col s4">
+                <span style="float:left;">
+                    <div class="w3-dropdown-click">
+                        <button type="button" class="w3-btn" onclick="dropdown('About')">About</button>
+                        <div id="keyAbout" class="w3-dropdown-content w3-border" style="color:black; background-color:white">
+                            <p>This is a generating configuration utility for AHK scripts</p>
+                            <p>In order to run these scripts, one needs to either download and install Autohotkey from the main website <a href="http://www.autohotkey.com" target="__blank" class="w3-btn">AutoHotkey.com</a> or have someone who has an install compile the script.</p>                            
+                        </div>
+                    </div>
+                </span>
             </div>
-            <div class="w3-col s6">
-                <span style="text-align:right; float:right;">Source available at <a href="https://github.com/mshafer1/AHK-generator" target="_blank">Github.com</a><span>
+            <div class="w3-col s4 w3-center">Visit <a href="https://autohotkey.com/" target="_blank">AutoHotkey.com</a> for more details</div>
+            <div class="w3-col s4">
+                <span style="text-align:right; float:right;">Source available at <a href="https://github.com/mshafer1/AHK-generator" target="_blank">Github.com</a></span>
             </div>
         </div>
         <div class="w3-row w3-dark-grey w3-center">
@@ -37,19 +46,19 @@
         </div>
         <span id="hotkeyRegion">
         </span>
-                <div id="newRow" class="w3-row">
-                    <div class="w3-col s12 w3-center">
-                        <button type="button" class="w3-btn" onclick="newRow()"><i class="fa fa-plus" title="Add hotkey"></i></button>
-                    </div>
-                </div>
-                <div class="w3-row">
-                    <div class="w3-col s6">
-                        <button class="w3-btn">Submit!</button>
-                    </div>
-                    <div class="w3-col s6">
-                        <a id="downloadLink" href='' download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right">download</a>
-                    </div>
-                </div>
+        <div id="newRow" class="w3-row">
+            <div class="w3-col s12 w3-center">
+                <button type="button" class="w3-btn" onclick="newRow()"><i class="fa fa-plus" title="Add hotkey"></i></button>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col s6">
+                <button class="w3-btn" title="Generate script">Submit!</button>
+            </div>
+            <div class="w3-col s6">
+                <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Download AHK script">download</a>
+            </div>
+        </div>
     </form>
     <div id="scriptZone" class="w3-border w3-hide w3-margin" contenteditable="true">
     </div>
