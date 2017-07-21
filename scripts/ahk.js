@@ -331,7 +331,7 @@ function newRow() {
 												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/>Windows</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> <!-- need to do usability testing on list="specialKeys" -->\
 											</div>																 \
 										</div>																	 \
 									</div>																		 \
