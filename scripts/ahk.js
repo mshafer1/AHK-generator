@@ -80,22 +80,27 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
             .split('&');
 
         for (var i = 0, l = query.length; i < l; i++) {
-            var aux = decodeURIComponent(query[i]).split('=');
-            if (aux[0] in GET) {
-                if (GET[aux[0]].constructor === Array) {
-                    GET[aux[0]].push(aux[1])
+            aux = decodeURIComponent(query[i])
+            console.log(aux)
+            key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
+            console.log(key)
+            value = aux.replace(key + "=", "")
+            console.log(value)
+            if (key in GET) {
+                if (GET[key].constructor === Array) {
+                    GET[key].push(value)
                 } else {
-                    GET[aux[0]] = [GET[aux[0]], aux[1]]
+                    GET[key] = [GET[key], value]
                 }
             } else {
-                if (aux[0].includes('[]')) {
+                if (key.includes('[]')) {
                     //console.log("Array detected")
-                    GET[aux[0]] = [];
-                    GET[aux[0]].push(aux[1])
+                    GET[key] = [];
+                    GET[key].push(value)
                 } else {
-                    GET[aux[0]] = aux[1];
+                    GET[key] = value;
                 }
-                //console.log(aux[0] + ":" + GET[aux[0]])
+                //console.log(key + ":" + GET[key])
                 //console.log();
 
             }
@@ -166,6 +171,14 @@ function ready() {
         }
         return result; // return false to cancel form action
     });
+
+    //if clicking anywhere but on dropdown, close it.
+    $(document).bind('click', function(e) { //from http://stackoverflow.com/a/15098861
+        if ($(e.target).closest('.w3-dropdown-click').length === 0) {
+            $(".w3-dropdown-content").removeClass("w3-show").removeClass("on-top"); //hide all - make sure none of the others are open
+            $(".fa-caret-right").removeClass("fa-rotate-90");
+        }
+    });
 }
 
 function handleClick(ev) {
@@ -208,8 +221,8 @@ function select(item, id) {
 
     if (item == 'ActivateOrOpen') {
         $('#function' + id).html('ActivateOrOpen(\
-					<input type="text" name="Window{0}" id="window{0}" placeholder="Window" style="width:10em" required/>,\
-					<input id="program{0}" type="text" name="Program{0}" placeholder="Program" style="width:10em" required/>)\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="Window" style="width:10em" required/>", \
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="Program" style="width:10em" required/>")\
 					<input type="hidden" value="ActivateOrOpen" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -219,22 +232,22 @@ function select(item, id) {
             event.stopPropagation();
         });
     } else if (item == 'Send') {
-        $('#function' + id).html('Send(<input name="input{0}"  id="input{0}" type="text" placeholder="input" required/>)\
+        $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input" required/>")\
 					<input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'Replace') {
-        $('#function' + id).html('Replace(<input type="text" name="input{0}" id="input{0}" placeholder="input" required/>)\
+        $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input" required/>")\
 					<input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'ActivateOrOpenChrome') {
         $('#function' + id).html('ActivateOrOpenChrome(\
-					<input type="text" name="Window{0}" id="window{0}" placeholder="tab name" style="width:10em" required/>,\
-					<input id="program{0}" type="text" name="Program{0}" placeholder="URL" style="width:10em" required/>)\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name" style="width:10em" required/>", \
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL" style="width:10em" required/>")\
 					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -329,17 +342,17 @@ function newRow() {
 								<div style="cursor:default" class="w3-col s10 w3-dropdown-click">				 \
 									<div class="w3-btn w3-centered" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
 									<div id="key{0}" class="w3-dropdown-content w3-border ontop">				 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')">ActivateOrOpen("Window", "Program")</button>\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')" title="Brings a program whose title matches the Window (defaulting to \'contains\' mode) to the front or runs the Program\ni.e. ActivateOrOpen(&quot;- Chrome&quot;, &quot;Chrome.exe&quot;) will bring Chrome to the front or open it">ActivateOrOpen("Window", "Program")</button>\
 											<br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\')">Send("input")</button>\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\')" title="Sends input (types for you)">Send("input")</button>\
 											<br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'{0}\')">Replace("input")</button>\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'{0}\')" title="Removes what was just typed (for hotstring, but treated as Send for hotkey) and sends the value\ni.e. Replace(&quot;by the way&quot;) can be used with a hotstring of btw to cause it to be expanded when typed">Replace("input")</button>\
                                             <br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'{0}\')">SendUnicodeChar("charCode")</button>\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'{0}\')" title="Sends the unicode character given the UTF-16 value\ni.e. SendUnicodeChar(&quot;0x263A&quot;) will insert a smiley face">SendUnicodeChar("charCode")</button>\
                                             <br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'{0}\')">ActivateOrOpenChrome("tab name", "url")</button>\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'{0}\')" title="Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe &quot;url&quot; if not found\ni.e. ActivateOrOpenChrome(&quot;Pandora&quot;, &quot;www.pandora.com&quot;) will search through chrome tabs for Pandora and open pandora.com if not found">ActivateOrOpenChrome("tab name", "url")</button>\
                                             <br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'{0}\')">Custom("code")</button>\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'{0}\')" title="A sandbox for creating your own usage of the hotkey/hotstring">Custom("code")</button>\
 										</div>																	 \
 								</div>																			 \																			 \
 								<div class="w3-col s2">															 \
