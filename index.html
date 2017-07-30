@@ -14,14 +14,20 @@
     <script src="scripts/jquery.min.js"></script>
     <script src="scripts/ahk.js"></script>
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-103001839-1', 'auto');
-      ga('send', 'pageview');
-
+        ga('create', 'UA-103001839-1', 'auto');
+        ga('send', 'pageview');
     </script>
 </head>
 
@@ -54,6 +60,9 @@
             <div class="w3-col s4">
                 <span style="text-align:right; float:right;">Source available at <a href="https://github.com/mshafer1/AHK-generator" target="_blank">Github.com</a></span>
             </div>
+            <div class="w3-col s6">
+                <span style="text-align:right; float:right;">Source available at <a href="https://github.com/mshafer1/AHK-generator" target="_blank">Github.com</a><span>
+            </div>
         </div>
         <div class="w3-row w3-dark-grey w3-center">
             <div class="w3-col m6 w3-hide-small">
@@ -65,19 +74,19 @@
         </div>
         <span id="hotkeyRegion">
         </span>
-        <div id="newRow" class="w3-row">
-            <div class="w3-col s12 w3-center">
-                <button type="button" class="w3-btn" onclick="newRow()"><i class="fa fa-plus" title="Add hotkey"></i></button>
-            </div>
-        </div>
-        <div class="w3-row">
-            <div class="w3-col s6">
-                <button class="w3-btn" title="Generate script">Submit!</button>
-            </div>
-            <div class="w3-col s6">
-                <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Download AHK script">download</a>
-            </div>
-        </div>
+                <div id="newRow" class="w3-row">
+                    <div class="w3-col s12 w3-center">
+                        <button type="button" class="w3-btn" onclick="newRow()"><i class="fa fa-plus" title="Add hotkey"></i></button>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col s6">
+                        <button class="w3-btn" title="Generate script">Submit!</button>
+                    </div>
+                    <div class="w3-col s6">
+                        <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Download AHK script">download</a>
+                    </div>
+                </div>
     </form>
     <div id="scriptZone" class="w3-border w3-hide w3-margin" contenteditable="true">
     </div>
