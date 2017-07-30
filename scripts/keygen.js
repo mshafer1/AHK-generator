@@ -71,7 +71,9 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
             key += func
         }
 
-
+        if ('comment' in data[i]) {
+            key = ';' + data[i]['comment'] + '\r\n' + key;
+        }
 
         value += key + "\r\n\r\n"
     }
