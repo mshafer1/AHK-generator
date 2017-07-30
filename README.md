@@ -76,8 +76,4 @@ Styling
 #### Using:
 Version - 4.6.3
 #### Use:
-<<<<<<< HEAD
 Icons
-=======
-Icons
->>>>>>> refs/remotes/origin/documentation
