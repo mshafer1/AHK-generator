@@ -85,11 +85,11 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
 
         for (var i = 0, l = query.length; i < l; i++) {
             aux = decodeURIComponent(query[i])
-            console.log(aux)
+                //console.log(aux)
             key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
-            console.log(key)
+            //console.log(key)
             value = aux.replace(key + "=", "")
-            console.log(value)
+                //console.log(value)
             if (key in GET) {
                 if (GET[key].constructor === Array) {
                     GET[key].push(value)
@@ -154,8 +154,10 @@ function parse_get() {
 
             }
 
-            if ('comment' + k in GET) {
+            if ('comment' + k in GET && GET['comment' + k].length > 0) {
+                console.log("Comment in " + i)
                 CONFIG[i]['comment'] = GET['comment' + k]
+                console.log(CONFIG)
             }
 
             i++
@@ -165,9 +167,9 @@ function parse_get() {
 
 function ready() {
     //newRow();
-    console.log("Registering for check")
+    //console.log("Registering for check")
     $('#hotkeyForm').submit(function() {
-        console.log("Checking for submit")
+        //console.log("Checking for submit")
         result = true;
         for (var i = 0; i < count; i++) {
             if ($('#option' + i).length == 0 && $('#function' + i).length > 0) {
