@@ -68,6 +68,14 @@ function escapeRegExp(str) { // from https://stackoverflow.com/a/1144788/8100990
     return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }
 
+
+if (!String.prototype.includes) {
+    String.prototype.includes = function() {
+        'use strict';
+        return String.prototype.indexOf.apply(this, arguments) !== -1;
+    };
+}
+
 function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/1144788/8100990
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
