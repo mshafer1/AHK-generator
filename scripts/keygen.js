@@ -1,12 +1,12 @@
 function keygen(data) {
     value = '\
-; Header - some configuration                                                               \r\n\
+; *********************** Header - some configuration  ***********************        \r\n\
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.    \r\n\
-; #Warn  ; Enable warnings to assist with detecting common errors.                          \r\n\
+; #Warn  ; Enable warnings to assist with detecting common errors. (disabled by default)    \r\n\
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.    \r\n\
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.                     \r\n\
 setTitleMatchMode, 2 ; set title match mode to "contains"                                   \r\n\
-\r\n\r\n; Configured region - selected functions\r\n\r\n'
+\r\n\r\n; *********************** Configured region - selected functions ************         \r\n\r\n'
 
     // load in data
     //console.log(data)
@@ -76,16 +76,17 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
         value += key + "\r\n\r\n"
     }
     // append custom functions
-    value += '\r\n\r\n; Provided Functions -\r\n\r\nActivateOrOpen(window, program)     \r\n\
+    value += '\r\n\r\n; *********************** Provided Functions ******************************** \r\n\r\nActivateOrOpen(window, program)     \r\n\
 {                                                                                       \r\n\
-	; check if window exists                                                            \r\n\
+	; check if window exists                                                             \r\n\
 	if WinExist(window)                                                                 \r\n\
 	{                                                                                   \r\n\
 		WinActivate  ; Uses the last found window.                                      \r\n\
 	}                                                                                   \r\n\
 	else                                                                                \r\n\
 	{   ; else start requested program                                                  \r\n\
-		 Run %program%                                                                  \r\n\
+		 Run cmd /c "start ^"^" ^"%program%^""                                          \r\n\
+		 WinWait, %window%,,5		; wait up to 5 seconds for window to exist          \r\n\
 		 IfWinNotActive, %window%, , WinActivate, %window%                              \r\n\
 		 {                                                                              \r\n\
 			  WinActivate  ; Uses the last found window.                                \r\n\

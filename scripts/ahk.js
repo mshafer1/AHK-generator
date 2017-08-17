@@ -8,7 +8,12 @@ function init() {
     load_get()
 
     if (GET.length > 0) {
-        parse_get()
+        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
+        parse_get();
+
+        //disable submit
+        $('#btnSubmit').disable(true);
+
         $.getScript("scripts/keygen.js", loaded)
             // build form from GET
             //console.log(GET)
@@ -183,6 +188,20 @@ String.prototype.format = function() {
     }
 }
 
+//Disable function - from https://stackoverflow.com/a/16788240
+jQuery.fn.extend({
+    disable: function(state) {
+        console.log("disble " + state)
+        return this.each(function() {
+            var $this = $(this);
+            if ($this.is('input, button, textarea, select'))
+                this.disabled = state;
+            else
+                $this.toggleClass('disabled', state);
+        });
+    }
+});
+
 index = 0;
 count = 0;
 
@@ -260,34 +279,50 @@ function select(item, id) {
     }
 }
 
+function markDirty() {
+    //disable download link
+    $('#downloadLink').disable(true);
+    $('#downloadLink').prop('title', "Script out of date, submit to update to configuration changes");
+
+    //indicate script is out of date as well
+    $('#scriptZone').addClass('grayout');
+    $('#scriptZone').prop('title', "Script out of date, submit to update to configuration changes");
+
+    //enable Submit
+    $('#btnSubmit').disable(false);
+    $('#btnSubmit').prop('title', "Select to generate new script");
+}
+
 function remove(id) {
     $('#shortcut' + id).remove() //delete row from table
     count -= 1;
     $('#inputLength').val(count);
+
+    markDirty();
 }
 
 function setHotKey(id) {
     $('#optionsShortcut' + id).html('<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onclick="markDirty()"/>Control</label>	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
+												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" onclick="markDirty()"/>Shift</label> 	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/>Alt</label>		    \
+												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" onclick="markDirty()"/>Alt</label>		    \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/>Windows</label>		 \
+												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" onclick="markDirty()"/>Windows</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  onchange="markDirty()" required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
 											</div>																 \
 										</div>'.format(id))
 }
 
 function setHotString(id) {
     $('#optionsShortcut' + id).html('<div class="w3-col s6">										 \
-												<input type="text" id="skey{0}string" placeholder="string" name="skeyValue{0}" required/> \
+												<input type="text" id="skey{0}string" placeholder="string" name="skeyValue{0}" onchange="markDirty()" required/> \
 											</div>'.format(id))
 }
 
@@ -296,9 +331,9 @@ function newRow() {
 						<div class="w3-col m6 s12">																 \
 								<div class="w3-row">															 \
 									<div class="w3-col m4">														 \
-										<label><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0});" checked/> Hotkey</label>	 \
+										<label><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0}); markDirty();" checked/> Hotkey</label>	 \
                                         <span class="w3-hide-large"><br/></span>                 \
-										<label><input type="radio" id="func{0}STRING" name="func{0}" value="STRING" onclick="setHotString({0});"> Hotstring</input></label>	 \
+										<label><input type="radio" id="func{0}STRING" name="func{0}" value="STRING" onclick="setHotString({0}); markDirty();"> Hotstring</input></label>	 \
                                     </div>                                                                       \
                                     <div class="w3-col m1">                                                      \
                                          <span class="w3-hide-small w3-hide-medium" style="text-align:center">|</span>                                \
@@ -306,19 +341,19 @@ function newRow() {
 									<div class="w3-col m7 w3-right">											 \
 										<div id="optionsShortcut{0}" class="w3-row">					         \
                                             <div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onclick="markDirty()"/>Control</label>	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
+												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" onclick="markDirty()"/>Shift</label> 	 \
 											</div>																 \
 											<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/>Alt</label>		    \
+												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" onclick="markDirty()"/>Alt</label>		    \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/>Windows</label>		 \
+												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" onclick="markDirty()"/>Windows</label>		 \
 											</div>																 \
 											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;" onchange="markDirty()" required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
 											</div>																 \
 										</div>																	 \
 									</div>																		 \
@@ -328,21 +363,21 @@ function newRow() {
 							<div class="w3-row-padding">														 \
 								<div style="cursor:default" class="w3-col s10 w3-dropdown-click">				 \
 									<div class="w3-btn w3-centered" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
-									<div id="key{0}" class="w3-dropdown-content w3-border ontop">				 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')">ActivateOrOpen("Window", "Program")</button>\
-											<br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\')">Send("input")</button>\
-											<br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'{0}\')">Replace("input")</button>\
-                                            <br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'{0}\')">SendUnicodeChar("charCode")</button>\
-                                            <br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'{0}\')">ActivateOrOpenChrome("tab name", "url")</button>\
-                                            <br/>																 \
-											<button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'{0}\')">Custom("code")</button>\
-										</div>																	 \
-								</div>																			 \																			 \
-								<div class="w3-col s2">															 \
+									<div id="key{0}" class="w3-dropdown-content w3-border ontop">				\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\'); markDirty();" title="Brings a program whose title matches the Window (defaulting to \'contains\' mode) to the front or runs the Program\ni.e. ActivateOrOpen(&quot;- Chrome&quot;, &quot;Chrome.exe&quot;) will bring Chrome to the front or open it">ActivateOrOpen("Window", "Program")</button>\
+											<br/>																\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\'); markDirty();" title="Sends input (types for you)">Send("input")</button>\
+											<br/>																\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'{0}\'); markDirty();" title="Removes what was just typed (for hotstring, but treated as Send for hotkey) and sends the value\ni.e. Replace(&quot;by the way&quot;) can be used with a hotstring of btw to cause it to be expanded when typed">Replace("input")</button>\
+                                            <br/>																\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'{0}\'); markDirty();" title="Sends the unicode character given the UTF-16 value\ni.e. SendUnicodeChar(&quot;0x263A&quot;) will insert a smiley face">SendUnicodeChar("charCode")</button>\
+                                            <br/>																\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'{0}\'); markDirty();" title="Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe &quot;url&quot; if not found\ni.e. ActivateOrOpenChrome(&quot;Pandora&quot;, &quot;www.pandora.com&quot;) will search through chrome tabs for Pandora and open pandora.com if not found">ActivateOrOpenChrome("tab name", "url")</button>\
+                                            <br/>																\
+											<button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'{0}\'); markDirty();" title="A sandbox for creating your own usage of the hotkey/hotstring">Custom("code")</button>\
+										</div>																	\
+								</div>																			\																			 \
+								<div class="w3-col s2">															\
 									<button type="button" onclick="remove(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete \hotkey"></i></button>\
 								</div>																			 \
 							</div>  																			 \
