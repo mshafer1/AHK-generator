@@ -409,7 +409,7 @@ function newRow() {
 										</div>																	\
 								</div>																			\																			 \
 								<div class="w3-col s2">															\
-									<button type="button" onclick="remove(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete \hotkey"></i></button>\
+                                <button type="button" onclick="remove(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}" title="Delete hotkey"><i class="fa fa-times-circle-o"></i></button>\
 								</div>																			\
 							</div>  																			\
 						</div>																					\
