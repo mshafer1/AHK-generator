@@ -3,6 +3,7 @@ $(window).load(init);
 var GET = {}
 var LOADED = false;
 
+// from https://stackoverflow.com/a/31221374/8100990
 if (!String.prototype.includes) {
     String.prototype.includes = function() {
         'use strict';
