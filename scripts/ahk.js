@@ -25,6 +25,10 @@ function init() {
             $('#func' + i + CONFIG[i]['func']).prop("checked", true)
                 //console.log(CONFIG[i]['func'])
 
+            if ('comment' in CONFIG[i]) {
+                $('#comment' + i).val(CONFIG[i]['comment'])
+            }
+
             if (CONFIG[i]['func'] == 'KEY') {
                 setHotKey(i);
 
@@ -69,6 +73,14 @@ function escapeRegExp(str) { // from https://stackoverflow.com/a/1144788/8100990
     return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }
 
+
+if (!String.prototype.includes) {
+    String.prototype.includes = function() {
+        'use strict';
+        return String.prototype.indexOf.apply(this, arguments) !== -1;
+    };
+}
+
 function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/1144788/8100990
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
@@ -85,22 +97,27 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
             .split('&');
 
         for (var i = 0, l = query.length; i < l; i++) {
-            var aux = decodeURIComponent(query[i]).split('=');
-            if (aux[0] in GET) {
-                if (GET[aux[0]].constructor === Array) {
-                    GET[aux[0]].push(aux[1])
+            aux = decodeURIComponent(query[i])
+                //console.log(aux)
+            key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
+            //console.log(key)
+            value = aux.replace(key + "=", "")
+                //console.log(value)
+            if (key in GET) {
+                if (GET[key].constructor === Array) {
+                    GET[key].push(value)
                 } else {
-                    GET[aux[0]] = [GET[aux[0]], aux[1]]
+                    GET[key] = [GET[key], value]
                 }
             } else {
-                if (aux[0].includes('[]')) {
+                if (key.includes('[]')) {
                     //console.log("Array detected")
-                    GET[aux[0]] = [];
-                    GET[aux[0]].push(aux[1])
+                    GET[key] = [];
+                    GET[key].push(value)
                 } else {
-                    GET[aux[0]] = aux[1];
+                    GET[key] = value;
                 }
-                //console.log(aux[0] + ":" + GET[aux[0]])
+                //console.log(key + ":" + GET[key])
                 //console.log();
 
             }
@@ -150,6 +167,12 @@ function parse_get() {
 
             }
 
+            if ('comment' + k in GET && GET['comment' + k].length > 0) {
+                console.log("Comment in " + i)
+                CONFIG[i]['comment'] = GET['comment' + k]
+                console.log(CONFIG)
+            }
+
             i++
         }
     }
@@ -157,9 +180,9 @@ function parse_get() {
 
 function ready() {
     //newRow();
-    console.log("Registering for check")
+    // console.log("Registering for check")
     $('#hotkeyForm').submit(function() {
-        console.log("Checking for submit")
+        // console.log("Checking for submit")
         result = true;
         for (var i = 0; i < count; i++) {
             if ($('#option' + i).length == 0 && $('#function' + i).length > 0) {
@@ -170,6 +193,14 @@ function ready() {
             }
         }
         return result; // return false to cancel form action
+    });
+
+    //if clicking anywhere but on dropdown, close it.
+    $(document).bind('click', function(e) { //from http://stackoverflow.com/a/15098861
+        if ($(e.target).closest('.w3-dropdown-click').length === 0) {
+            $(".w3-dropdown-content").removeClass("w3-show").removeClass("on-top"); //hide all - make sure none of the others are open
+            $(".fa-caret-right").removeClass("fa-rotate-90");
+        }
     });
 }
 
@@ -227,8 +258,8 @@ function select(item, id) {
 
     if (item == 'ActivateOrOpen') {
         $('#function' + id).html('ActivateOrOpen(\
-					<input type="text" name="Window{0}" id="window{0}" placeholder="Window" style="width:10em" required/>,\
-					<input id="program{0}" type="text" name="Program{0}" placeholder="Program" style="width:10em" required/>)\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="Window" style="width:10em" required/>", \
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="Program" style="width:10em" required/>")\
 					<input type="hidden" value="ActivateOrOpen" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -238,22 +269,22 @@ function select(item, id) {
             event.stopPropagation();
         });
     } else if (item == 'Send') {
-        $('#function' + id).html('Send(<input name="input{0}"  id="input{0}" type="text" placeholder="input" required/>)\
+        $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input" required/>")\
 					<input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'Replace') {
-        $('#function' + id).html('Replace(<input type="text" name="input{0}" id="input{0}" placeholder="input" required/>)\
+        $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input" required/>")\
 					<input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'ActivateOrOpenChrome') {
         $('#function' + id).html('ActivateOrOpenChrome(\
-					<input type="text" name="Window{0}" id="window{0}" placeholder="tab name" style="width:10em" required/>,\
-					<input id="program{0}" type="text" name="Program{0}" placeholder="URL" style="width:10em" required/>)\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name" style="width:10em" required/>", \
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL" style="width:10em" required/>")\
 					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -379,10 +410,10 @@ function newRow() {
 								</div>																			\																			 \
 								<div class="w3-col s2">															\
 									<button type="button" onclick="remove(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete \hotkey"></i></button>\
-								</div>																			 \
-							</div>  																			 \
-						</div>																					 \
-					</div>																						 \
+								</div>																			\
+							</div>  																			\
+						</div>																					\
+					</div>																						\
 					'.format(index);
     index += 1;
     count += 1;
