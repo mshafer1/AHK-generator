@@ -312,8 +312,8 @@ function select(item, id) {
 
 function markDirty() {
     //disable download link
-    $('#downloadLink').disable(true);
-    $('#downloadLink').prop('title', "Script out of date, submit to update to configuration changes");
+    $('#btnDownload').disable(true);
+    $('#btnDownload').prop('title', "Script out of date, submit to update to configuration changes");
 
     //indicate script is out of date as well
     $('#scriptZone').addClass('grayout');
@@ -429,9 +429,10 @@ function loaded() {
         //setTimeout(download, 500)
     $('#scriptZone').html('<p><pre>' + script + '</pre></p>')
     $('#scriptZone').removeClass("w3-hide")
-    $('#downloadLink').removeClass("w3-hide")
+    $('#btnDownload').removeClass("w3-hide")
 }
 
 function download() {
+    console.log("downloading")
     document.getElementById('downloadLink').click()
 }
