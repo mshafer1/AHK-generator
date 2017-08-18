@@ -1,3 +1,4 @@
+// from https://stackoverflow.com/a/31221374/8100990
 if (!String.prototype.includes) {
     String.prototype.includes = function() {
         'use strict';
@@ -5,6 +6,7 @@ if (!String.prototype.includes) {
     };
 }
 
+// from https://stackoverflow.com/a/39744409/8100990
 if (!Array.prototype.includes) {
     Object.defineProperty(Array.prototype, "includes", {
         enumerable: false,

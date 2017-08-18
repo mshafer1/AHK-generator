@@ -3,6 +3,23 @@ $(window).load(init);
 var GET = {}
 var LOADED = false;
 
+// from https://stackoverflow.com/a/31221374/8100990
+if (!String.prototype.includes) {
+    String.prototype.includes = function() {
+        'use strict';
+        return String.prototype.indexOf.apply(this, arguments) !== -1;
+    };
+}
+
+// Create Element.remove() function if not exist
+if (!('remove' in Element.prototype)) {
+    Element.prototype.remove = function() {
+        if (this.parentNode) {
+            this.parentNode.removeChild(this);
+        }
+    };
+}
+
 function init() {
     ready()
     load_get()
@@ -71,14 +88,6 @@ function init() {
 
 function escapeRegExp(str) { // from https://stackoverflow.com/a/1144788/8100990
     return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-}
-
-
-if (!String.prototype.includes) {
-    String.prototype.includes = function() {
-        'use strict';
-        return String.prototype.indexOf.apply(this, arguments) !== -1;
-    };
 }
 
 function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/1144788/8100990
@@ -324,8 +333,8 @@ function markDirty() {
     $('#btnSubmit').prop('title', "Select to generate new script");
 }
 
-function remove(id) {
-    $('#shortcut' + id).remove() //delete row from table
+function destroy(id) {
+    $('#shortcut' + id).remove() //destroy row from table
     count -= 1;
     $('#inputLength').val(count);
 
@@ -409,7 +418,7 @@ function newRow() {
 										</div>																	\
 								</div>																			\																			 \
 								<div class="w3-col s2">															\
-                                <button type="button" onclick="remove(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}" title="Delete hotkey"><i class="fa fa-times-circle-o"></i></button>\
+                                <button type="button" onclick="destroy(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}" title="Delete hotkey"><i class="fa fa-times-circle-o"></i></button>\
 								</div>																			\
 							</div>  																			\
 						</div>																					\
