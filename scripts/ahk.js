@@ -249,14 +249,14 @@ function dropdown(id) {
     if ($('#key' + id).hasClass("w3-show")) {
         //console.log("Hide it");
         $(".w3-dropdown-content").removeClass("w3-show");
-        $(".w3-dropdown-content").removeClass("ontop");
+        $(".w3-dropdown-content").removeClass("onTop");
         $(".fa-caret-right").removeClass("fa-rotate-90");
     } else {
         //console.log("show it");
         $(".w3-dropdown-content").removeClass("w3-show"); //hide all - make sure none of the others are open
         $(".fa-caret-right").removeClass("fa-rotate-90");
         $('#arrow' + id).addClass('fa-rotate-90');
-        $('#key' + id).addClass('w3-show').addClass('ontop');
+        $('#key' + id).addClass('w3-show').addClass('onTop');
     }
 }
 
@@ -266,8 +266,8 @@ function select(item, id) {
 
     if (item == 'ActivateOrOpen') {
         $('#function' + id).html('ActivateOrOpen(\
-					"<input type="text" name="Window{0}" id="window{0}" placeholder="Window" style="width:10em" required/>", \
-					"<input id="program{0}" type="text" name="Program{0}" placeholder="Program" style="width:10em" required/>")\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="Window" class="keyWidth" required/>", <span class="w3-hide-large"><br/></span>\
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="Program"  class="keyWidth" required/>")\
 					<input type="hidden" value="ActivateOrOpen" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -290,9 +290,9 @@ function select(item, id) {
             event.stopPropagation();
         });
     } else if (item == 'ActivateOrOpenChrome') {
-        $('#function' + id).html('ActivateOrOpenChrome(\
-					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name" style="width:10em" required/>", \
-					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL" style="width:10em" required/>")\
+        $('#function' + id).html('ActivateOrOpenChrome(<span class="w3-hide-large w3-hide-medium"><br/></span>\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name"  class="keyWidth"required/>", <span class="w3-hide-large"><br/></span>\
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth" required/>")\
 					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -302,14 +302,14 @@ function select(item, id) {
             event.stopPropagation();
         });
     } else if (item == 'Custom') {
-        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" style="max-width:80%;" required/>)\
+        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea" required/>)\
 					<input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#code" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'SendUnicodeChar') {
-        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" required/>)\
+        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth" required/>)\
 					<input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#input" + id).click(function(event) {
@@ -341,22 +341,25 @@ function destroy(id) {
 }
 
 function setHotKey(id) {
-    $('#optionsShortcut' + id).html('<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onclick="markDirty()"/>Control</label>	 \
-											</div>																 \
-											<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" onclick="markDirty()"/>Shift</label> 	 \
-											</div>																 \
-											<div class="w3-col s2">												 \
-												<label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" onclick="markDirty()"/>Alt</label>		    \
-											</div>																 \
-											<div class="w3-col s3">												 \
-												<label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" onclick="markDirty()"/>Windows</label>		 \
-											</div>																 \
-											<div class="w3-col s3">												 \
-												<input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:5em;"  onchange="markDirty()" required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
-											</div>																 \
-										</div>'.format(id))
+    $('#optionsShortcut' + id).html('<div class="w3-row w3-col s6">                                      \
+                                        <div class="w3-col s6">											\
+                                            <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>	 \
+                                        </div>															\
+                                        <div class="w3-col s6">											\
+                                            <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label> 	 \
+                                        </div>															\
+                                        <div class="w3-col s6">											\
+                                            <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>		    \
+                                        </div>															\
+                                        <div class="w3-col s6">											\
+                                            <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>		 \
+                                        </div>															\
+                                    </div>                                                              \
+                                    <div class="w3-row w3-col s6">                                      \
+                                        <div class="w3-col s12">										\
+                                            <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" class="keyWidth"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+                                        </div>															\
+                                    </div>'.format(id))
 }
 
 function setHotString(id) {
@@ -370,7 +373,7 @@ function newRow() {
                 <div class="w3-col l6 m12 s12">															\
                         <div class="w3-row-padding">                                                    \
                             <div class="w3-col m3 s6">                                                  \
-                                <input type="text" placeholder="comment" name="comment{0}" id="comment{0}" style="display:table-cell; width:100%"/>                               \
+                                <input type="text" placeholder="comment" name="comment{0}" id="comment{0}" class="fullWidth"/>                               \
                             </div>															            \
                             <div class="w3-col m2 s6">  												\
                                 <label><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0});" checked/> Hotkey</label>	 \
@@ -381,21 +384,21 @@ function newRow() {
                                 <div id="optionsShortcut{0}" class="w3-row">					        \
                                     <div class="w3-row w3-col s6">                                      \
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/>Control</label>	 \
+                                            <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>	 \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/>Shift</label> 	 \
+                                            <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label> 	 \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/>Alt</label>		    \
+                                            <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>		    \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/>Windows</label>		 \
+                                            <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>		 \
                                         </div>															\
                                     </div>                                                              \
                                     <div class="w3-row w3-col s6">                                      \
                                         <div class="w3-col s12">										\
-                                            <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:10em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+                                            <input type="text" class="keyWidth" placeholder="key" id="skey{0}key"  name="skeyValue{0}"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
                                         </div>															\
                                     </div>                                                              \
                                 </div>																	\
@@ -404,9 +407,9 @@ function newRow() {
                     </div>		                                                                        \
                 <div class="w3-col l6 m12 s12">																\
                     <div class="w3-row-padding">														\
-                        <div style="cursor:default" class="w3-col l11 m8 s10 w3-dropdown-click">				\
-                            <div class="w3-btn w3-centered" style="max-width: 100%" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
-                            <div id="key{0}" class="w3-dropdown-content w3-border ontop">				\
+                        <div class="w3-col l11 m8 s10 w3-dropdown-click defaultCursor">				\
+                            <div class="w3-btn w3-centered fitInParent" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
+                            <div id="key{0}" class="w3-dropdown-content w3-border onTop">				\
                                     <button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')" title="Brings a program whose title matches the Window (defaulting to \'contains\' mode) to the front or runs the Program\ni.e. ActivateOrOpen(&quot;- Chrome&quot;, &quot;Chrome.exe&quot;) will bring Chrome to the front or open it">ActivateOrOpen("Window", "Program")</button>\
                                     <br/>																\
                                     <button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\')" title="Sends input (types for you)">Send("input")</button>\

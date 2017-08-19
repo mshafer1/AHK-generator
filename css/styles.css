@@ -1,6 +1,6 @@
-.ontop {
+.onTop {
     z-index: 100;
-    background-color: #707070;
+    background-color: #707070 !important;
 }
 
 .grayout {
@@ -9,4 +9,24 @@
     /* MSIE */
     filter: alpha(opacity=60);
     cursor: not-allowed;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.keyWidth {
+    width: 10em;
+}
+
+.defaultCursor {
+    cursor: default
+}
+
+.codeArea {
+    max-width: 80%;
+}
+
+.fitInParent {
+    max-width: 100%;
 }
