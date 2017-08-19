@@ -118,15 +118,7 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
                 } else {
                     GET[key] = [GET[key], value]
                 }
-            } else { <<
-                << << < HEAD
-                if (aux[0].includes('[]')) {
-                    GET[aux[0]] = [aux[1]];
-                    console.log([aux[1]])
-                } else {
-                    GET[aux[0]] = aux[1];
-                } ===
-                === =
+            } else {
                 if (key.includes('[]')) {
                     //console.log("Array detected")
                     GET[key] = [];
@@ -136,9 +128,6 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
                 }
                 //console.log(key + ":" + GET[key])
                 //console.log();
-                >>>
-                >>> > master
-
             }
         }
     }
@@ -313,7 +302,7 @@ function select(item, id) {
             event.stopPropagation();
         });
     } else if (item == 'Custom') {
-        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" required/>)\
+        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" style="max-width:80%;" required/>)\
 					<input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#code" + id).click(function(event) {
@@ -377,9 +366,9 @@ function setHotString(id) {
 }
 
 function newRow() {
-    newDiv = '<div class="w3-row-padding w3-padding-16" id="shortcut{0}">									\
-                <div class="w3-col l6 m12 s12">																\
-                        <div class="w3-row-padding">                                                            \
+    newDiv = '<div class="w3-row-padding w3-padding-16" id="shortcut{0}">								\
+                <div class="w3-col l6 m12 s12">															\
+                        <div class="w3-row-padding">                                                    \
                             <div class="w3-col m3 s6">                                                  \
                                 <input type="text" placeholder="comment" name="comment{0}" id="comment{0}" style="display:table-cell; width:100%"/>                               \
                             </div>															            \
@@ -406,7 +395,7 @@ function newRow() {
                                     </div>                                                              \
                                     <div class="w3-row w3-col s6">                                      \
                                         <div class="w3-col s12">										\
-                                            <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:15em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+                                            <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" style="width:10em;"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
                                         </div>															\
                                     </div>                                                              \
                                 </div>																	\
@@ -415,8 +404,8 @@ function newRow() {
                     </div>		                                                                        \
                 <div class="w3-col l6 m12 s12">																\
                     <div class="w3-row-padding">														\
-                        <div style="cursor:default" class="w3-col s10 w3-dropdown-click">				\
-                            <div class="w3-btn w3-centered" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
+                        <div style="cursor:default" class="w3-col l11 m8 s10 w3-dropdown-click">				\
+                            <div class="w3-btn w3-centered" style="max-width: 100%" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
                             <div id="key{0}" class="w3-dropdown-content w3-border ontop">				\
                                     <button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')" title="Brings a program whose title matches the Window (defaulting to \'contains\' mode) to the front or runs the Program\ni.e. ActivateOrOpen(&quot;- Chrome&quot;, &quot;Chrome.exe&quot;) will bring Chrome to the front or open it">ActivateOrOpen("Window", "Program")</button>\
                                     <br/>																\
@@ -431,8 +420,8 @@ function newRow() {
                                     <button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'{0}\')" title="A sandbox for creating your own usage of the hotkey/hotstring">Custom("code")</button>\
                                 </div>																	\
                         </div>																			\																			 \
-                        <div class="w3-col s2">															\
-                            <button type="button" onclick="remove(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete \hotkey"></i></button>\
+                        <div class="w3-col l1 m4 s2">															\
+                            <button type="button" onclick="destroy(\'{0}\')" class="w3-btn" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>\
                         </div>																			\
                     </div>  																			\
                 </div>																					\
