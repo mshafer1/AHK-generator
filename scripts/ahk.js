@@ -118,15 +118,7 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
                 } else {
                     GET[key] = [GET[key], value]
                 }
-            } else { <<
-                << << < HEAD
-                if (aux[0].includes('[]')) {
-                    GET[aux[0]] = [aux[1]];
-                    console.log([aux[1]])
-                } else {
-                    GET[aux[0]] = aux[1];
-                } ===
-                === =
+            } else {
                 if (key.includes('[]')) {
                     //console.log("Array detected")
                     GET[key] = [];
@@ -136,9 +128,6 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
                 }
                 //console.log(key + ":" + GET[key])
                 //console.log();
-                >>>
-                >>> > master
-
             }
         }
     }
@@ -187,9 +176,9 @@ function parse_get() {
             }
 
             if ('comment' + k in GET && GET['comment' + k].length > 0) {
-                console.log("Comment in " + i)
+                // console.log("Comment in " + i)
                 CONFIG[i]['comment'] = GET['comment' + k]
-                console.log(CONFIG)
+                    // console.log(CONFIG)
             }
 
             i++
@@ -432,7 +421,7 @@ function newRow() {
                                 </div>																	\
                         </div>																			\																			 \
                         <div class="w3-col s2">															\
-                            <button type="button" onclick="remove(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete \hotkey"></i></button>\
+                            <button type="button" onclick="destroy(\'{0}\')" class="w3-btn w3-margin" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete \hotkey"></i></button>\
                         </div>																			\
                     </div>  																			\
                 </div>																					\
