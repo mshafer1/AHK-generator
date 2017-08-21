@@ -230,7 +230,7 @@ String.prototype.format = function() {
 //Disable function - from https://stackoverflow.com/a/16788240
 jQuery.fn.extend({
     disable: function(state) {
-        console.log("disble " + state)
+        console.log("disable " + state)
         return this.each(function() {
             var $this = $(this);
             if ($this.is('input, button, textarea, select'))
@@ -424,7 +424,7 @@ function newRow() {
                                 </div>																	\
                         </div>																			\																			 \
                         <div class="w3-col l1 m4 s2">															\
-                            <button type="button" onclick="destroy(\'{0}\')" class="w3-btn" id="dropdown{0}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>\
+                            <button type="button" onclick="destroy(\'{0}\')" class="w3-btn" id="destroy{0}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>\
                         </div>																			\
                     </div>  																			\
                 </div>																					\

@@ -27,11 +27,6 @@
         ga('send', 'pageview');
     </script>
     <script src="scripts/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="scripts/jquery.floating.scrollbar/jquery.floatingscroll.css" />
-    <script src="scripts/jquery.floating.scrollbar/jquery.floatingscroll.min.js"></script>
-
-
     <script src="scripts/ahk.js"></script>
     <script>
         (function(i, s, o, g, r, a, m) {
@@ -99,7 +94,7 @@
         </span>
         <div id="newRow" class="w3-row">
             <div class="w3-col s12 w3-center">
-                <button type="button" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i class="fa fa-plus"></i></button>
+                <button type="button" id="btnAdd" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i class="fa fa-plus"></i></button>
             </div>
         </div>
         <div class="w3-row">
@@ -107,7 +102,8 @@
                 <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
             </div>
             <div class="w3-col s6">
-                <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });">download</button>
+                <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });"
+                    disabled>download</button>
                 <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide">download</a>
             </div>
         </div>
