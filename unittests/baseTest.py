@@ -14,7 +14,7 @@ except ImportError as e:
 
 class base(unittest.TestCase):
     url = 'http://localhost:1002/'
-    wait = 5
+    wait = 1
 
     @classmethod
     def setUpClass(cls):

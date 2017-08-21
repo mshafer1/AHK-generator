@@ -1,7 +1,7 @@
 import unittest
 from baseTest import *
 from default import *
-#from parsingConfig import *
+from parsingConfig import *
 
 if __name__ == '__main__':
     try:
