@@ -30,6 +30,7 @@ function init() {
 
         //disable submit
         $('#btnSubmit').disable(true);
+        $('#btnDownload').disable(false);
 
         $.getScript("scripts/keygen.js", loaded)
             // build form from GET

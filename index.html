@@ -102,7 +102,8 @@
                 <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
             </div>
             <div class="w3-col s6">
-                <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });">download</button>
+                <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });"
+                    disabled>download</button>
                 <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide">download</a>
             </div>
         </div>
