@@ -20,7 +20,7 @@ class base(unittest.TestCase):
     def setUpClass(cls):
         """
         """
-        cls.driver = webdriver.Chrome()
+        cls.driver = webdriver.Ie()
         cls.parser = BeautifulSoup
 
     @classmethod
