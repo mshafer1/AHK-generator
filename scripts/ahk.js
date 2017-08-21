@@ -176,9 +176,9 @@ function parse_get() {
             }
 
             if ('comment' + k in GET && GET['comment' + k].length > 0) {
-                console.log("Comment in " + i)
+                // console.log("Comment in " + i)
                 CONFIG[i]['comment'] = GET['comment' + k]
-                console.log(CONFIG)
+                    // console.log(CONFIG)
             }
 
             i++
@@ -424,7 +424,7 @@ function newRow() {
                                 </div>																	\
                         </div>																			\																			 \
                         <div class="w3-col l1 m4 s2">															\
-                            <button type="button" onclick="destroy(\'{0}\')" class="w3-btn" id="destroy{0}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>\
+                            <button type="button" onclick="destroy(\'{0}\')" class="w3-btn w3-margin" id="destroy{0}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>\
                         </div>																			\
                     </div>  																			\
                 </div>																					\
