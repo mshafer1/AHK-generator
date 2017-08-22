@@ -12,6 +12,7 @@ except ImportError as e:
     pip.main(['install', 'beautifulsoup'])
     from BeautifulSoup import BeautifulSoup
 
+
 class base(unittest.TestCase):
     url = 'http://localhost:1002/'
     wait = 1
