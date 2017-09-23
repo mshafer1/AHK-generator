@@ -65,7 +65,7 @@ function init() {
 
             option = CONFIG[i]['option'];
             //console.log(option)
-            select(option, i) // select drop down option
+            select(option, i, true) // select drop down option
 
             //console.log(CONFIG[i]['option'], i)
             if (option == 'Send' || option == 'Replace' || option == 'SendUnicodeChar') {
@@ -261,14 +261,14 @@ function dropdown(id) {
     }
 }
 
-function select(item, id) {
+function select(item, id, backend) {
     $('.w3-dropdown-content').removeClass('w3-show');
     $(".fa-caret-right").removeClass("fa-rotate-90");
 
     if (item == 'ActivateOrOpen') {
         $('#function' + id).html('ActivateOrOpen(\
-					"<input type="text" name="Window{0}" id="window{0}" placeholder="Window" class="keyWidth" required/>", <span class="w3-hide-large"><br/></span>\
-					"<input id="program{0}" type="text" name="Program{0}" placeholder="Program"  class="keyWidth" required/>")\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="Window" class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="Program"  class="keyWidth"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="ActivateOrOpen" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -278,22 +278,22 @@ function select(item, id) {
             event.stopPropagation();
         });
     } else if (item == 'Send') {
-        $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input" required/>")\
+        $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'Replace') {
-        $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input" required/>")\
+        $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'ActivateOrOpenChrome') {
         $('#function' + id).html('ActivateOrOpenChrome(<span class="w3-hide-large w3-hide-medium"><br/></span>\
-					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name"  class="keyWidth"required/>", <span class="w3-hide-large"><br/></span>\
-					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth" required/>")\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name"  class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#program" + id).click(function(event) {
@@ -303,14 +303,14 @@ function select(item, id) {
             event.stopPropagation();
         });
     } else if (item == 'Custom') {
-        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea" required/>)\
+        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
 					<input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#code" + id).click(function(event) {
             event.stopPropagation();
         });
     } else if (item == 'SendUnicodeChar') {
-        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth" required/>)\
+        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth"  oninput="markDirty()" required/>)\
 					<input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
 
         $("#input" + id).click(function(event) {
@@ -318,7 +318,9 @@ function select(item, id) {
         });
     }
 
-    //markDirty();
+    if (!backend) {
+        markDirty()
+    }
 }
 
 function markDirty() {
@@ -343,7 +345,7 @@ function destroy(id) {
     markDirty();
 }
 
-function setHotKey(id, backend = false) {
+function setHotKey(id, backend) {
     $('#optionsShortcut' + id).html('<div class="w3-row w3-col s6">                                      \
                                         <div class="w3-col s6">											\
                                             <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>	 \
@@ -368,7 +370,7 @@ function setHotKey(id, backend = false) {
     }
 }
 
-function setHotString(id, backend = false) {
+function setHotString(id, backend) {
     $('#optionsShortcut' + id).html('<div class="w3-col s6">										 \
 												<input type="text" id="skey{0}string" placeholder="string" name="skeyValue{0}" onchange="markDirty()" required/> \
                                             </div>'.format(id))
