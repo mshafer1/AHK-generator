@@ -438,8 +438,8 @@ function newRow() {
                             <button type="button" onclick="destroy(\'{0}\')" class="w3-btn w3-margin-left w3-margin-right" id="destroy{0}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>\
                         </div>																			\
                     </div>  																			\
-                </div><hr/> 																			\
-            </div>																						\
+                </div> 																			        \
+            </div>																				\
             '.format(index);
     index += 1;
     count += 1;
