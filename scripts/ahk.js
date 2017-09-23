@@ -48,7 +48,7 @@ function init() {
             }
 
             if (CONFIG[i]['func'] == 'KEY') {
-                setHotKey(i);
+                setHotKey(i, true);
 
                 //console.log(CONFIG[i]['skeyValue'])
                 $('#skey' + i + 'key').val(CONFIG[i]['skeyValue'])
@@ -59,7 +59,7 @@ function init() {
                     $('#skey' + i + entry).prop("checked", true)
                 })
             } else {
-                setHotString(i);
+                setHotString(i, true);
                 $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
             }
 
@@ -317,6 +317,8 @@ function select(item, id) {
             event.stopPropagation();
         });
     }
+
+    //markDirty();
 }
 
 function markDirty() {
@@ -341,32 +343,38 @@ function destroy(id) {
     markDirty();
 }
 
-function setHotKey(id) {
+function setHotKey(id, backend = false) {
     $('#optionsShortcut' + id).html('<div class="w3-row w3-col s6">                                      \
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>	 \
+                                            <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>	 \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label> 	 \
+                                            <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label> 	 \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>		    \
+                                            <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>		    \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>		 \
+                                            <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>		 \
                                         </div>															\
                                     </div>                                                              \
                                     <div class="w3-row w3-col s6">                                      \
                                         <div class="w3-col s12">										\
-                                            <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" class="keyWidth"  required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
+                                            <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" class="keyWidth"  oninput="markDirty()" required/> <!-- maxlength="1" removed to allow for keys like LButton --> \
                                         </div>															\
                                     </div>'.format(id))
+    if (!backend) {
+        markDirty()
+    }
 }
 
-function setHotString(id) {
+function setHotString(id, backend = false) {
     $('#optionsShortcut' + id).html('<div class="w3-col s6">										 \
 												<input type="text" id="skey{0}string" placeholder="string" name="skeyValue{0}" onchange="markDirty()" required/> \
-											</div>'.format(id))
+                                            </div>'.format(id))
+    if (!backend) {
+        markDirty()
+    }
 }
 
 function newRow() {
@@ -374,10 +382,10 @@ function newRow() {
                 <div class="w3-col l6 m12 s12">															\
                         <div class="w3-row-padding">                                                    \
                             <div class="w3-col m3 s6">                                                  \
-                                <input type="text" placeholder="comment" name="comment{0}" id="comment{0}" class="fullWidth"/>                               \
+                                <input type="text" placeholder="comment" name="comment{0}" id="comment{0}" class="fullWidth" oninput="markDirty()"/>                               \
                             </div>															            \
                             <div class="w3-col m2 s6">  												\
-                                <label><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0});" checked/> Hotkey</label>	 \
+                                <label><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0});" checked /> Hotkey</label>	 \
                                 <span class="w3-hide-small"><br/></span>                                \
                                 <label><input type="radio" id="func{0}STRING" name="func{0}" value="STRING" onclick="setHotString({0});"> Hotstring</input></label>	 \
                             </div>                                                                      \                                                                    \
@@ -385,16 +393,16 @@ function newRow() {
                                 <div id="optionsShortcut{0}" class="w3-row">					        \
                                     <div class="w3-row w3-col s6">                                      \
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>	 \
+                                            <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>	 \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label> 	 \
+                                            <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label> 	 \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>		    \
+                                            <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>		    \
                                         </div>															\
                                         <div class="w3-col s6">											\
-                                            <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>		 \
+                                            <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>		 \
                                         </div>															\
                                     </div>                                                              \
                                     <div class="w3-row w3-col s6">                                      \
