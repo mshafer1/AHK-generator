@@ -59,3 +59,4 @@ This project relies on a couple of open source libraries
  Jquery | [jquery.org/license](https://jquery.org/license "JQuery license page") | v1.12.2 | In page manipulation
  W3 CSS | [No license is necessary.](https://www.w3schools.com/w3css/ "W3 CSS home page") | 2.64 | Styling
  [Font Awesome](http://fontawesome.io/icons) | [MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" ) | 4.6.3 | Icons
+[highlight.js](https://highlightjs.org/) | [BSD 3 License](https://github.com/isagalaev/highlight.js/blob/master/LICENSE "Github License page") | 9.12.0 | Syntax highlighting
