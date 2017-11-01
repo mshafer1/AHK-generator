@@ -46,7 +46,7 @@ Available at <http://ahkgen.com>
 
 * Remove rows by clicking the "x" button on the right
 
-* Click submit to download generated AHK code (page will reload with different URL)
+* Click submit to reload page and generate code. (download will be available once reloded)
 
 * Share/save configuration by sending URL
 
