@@ -8,13 +8,13 @@ Available at <http://ahkgen.com>
 * Go to <http://ahkgen.com>
 * Choose between Hotkey or Hotstring
 
-   *Hotkey* is used for a key combination pressed at once (i.e. CTRL + SHIFT + I)
+   * *Hotkey* is used for a key combination pressed at once (i.e. CTRL + SHIFT + I)
    
-   *Hotstring* is used for a series of keys pressed in order (i.e. ;internet)
+   * *Hotstring* is used for a series of keys pressed in order (i.e. ;internet)
 
 * Enter trigger value
-    For hotkey, select whether CTRL, SHIFT, and/or ALT must also be pressed and enter the key to be hit
-    For hotstring, enter the value to be typed
+    * For hotkey, select whether CTRL, SHIFT, and/or ALT must also be pressed and enter the key to be hit
+    * For hotstring, enter the value to be typed
 
 * Select a function
 
