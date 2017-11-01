@@ -453,9 +453,11 @@ function loaded() {
     script = keygen(CONFIG)
     $('#downloadLink').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script))
         //setTimeout(download, 500)
-    $('#scriptZone').html('<p><pre>' + script + '</pre></p>')
-    $('#scriptZone').removeClass("w3-hide")
-    $('#btnDownload').removeClass("w3-hide")
+    $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>')
+    $('#skipToScript').removeClass("w3-hide");
+    $('#scriptZone').removeClass("w3-hide");
+    $('#btnDownload').removeClass("w3-hide");
+    hljs.initHighlighting();
 }
 
 function download() {
