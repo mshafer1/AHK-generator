@@ -1,0 +1,7 @@
+# Rule 1
+User-agent: *
+Disallow: /defaultconfig.html
+
+# Rule 2
+User-agent: *
+Allow: /
