@@ -1,6 +1,6 @@
 # Rule 1
 User-agent: *
-Disallow: /defaultconfig.html
+Disallow: /defaultconfig/
 
 # Rule 2
 User-agent: *
