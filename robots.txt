@@ -1,6 +1,6 @@
 # Rule 1
-User-agent: *
-Disallow: /defaultconfig/
+User-agent: Googlebot
+Disallow: /defaultconfig.html
 
 # Rule 2
 User-agent: *
