@@ -119,7 +119,9 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
 }                                                                                       \r\n\
                                                                                         \r\n\
 ActivateOrOpenChrome(tab, url)                                                          \r\n\
-{                                                                                       \r\n\
+{																						\r\n\
+    Transform, url, Deref, "%url%" ;expand variables inside url							\r\n\
+    Transform, tab, Deref, "%tab%" ;expand variables inside tab							\r\n\
     chrome := "- Google Chrome"                                                         \r\n\
     found := "false"                                                                    \r\n\
     tabSearch := tab                                                                    \r\n\
