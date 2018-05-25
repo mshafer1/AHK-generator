@@ -1,3 +1,5 @@
 *.pyc
 .idea/*
 */.idea/*
+unittests/*.exe
+unittests/*.pyc
