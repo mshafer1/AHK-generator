@@ -445,6 +445,18 @@ function loaded() {
     hljs.initHighlighting();
 }
 
+function scrollToCode() {
+    $('html, body').animate({
+        scrollTop: $("#scriptZone").offset().top
+    }, 0);
+}
+
+function scrollToTop() {
+    $('html, body').animate({
+        scrollTop: $("body").offset().top
+    }, 500);
+}
+
 function download() {
     console.log("downloading")
     document.getElementById('downloadLink').click()

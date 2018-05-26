@@ -88,7 +88,7 @@
     </div>
     <div id="skipToScript" class="w3-row w3-hide w3-padding-bottom">
         <div class="w3-col s12">
-            <a class="w3-btn" style="float:right;" href="#scriptZone">Skip to code region</a>
+            <button class="w3-btn" style="float:right;" onclick="scrollToCode();">Skip to code region</button>
         </div>
     </div>
     <form id="hotkeyForm">
@@ -108,11 +108,16 @@
                 <button type="button" id="btnAdd" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i class="fa fa-plus"></i></button>
             </div>
         </div>
-        <div class="w3-row">
-            <div class="w3-col s6">
+        <div class="w3-row w3-padding-top">
+            <div class="w3-col s4">
                 <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
             </div>
-            <div class="w3-col s6">
+            <div class="w3-col s4">
+                <button type="button" id="btnTop" class="w3-btn center" title="Scroll to top of config" onClick="scrollToTop();">
+                    Scroll to top
+                </button>
+            </div>
+            <div class="w3-col s4">
                 <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });"
                     disabled>download</button>
                 <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide">download</a>

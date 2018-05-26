@@ -30,3 +30,9 @@
 .fitInParent {
     max-width: 100%;
 }
+
+.center {
+    display: block;
+    margin: 0 auto !important;
+    text-align: center !important;
+}
