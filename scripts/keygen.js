@@ -20,14 +20,16 @@ if (!Array.prototype.includes) {
 }
 
 function keygen(data) {
+    console.log("Keygen: ")
+    console.log(data)
     value = '\
-; *********************** Header - some configuration  ***********************        \r\n\
+; *********************** Header - some configuration  ***********************              \r\n\
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.    \r\n\
 ; #Warn  ; Enable warnings to assist with detecting common errors. (disabled by default)    \r\n\
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.    \r\n\
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.                     \r\n\
-setTitleMatchMode, 2 ; set title match mode to "contains"                                   \r\n\
-\r\n\r\n; *********************** Configured region - selected functions ************         \r\n\r\n'
+setTitleMatchMode, 2 ; set title match mode to "contains"                                   \r\n\r\n\r\n\
+; *********************** Configured region - selected functions ************               \r\n\r\n'
 
     // load in data
     //console.log(data)
@@ -55,7 +57,7 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
             key += data[i]['skeyValue']
             key += '::'
 
-            func = "\r\nreturn";
+            func = "\r\n    return";
             option = data[i]['option'];
             if (option == 'Send' || option == 'Replace') { // replace doesn't make sense for hotkey, so treat like send
                 func = 'send, ' + data[i]["input"];
@@ -74,7 +76,7 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
             // hotstring
             key += ':*c:' + data[i]['skeyValue'] + "::"
             option = data[i]['option'];
-            func = "\r\nreturn";
+            func = "\r\n    return";
             if (option == 'Send') { // replace doesn't make sense for hotkey, so treat like send
                 func = '\r\nsend, ' + data[i]["input"] + '\r\nreturn';
             } else if (option == 'ActivateOrOpen') {
@@ -101,7 +103,7 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
     // append custom functions
     value += '\r\n\r\n; *********************** Provided Functions ******************************** \r\n\r\nActivateOrOpen(window, program)     \r\n\
 {                                                                                       \r\n\
-	; check if window exists                                                             \r\n\
+	; check if window exists                                                            \r\n\
 	if WinExist(window)                                                                 \r\n\
 	{                                                                                   \r\n\
 		WinActivate  ; Uses the last found window.                                      \r\n\
