@@ -138,6 +138,14 @@ var CONFIG = {};
 
 function parse_get() {
     //CONFIG['length'] = GET['length']
+    num_keys = GET['length'];
+    if (num_keys * 4 > Object.keys(GET).length)
+    {
+        console.log("Num Keys: " + num_keys + "\n  Get.Length: " + GET.Length)
+        console.log(GET)
+        // error, display warning and leave
+        return;
+    }
     for (i = 0, k = 0; i < GET['length']; k++) {
         if ('func' + k in GET) {
             CONFIG[i] = {
