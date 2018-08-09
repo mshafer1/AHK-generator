@@ -7,6 +7,6 @@ if __name__ == '__main__':
     try:
         unittest.main()
     except Exception as e:
-        print e
+        print(e)
         x = raw_input("Press any key to continue . . .")
         raise

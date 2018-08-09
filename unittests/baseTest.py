@@ -1,20 +1,28 @@
 import unittest
 import re
 import json
-from selenium import webdriver
 import time
 
 try:
-    from BeautifulSoup import BeautifulSoup
+    from bs4 import BeautifulSoup
 except ImportError as e:
-    print e
-    import pip
-    pip.main(['install', 'beautifulsoup'])
-    from BeautifulSoup import BeautifulSoup
+    print(e)
+    from pip._internal import main as _pip_main
+    _pip_main(['install', 'BeautifulSoup4'])
+    from bs4 import BeautifulSoup
+
+
+try:
+    from selenium import webdriver
+except ImportError as e:
+    print(e)
+    from pip._internal import main as _pip_main
+    _pip_main(['install', 'selenium'])
+    from selenium import webdriver
 
 
 class base(unittest.TestCase):
-    url = 'http://localhost:1002'
+    url = 'http://localhost:1005'
     wait = 1
 
     @classmethod
