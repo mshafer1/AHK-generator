@@ -13,7 +13,7 @@ Available at <http://ahkgen.com>
    * *Hotstring* is used for a series of keys pressed in order (i.e. ;internet)
 
 * Enter trigger value
-    * For hotkey, select whether CTRL, SHIFT, and/or ALT must also be pressed and enter the key to be hit
+    * For hotkey, select whether CTRL, SHIFT, Windows, and/or ALT must also be pressed and enter the key to be hit
     * For hotstring, enter the value to be typed
 
 * Select a function
@@ -37,6 +37,10 @@ Available at <http://ahkgen.com>
     ActivateOrOpenChrome
 
         Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe "url" if not found
+
+    OpenConfig
+
+        Open this config page in default browser
 
     Custom
 
