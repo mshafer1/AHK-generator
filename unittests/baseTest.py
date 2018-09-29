@@ -29,7 +29,7 @@ class base(unittest.TestCase):
     def setUpClass(cls):
         """
         """
-        cls.driver = webdriver.Ie()
+        cls.driver = webdriver.Edge()
         cls.parser = BeautifulSoup
 
     @classmethod
