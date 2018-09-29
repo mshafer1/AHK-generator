@@ -22,14 +22,20 @@ if (!Array.prototype.includes) {
 function keygen(data) {
     console.log("Keygen: ")
     console.log(data)
-    value = '\
-; *********************** Header - some configuration  ***********************              \r\n\
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.    \r\n\
-; #Warn  ; Enable warnings to assist with detecting common errors. (disabled by default)    \r\n\
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.    \r\n\
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.                     \r\n\
-setTitleMatchMode, 2 ; set title match mode to "contains"                                   \r\n\r\n\r\n\
-; *********************** Configured region - selected functions ************               \r\n\r\n'
+    value = `
+; *********************** Header - some configuration  ***********************
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors. (disabled by default)
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+setTitleMatchMode, 2 ; set title match mode to "contains"
+
+; this code was auto generated at:
+; ${document.location.toString()}
+
+; *********************** Configured region - selected functions ************
+
+`
 
     // load in data
     //console.log(data)
@@ -69,6 +75,8 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
                 func = data[i]['Code']
             } else if (option == 'SendUnicodeChar') {
                 func = 'SendUnicodeChar(' + data[i]['input'] + ')';
+            } else if(option == 'OpenConfig') {
+                func = '\r\nOpenConfig()\r\nreturn';
             }
 
             key += func
@@ -89,6 +97,8 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
                 func = data[i]['Code']
             } else if (option == 'SendUnicodeChar') {
                 func = '\r\nSendUnicodeChar(' + data[i]['input'] + ')\r\nreturn';
+            } else if(option == 'OpenConfig') {
+                func = '\r\nOpenConfig()\r\nreturn';
             }
 
             key += func
@@ -101,90 +111,97 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
         value += key + "\r\n\r\n"
     }
     // append custom functions
-    value += '\r\n\r\n; *********************** Provided Functions ******************************** \r\n\r\nActivateOrOpen(window, program)     \r\n\
-{                                                                                       \r\n\
-	; check if window exists                                                            \r\n\
-	if WinExist(window)                                                                 \r\n\
-	{                                                                                   \r\n\
-		WinActivate  ; Uses the last found window.                                      \r\n\
-	}                                                                                   \r\n\
-	else                                                                                \r\n\
-	{   ; else start requested program                                                  \r\n\
-		 Run cmd /c "start ^"^" ^"%program%^""                                          \r\n\
-		 WinWait, %window%,,5		; wait up to 5 seconds for window to exist          \r\n\
-		 IfWinNotActive, %window%, , WinActivate, %window%                              \r\n\
-		 {                                                                              \r\n\
-			  WinActivate  ; Uses the last found window.                                \r\n\
-		 }                                                                              \r\n\
-	}                                                                                   \r\n\
-	return                                                                              \r\n\
-}                                                                                       \r\n\
-                                                                                        \r\n\
-ActivateOrOpenChrome(tab, url)                                                          \r\n\
-{																						\r\n\
-    Transform, url, Deref, "%url%" ;expand variables inside url							\r\n\
-    Transform, tab, Deref, "%tab%" ;expand variables inside tab							\r\n\
-    chrome := "- Google Chrome"                                                         \r\n\
-    found := "false"                                                                    \r\n\
-    tabSearch := tab                                                                    \r\n\
-    curWinNum := 0                                                                      \r\n\
-                                                                                        \r\n\
-    SetTitleMatchMode, 2                                                                \r\n\
-    if WinExist(Chrome)                                                                 \r\n\
-	{                                                                                   \r\n\
-		WinGet, numOfChrome, Count, %chrome% ; Get the number of chrome windows         \r\n\
-		WinActivateBottom, %chrome% ; Activate the least recent window                  \r\n\
-		WinWaitActive %chrome% ; Wait until the window is active                        \r\n\
-                                                                                        \r\n\
-		ControlFocus, Chrome_RenderWidgetHostHWND1 ; Set the focus to tab control ???   \r\n\
-                                                                                        \r\n\
-		; Loop until all windows are tried, or until we find it                         \r\n\
-		while (curWinNum < numOfChrome and found = "false") {                           \r\n\
-			WinGetTitle, firstTabTitle, A ; The initial tab title                       \r\n\
-			title := firstTabTitle                                                      \r\n\
-			Loop                                                                        \r\n\
-			{                                                                           \r\n\
-				if(InStr(title, tabSearch)>0){                                          \r\n\
-					found := "true"                                                     \r\n\
-					break                                                               \r\n\
-				}                                                                       \r\n\
-				Send {Ctrl down}{Tab}{Ctrl up}                                          \r\n\
-				Sleep, 50                                                               \r\n\
-				WinGetTitle, title, A  ;get active window title                         \r\n\
-				if(title = firstTabTitle){                                              \r\n\
-					break                                                               \r\n\
-				}                                                                       \r\n\
-			}                                                                           \r\n\
-			WinActivateBottom, %chrome%                                                 \r\n\
-			curWinNum := curWinNum + 1                                                  \r\n\
-		}                                                                               \r\n\
-	}                                                                                   \r\n\
-                                                                                        \r\n\
-    ; If we did not find it, start it                                                   \r\n\
-    if(found = "false"){                                                                \r\n\
-        Run chrome.exe "%url%"                                                          \r\n\
-    }                                                                                   \r\n\
-	return                                                                              \r\n\
-}                                                                                       \r\n\
-                                                                                        \r\n\
-SendUnicodeChar(charCode)					                                            \r\n\
-{											                                            \r\n\
-	VarSetCapacity(ki, 28 * 2, 0)			                                            \r\n\
-	EncodeInteger(&ki + 0, 1)				                                            \r\n\
-	EncodeInteger(&ki + 6, charCode)		                                            \r\n\
-	EncodeInteger(&ki + 8, 4)				                                            \r\n\
-	EncodeInteger(&ki +28, 1)				                                            \r\n\
-	EncodeInteger(&ki +34, charCode)		                                            \r\n\
-	EncodeInteger(&ki +36, 4|2)				                                            \r\n\
-											                                            \r\n\
-	DllCall("SendInput", "UInt", 2, "UInt", &ki, "Int", 28)	                            \r\n\
-}											                                            \r\n\
-											                                            \r\n\
-EncodeInteger(ref, val)						                                            \r\n\
-{											                                            \r\n\
-	DllCall("ntdll\\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)           \r\n\
-}                                                                                       \r\n\
-'
+    value += `
+; *********************** Provided Functions ********************************
+OpenConfig()
+{
+    Run, ${document.location.toString()}
+}
+
+ActivateOrOpen(window, program)
+{
+	; check if window exists
+	if WinExist(window)
+	{
+		WinActivate  ; Uses the last found window.
+	}
+	else
+	{   ; else start requested program
+		 Run cmd /c "start ^"^" ^"%program%^""
+		 WinWait, %window%,,5		; wait up to 5 seconds for window to exist
+		 IfWinNotActive, %window%, , WinActivate, %window%
+		 {
+			  WinActivate  ; Uses the last found window.
+		 }
+	}
+	return
+}
+
+ActivateOrOpenChrome(tab, url)
+{
+    Transform, url, Deref, "%url%" ;expand variables inside url
+    Transform, tab, Deref, "%tab%" ;expand variables inside tab
+    chrome := "- Google Chrome"
+    found := "false"
+    tabSearch := tab
+    curWinNum := 0
+
+    SetTitleMatchMode, 2
+    if WinExist(Chrome)
+	{
+		WinGet, numOfChrome, Count, %chrome% ; Get the number of chrome windows
+		WinActivateBottom, %chrome% ; Activate the least recent window
+		WinWaitActive %chrome% ; Wait until the window is active
+
+		ControlFocus, Chrome_RenderWidgetHostHWND1 ; Set the focus to tab control ???
+
+		; Loop until all windows are tried, or until we find it
+		while (curWinNum < numOfChrome and found = "false") {
+			WinGetTitle, firstTabTitle, A ; The initial tab title
+			title := firstTabTitle
+			Loop
+			{
+				if(InStr(title, tabSearch)>0){
+					found := "true"
+					break
+				}
+				Send {Ctrl down}{Tab}{Ctrl up}
+				Sleep, 50
+				WinGetTitle, title, A  ;get active window title
+				if(title = firstTabTitle){
+					break
+				}
+			}
+			WinActivateBottom, %chrome%
+			curWinNum := curWinNum + 1
+		}
+	}
+
+    ; If we did not find it, start it
+    if(found = "false"){
+        Run chrome.exe "%url%"
+    }
+	return
+}
+
+SendUnicodeChar(charCode)
+{
+	VarSetCapacity(ki, 28 * 2, 0)
+	EncodeInteger(&ki + 0, 1)
+	EncodeInteger(&ki + 6, charCode)
+	EncodeInteger(&ki + 8, 4)
+	EncodeInteger(&ki +28, 1)
+	EncodeInteger(&ki +34, charCode)
+	EncodeInteger(&ki +36, 4|2)
+
+	DllCall("SendInput", "UInt", 2, "UInt", &ki, "Int", 28)
+}
+
+EncodeInteger(ref, val)
+{
+	DllCall("ntdll\\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)
+}
+`
 
     //return script
     return value
