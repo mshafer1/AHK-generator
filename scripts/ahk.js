@@ -181,7 +181,8 @@ function parse_get() {
 
             } else if (option == 'Custom') {
                 CONFIG[i]['Code'] = GET['Code' + k]
-
+            } else if (option == 'OpenConfig') {
+                // NOOP
             }
 
             if ('comment' + k in GET && GET['comment' + k].length > 0) {
@@ -324,6 +325,9 @@ function select(item, id, backend) {
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
+    } else if (item == 'OpenConfig') {
+        console.log("open config");
+        $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
     }
 
     if (!backend) {
@@ -423,6 +427,8 @@ function newRow() {
                                     <button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'${index}\')" title="Sends the unicode character given the UTF-16 value\ni.e. SendUnicodeChar(&quot;0x263A&quot;) will insert a smiley face">SendUnicodeChar("charCode")</button>
                                     <br/>
                                     <button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'${index}\')" title="Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe &quot;url&quot; if not found\ni.e. ActivateOrOpenChrome(&quot;Pandora&quot;, &quot;www.pandora.com&quot;) will search through chrome tabs for Pandora and open pandora.com if not found">ActivateOrOpenChrome("tab name", "url")</button>
+                                    <br/>
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'OpenConfig\', \'${index}\')" title="Open this script's config page in default browser">OpenConfig()</button>
                                     <br/>
                                     <button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'${index}\')" title="A sandbox for creating your own usage of the hotkey/hotstring">Custom("code")</button>
                                 </div>

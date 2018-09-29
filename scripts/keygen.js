@@ -69,6 +69,8 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
                 func = data[i]['Code']
             } else if (option == 'SendUnicodeChar') {
                 func = 'SendUnicodeChar(' + data[i]['input'] + ')';
+            } else if(option == 'OpenConfig') {
+                func = '\r\nOpenConfig()\r\nreturn';
             }
 
             key += func
@@ -89,6 +91,8 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
                 func = data[i]['Code']
             } else if (option == 'SendUnicodeChar') {
                 func = '\r\nSendUnicodeChar(' + data[i]['input'] + ')\r\nreturn';
+            } else if(option == 'OpenConfig') {
+                func = '\r\nOpenConfig()\r\nreturn';
             }
 
             key += func
@@ -101,7 +105,12 @@ setTitleMatchMode, 2 ; set title match mode to "contains"                       
         value += key + "\r\n\r\n"
     }
     // append custom functions
-    value += '\r\n\r\n; *********************** Provided Functions ******************************** \r\n\r\nActivateOrOpen(window, program)     \r\n\
+    value += '\r\n\r\n; *********************** Provided Functions ******************************** \r\n\r\n\
+OpenConfig()                                                                            \r\n\
+{                                                                                       \r\n\
+    Run, ' + document.location.toString() + '                                           \r\n\
+}                                                                                       \r\n\
+ActivateOrOpen(window, program)                                                         \r\n\
 {                                                                                       \r\n\
 	; check if window exists                                                            \r\n\
 	if WinExist(window)                                                                 \r\n\
