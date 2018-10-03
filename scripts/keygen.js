@@ -115,7 +115,7 @@ setTitleMatchMode, 2 ; set title match mode to "contains"
 ; *********************** Provided Functions ********************************
 OpenConfig()
 {
-    Run, ${document.location.toString()}
+    Run, "${document.location.toString().replace(/\%/g, '^%')}"
 }
 
 ActivateOrOpen(window, program)
