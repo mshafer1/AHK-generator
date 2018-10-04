@@ -181,7 +181,8 @@ function parse_get() {
 
             } else if (option == 'Custom') {
                 CONFIG[i]['Code'] = GET['Code' + k]
-
+            } else if (option == 'OpenConfig') {
+                // NOOP
             }
 
             if ('comment' + k in GET && GET['comment' + k].length > 0) {
@@ -324,6 +325,9 @@ function select(item, id, backend) {
         $("#input" + id).click(function(event) {
             event.stopPropagation();
         });
+    } else if (item == 'OpenConfig') {
+        console.log("open config");
+        $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
     }
 
     if (!backend) {
@@ -393,47 +397,48 @@ function setHotString(id, backend) {
 }
 
 function newRow() {
-    newDiv = '<div class="w3-row-padding w3-padding-16" id="shortcut{0}">								\
+    newDiv = `<div class="w3-row-padding w3-padding-16" id="shortcut${index}">								\
                 <div class="w3-col l6 m12 s12">															\
                         <div class="w3-row-padding">                                                    \
                             <div class="w3-col m3 s6">                                                  \
-                                <input type="text" placeholder="comment" name="comment{0}" id="comment{0}" class="fullWidth" oninput="markDirty()"/>                               \
+                                <input type="text" placeholder="comment" name="comment${index}" id="comment${index}" class="fullWidth" oninput="markDirty()"/>                               \
                             </div>															            \
                             <div class="w3-col m2 s6">  												\
-                                <label title="Press a combination of buttons/keys to trigger an action"><input type="radio" id="func{0}KEY" name="func{0}" value="KEY" onclick="setHotKey({0});" checked /> Hotkey</label>	 \
+                                <label title="Press a combination of buttons/keys to trigger an action"><input type="radio" id="func${index}KEY" name="func${index}" value="KEY" onclick="setHotKey(${index});" checked /> Hotkey</label>	 \
                                 <span class="w3-hide-small"><br/></span>                                \
-                                <label title="Type out a sequence to trigger an action"><input type="radio" id="func{0}STRING" name="func{0}" value="STRING" onclick="setHotString(\'{0}\');"> Hotstring</input></label>	 \
+                                <label title="Type out a sequence to trigger an action"><input type="radio" id="func${index}STRING" name="func${index}" value="STRING" onclick="setHotString(\'${index}\');"> Hotstring</input></label>	 \
                             </div>                                                                      \                                                                    \
                             <div class="w3-col m7 s12 w3-right">                                        \
-                                <div id="optionsShortcut{0}" class="w3-row">'.format(index) + genHotkeyRegion(index) + '</div>    \
-                            </div>                                                                      \
-                        </div>																			\
-                    </div>		                                                                        \
-                <div class="w3-col l6 m12 s12">																\
-                    <div class="w3-row-padding">														\
-                        <div class="w3-col l11 m8 s10 w3-dropdown-click defaultCursor">				\
-                            <div class="w3-btn w3-centered fitInParent" onclick="dropdown(\'{0}\')"><span id="function{0}" >(Select a function)</span><i id="arrow{0}" class="fa fa-caret-right" aria-hidden="true"></i></div>						 \
-                            <div id="key{0}" class="w3-dropdown-content w3-border onTop">				\
-                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'{0}\')" title="Brings a program whose title matches the Window (defaulting to \'contains\' mode) to the front or runs the Program\ni.e. ActivateOrOpen(&quot;- Chrome&quot;, &quot;Chrome.exe&quot;) will bring Chrome to the front or open it">ActivateOrOpen("Window", "Program")</button>\
-                                    <br/>																\
-                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'{0}\')" title="Sends input (types for you)">Send("input")</button>\
-                                    <br/>																\
-                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'{0}\')" title="Removes what was just typed (for hotstring, but treated as Send for hotkey) and sends the value\ni.e. Replace(&quot;by the way&quot;) can be used with a hotstring of btw to cause it to be expanded when typed">Replace("input")</button>\
-                                    <br/>																\
-                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'{0}\')" title="Sends the unicode character given the UTF-16 value\ni.e. SendUnicodeChar(&quot;0x263A&quot;) will insert a smiley face">SendUnicodeChar("charCode")</button>\
-                                    <br/>																\
-                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'{0}\')" title="Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe &quot;url&quot; if not found\ni.e. ActivateOrOpenChrome(&quot;Pandora&quot;, &quot;www.pandora.com&quot;) will search through chrome tabs for Pandora and open pandora.com if not found">ActivateOrOpenChrome("tab name", "url")</button>\
-                                    <br/>																\
-                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'{0}\')" title="A sandbox for creating your own usage of the hotkey/hotstring">Custom("code")</button>\
-                                </div>																	\
-                        </div>																			\																			 \
-                        <div class="w3-col l1 m4 s2">															\
-                            <button type="button" onclick="destroy(\'{0}\')" class="w3-btn w3-margin-left w3-margin-right" id="destroy{0}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>\
-                        </div>																			\
-                    </div>  																			\
-                </div> 																			        \
-            </div>																				\
-            '.format(index);
+                                <div id="optionsShortcut${index}" class="w3-row">` + genHotkeyRegion(index) + `</div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-row-padding">
+                        <div class="w3-col l11 m8 s10 w3-dropdown-click defaultCursor">
+                            <div class="w3-btn w3-centered fitInParent" onclick="dropdown(\'${index}\')"><span id="function${index}" >(Select a function)</span><i id="arrow${index}" class="fa fa-caret-right" aria-hidden="true"></i></div>
+                            <div id="key${index}" class="w3-dropdown-content w3-border onTop">
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpen\', \'${index}\')" title="Brings a program whose title matches the Window (defaulting to \'contains\' mode) to the front or runs the Program\ni.e. ActivateOrOpen(&quot;- Chrome&quot;, &quot;Chrome.exe&quot;) will bring Chrome to the front or open it">ActivateOrOpen("Window", "Program")</button>
+                                    <br/>
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'Send\', \'${index}\')" title="Sends input (types for you)">Send("input")</button>
+                                    <br/>
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'Replace\', \'${index}\')" title="Removes what was just typed (for hotstring, but treated as Send for hotkey) and sends the value\ni.e. Replace(&quot;by the way&quot;) can be used with a hotstring of btw to cause it to be expanded when typed">Replace("input")</button>
+                                    <br/>
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'SendUnicodeChar\', \'${index}\')" title="Sends the unicode character given the UTF-16 value\ni.e. SendUnicodeChar(&quot;0x263A&quot;) will insert a smiley face">SendUnicodeChar("charCode")</button>
+                                    <br/>
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'ActivateOrOpenChrome\', \'${index}\')" title="Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe &quot;url&quot; if not found\ni.e. ActivateOrOpenChrome(&quot;Pandora&quot;, &quot;www.pandora.com&quot;) will search through chrome tabs for Pandora and open pandora.com if not found">ActivateOrOpenChrome("tab name", "url")</button>
+                                    <br/>
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'OpenConfig\', \'${index}\')" title="Open this script's config page in default browser">OpenConfig()</button>
+                                    <br/>
+                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'Custom\', \'${index}\')" title="A sandbox for creating your own usage of the hotkey/hotstring">Custom("code")</button>
+                                </div>
+                        </div>
+                        <div class="w3-col l1 m4 s2">
+                            <button type="button" onclick="destroy(\'${index}\')" class="w3-btn w3-margin-left w3-margin-right" id="destroy${index}"><i class="fa fa-times-circle-o" title="Delete hotkey"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
     index += 1;
     count += 1;
     $('#inputLength').val(count);
