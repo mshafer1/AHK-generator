@@ -115,7 +115,11 @@ setTitleMatchMode, 2 ; set title match mode to "contains"
 ; *********************** Provided Functions ********************************
 OpenConfig()
 {
+<<<<<<< HEAD
     Run, "${document.location.toString().replace(/\%/g, '^%')}"
+=======
+    Run, ${document.location.toString()}
+>>>>>>> gh-pages
 }
 
 ActivateOrOpen(window, program)
