@@ -184,6 +184,7 @@ ActivateOrOpenChrome(tab, url)
 	return
 }
 
+; from https://stackoverflow.com/a/28448693
 SendUnicodeChar(charCode)
 {
 	VarSetCapacity(ki, 28 * 2, 0)
