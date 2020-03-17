@@ -1,0 +1,40 @@
+<script>
+    // originally from https://stackoverflow.com/a/19999868/8100990
+    function msieversion() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))  // If Internet Explorer, return version number
+        {
+            return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)));
+        }
+
+        return 0;
+    }
+    $(document).ready(function () {
+        IEVersion = msieversion();
+        if (IEVersion == 0) {
+            // NOOP
+            return;
+        }
+        // display warning that IE is not supported
+        $('#modalIEWarning').addClass("w3-show");
+    });
+</script>
+
+<div id="modalIEWarning" class="w3-modal">
+    <div class="w3-modal-content">
+        <header class="w3-container w3-black w3-text-white">
+            <span onclick="$('#modalIEWarning').removeClass('w3-show');"
+                class="w3-btn w3-display-topright">&times;</span>
+            <h2>Unsupported browser warning</h2>
+        </header>
+        <div class="w3-container">
+            <p>As of October 2018, this site now longer supports Internet Explorer.</p>
+            <p>&nbsp;</p>
+            <p>If you choose to continue, some features may be broken</p>
+            <p>&nbsp;</p>
+            <p>For best experience, please upgrade to Microsoft Edge (or other browser).</p>
+        </div>
+    </div>
+</div>
