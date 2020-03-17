@@ -1,3 +1,38 @@
+body {
+    margin: 5px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.footer {
+    display: flex!important;
+    z-index: 100!important;
+}
+
+.footer > footer {
+    position: fixed!important; 
+    bottom: 0px!important; 
+    left: 0px!important;
+    z-index: 100!important;
+    width: 100%;
+}
+
+
+/* w3-css small screen point */
+@media only screen and (max-width:601px) {
+    .footer > footer {
+        position: static!important;
+        margin-top: 32px;
+    }
+
+    .footer > #bottom_padding {
+        display: none!important;
+    }
+}
+
+
 .onTop {
     z-index: 100;
     background-color: #707070 !important;
@@ -35,4 +70,10 @@
     display: block;
     margin: 0 auto !important;
     text-align: center !important;
+}
+
+@media print {
+    .print-hide {
+        display: none!important;
+    }
 }

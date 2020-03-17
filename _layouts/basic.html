@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include head.html %}
+
+<body>
+    {% include header.html %}
+    <div id="body" class="bodyMain">
+        {% include announcements.html %}
+        {{ content }}
+    </div>
+    {% include footer.html  %}
+
+    {% include ie_warning.html %}
+</body>
+
+</html>

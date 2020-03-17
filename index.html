@@ -1,170 +1,53 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>AHK Generator</title>
-    <meta name="Description" CONTENT="This is a generating configuration utility for AutoHotkey (AHK) scripts. In order to run these scripts, one needs to either download and install Autohotkey from the main website (http://www.autohotkey.com) or have someone who has an install compile the script. Share your configuration by sending the URL to the generated code.">
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href="css/w3.css" />
-    <!--http://www.w3schools.com/lib/w3.css -->
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="css/font-awesome-animation.min.css" />
-    <script>
-        (function(i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function() {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-103001839-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <script src="scripts/jquery.min.js"></script>
-    <script src="scripts/ahk.js"></script>
-    <script>
-        // originally from https://stackoverflow.com/a/19999868/8100990
-        function msieversion() {
-            var ua = window.navigator.userAgent;
-            var msie = ua.indexOf("MSIE ");
-        
-            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))  // If Internet Explorer, return version number
-            {
-                return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)));
-            }
-        
-            return 0;
-        }
-        $( document ).ready(function() {
-            IEVersion = msieversion();
-            if(IEVersion == 0)
-            {
-                // NOOP
-                return;
-            }
-            // display warning that IE is not supported
-            $('#modalIEWarning').addClass("w3-show");
-        });
-    </script>
-    <script>
-        (function(i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function() {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-103001839-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <link rel="stylesheet" href="highlight/styles/magula.css" />
-    <script src="highlight/highlight.pack.js"></script>
-</head>
-
-<body>
-    <datalist id="specialKeys">
-        <option value="LButton">
-        <option value="RButton">
-        <option value="Space">
-        <option value="MButton">
-        <option value="WheelDown">
-        <option value="WheelUp">
-        <option value="Escape">
-    </datalist>
-    <div class="w3-row w3-padding-bottom">
-        <div class="w3-col m2 s6">
-            <span class="w3-left w3-padding-left">
-                    <div class="w3-dropdown-click">
-                        <button type="button" class="w3-btn" onclick="dropdown('About')">About</button>
-                        <div id="keyAbout" class="w3-dropdown-content w3-border" style="color:black; background-color:white">
-                            <p>This is a generating configuration utility for AHK scripts</p>
-                            <p>In order to run these scripts, one needs to either download and install Autohotkey from the main website <a href="http://www.autohotkey.com" target="__blank" class="w3-btn">AutoHotkey.com</a> or have someone who has an install compile the script.</p>                            
-                        </div>
-                    </div>
-                </span>
-
+---
+layout: basic
+---
+<datalist id="specialKeys">
+    <option value="LButton">
+    <option value="RButton">
+    <option value="Space">
+    <option value="MButton">
+    <option value="WheelDown">
+    <option value="WheelUp">
+    <option value="Escape">
+</datalist>
+<div id="skipToScript" class="w3-row w3-hide w3-padding-bottom">
+    <div class="w3-col s12">
+        <button class="w3-btn" style="float:right;" onclick="scrollToCode();">Skip to code region</button>
+    </div>
+</div>
+<form id="hotkeyForm">
+    <input type="hidden" id="inputLength" name="length" value="1" />
+    <div class="w3-row w3-dark-grey w3-center">
+        <div class="w3-col m6 w3-hide-small">
+            Key/String
         </div>
-        <div class="w3-col m2 w3-hide-small">
-            <span class="w3-center">
-                Example configuration <a href="/defaultconfig.html" rel="nofollow">here</a>.
-            </span>
-        </div>
-        <div class="w3-col m4 w3-center s6">Visit <a href="https://autohotkey.com/" target="_blank">AutoHotkey.com</a> for more details</div>
-        <div class="w3-col m2 s6">
-            <span style="text-align:left; float:left;"><a href="mailto:admin@ahkgen.com">Email us</a>
-			or post an issue on 
-			<a href="https://github.com/mshafer1/AHK-generator/issues/new" target="_blank">Github</a> for bug reports and feature requests.</span>
-        </div>
-        <div class="w3-col m2 s6">
-            <span style="text-align:right; float:right;">Source available at <a href="https://github.com/mshafer1/AHK-generator" target="_blank">Github.com</a></span>
+        <div class="w3-col m6 w3-hide-small">
+            Action
         </div>
     </div>
-    <div id="skipToScript" class="w3-row w3-hide w3-padding-bottom">
-        <div class="w3-col s12">
-            <button class="w3-btn" style="float:right;" onclick="scrollToCode();">Skip to code region</button>
+    <span id="hotkeyRegion">
+    </span>
+    <div id="newRow" class="w3-row">
+        <div class="w3-col s12 w3-center">
+            <button type="button" id="btnAdd" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i class="fa fa-plus"></i></button>
         </div>
     </div>
-    <form id="hotkeyForm">
-        <input type="hidden" id="inputLength" name="length" value="1" />
-        <div class="w3-row w3-dark-grey w3-center">
-            <div class="w3-col m6 w3-hide-small">
-                Key/String
-            </div>
-            <div class="w3-col m6 w3-hide-small">
-                Action
-            </div>
+    <div class="w3-row w3-padding-top">
+        <div class="w3-col s4">
+            <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
         </div>
-        <span id="hotkeyRegion">
-        </span>
-        <div id="newRow" class="w3-row">
-            <div class="w3-col s12 w3-center">
-                <button type="button" id="btnAdd" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i class="fa fa-plus"></i></button>
-            </div>
+        <div class="w3-col s4">
+            <button type="button" id="btnTop" class="w3-btn center" title="Scroll to top of config" onClick="scrollToTop();">
+                Scroll to top
+            </button>
         </div>
-        <div class="w3-row w3-padding-top">
-            <div class="w3-col s4">
-                <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
-            </div>
-            <div class="w3-col s4">
-                <button type="button" id="btnTop" class="w3-btn center" title="Scroll to top of config" onClick="scrollToTop();">
-                    Scroll to top
-                </button>
-            </div>
-            <div class="w3-col s4">
-                <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });"
-                    disabled>download</button>
-                <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide">download</a>
-            </div>
-        </div>
-    </form>
-    <div id="scriptZone" class="w3-border w3-hide w3-margin fitInParent" contenteditable="true">
-    </div>
-    <div id="modalIEWarning" class="w3-modal">
-        <div class="w3-modal-content">
-            <header class="w3-container w3-black w3-text-white"> 
-                <span onclick="$('#modalIEWarning').removeClass('w3-show');" class="w3-btn w3-display-topright">&times;</span>
-                <h2>Unsupported browser warning</h2>
-            </header>
-            <div class="w3-container">
-            <p>As of October 2018, this site now longer supports Internet Explorer.</p>
-            <p>&nbsp;</p>
-            <p>If you choose to continue, some features may be broken</p>
-            <p>&nbsp;</p>
-            <p>For best experience, please upgrade to Microsoft Edge (or other browser).</p>
-            </div>
+        <div class="w3-col s4">
+            <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });"
+                disabled>download</button>
+            <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide">download</a>
         </div>
     </div>
-</body>
+</form>
+<div id="scriptZone" class="w3-border w3-hide w3-margin fitInParent" contenteditable="true">
+</div>
 
-</html>
