@@ -29,7 +29,8 @@ layout: basic
     </span>
     <div id="newRow" class="w3-row">
         <div class="w3-col s12 w3-center">
-            <button type="button" id="btnAdd" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i class="fa fa-plus"></i></button>
+            <button type="button" id="btnAdd" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i
+                    class="fa fa-plus"></i></button>
         </div>
     </div>
     <div class="w3-row w3-padding-top">
@@ -37,17 +38,52 @@ layout: basic
             <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
         </div>
         <div class="w3-col s4">
-            <button type="button" id="btnTop" class="w3-btn center" title="Scroll to top of config" onClick="scrollToTop();">
+            <button type="button" id="btnTop" class="w3-btn center" title="Scroll to top of config"
+                onClick="scrollToTop();">
                 Scroll to top
             </button>
         </div>
         <div class="w3-col s4">
-            <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right" title="Click to download AHK script" onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });"
+            <button type="button" id="btnDownload" download="hotkeys.ahk" class="w3-hide w3-btn" style="float:right"
+                title="Click to download AHK script"
+                onClick="download(); ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });"
                 disabled>download</button>
             <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide">download</a>
         </div>
     </div>
 </form>
+<div class="w3-row-padding w3-margin w3-padding-16 w3-border w3-border-black">
+    <div class="w3-col w3-hide-small l1">&nbsp;</div>
+    <div class="w3-col w3-center l3">
+        <a target="_blank" class="w3-btn w3-round" href="https://www.buymeacoffee.com/mshafer1">
+            Buy me a coffee
+        </a>
+    </div>
+    <div class="w3-col l1">&nbsp;</div>
+    <div class="w3-col w3-center l3">
+        <a target="_blank"
+            href="https://www.amazon.com/b?_encoding=UTF8&tag=mshafertechit-20&linkCode=ur2&linkId=32cd82131398464c947c0c63d85edcd7&camp=1789&creative=9325&node=172456"
+            class="w3-btn w3-round">Support by shopping on Amazon</a> (affiliate link)
+        <img src="//ir-na.amazon-adsystem.com/e/ir?t=mshafertechit-20&l=ur2&o=1" width="1" height="1" border="0" alt=""
+            style="border:none !important; margin:0px !important;" />
+    </div>
+    <div class="w3-col l1">&nbsp;</div>
+    <div class="w3-col w3-center l3">
+        <div class="w3-container">
+            <div class="w3-dropdown-hover">
+                <button class="w3-btn">?</button>
+                <div class="w3-dropdown-content w3-bar-block w3-border w3-padding-small">
+                    <p>
+                        Rather than poluting this tool with ads., these links allow you to support development of this
+                        and similar tools directly or indirectly.
+                        <br />
+                        Read more on <a class="w3-black w3-text-white" target="_blank"
+                            href="http://techit.mandmshafer.com/support">my blog.</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="scriptZone" class="w3-border w3-hide w3-margin fitInParent" contenteditable="true">
 </div>
-
