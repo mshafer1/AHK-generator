@@ -434,8 +434,29 @@ function _check_form(show_error = true, check_required_fields = false) {
 
 function ready() {
     //newRow();
-    _debug_log("Registering for check")
-    $('#hotkeyForm').submit(_check_form);
+    // console.log("Registering for check")
+    $('#hotkeyForm').submit(function() {
+        // console.log("Checking for submit")
+        result = true;
+        for (var i = 0; i < count; i++) {
+            if ($('#option' + i).length == 0 && $('#function' + i).length > 0) {
+                //it doesn't exist
+                result = false;
+                alert("Must select a function for all rows");
+                break;
+            }
+        }
+
+        // compile list of IDs into hidden input then submit.
+        var ids = [];
+        $(".js-index").each(function () {
+            ids.push($(this).val());
+        });
+        
+        $("#indexes").val(ids)
+
+        return result; // return false to cancel form action
+    });
 
     //if clicking anywhere but on dropdown, close it.
     $(document).bind('click', function (e) { //from http://stackoverflow.com/a/15098861
@@ -722,25 +743,19 @@ function setHotString(id, backend) {
 }
 
 function newRow() {
-    newDiv = `<div class="w3-container" style="display:relative" id="shortcut${index}">
-                <div style="width: 15px; display:inline-block; position:absolute; margin-top:15px; margin-left:8px;" class="draggabble_handle">
-                    <i class="fas fa-grip-vertical"></i>
-                </div>
-                <div style="display:inline-block position:abosolute; left:15px; right:0px; width:100%;">
-            <div class="w3-row-padding w3-padding-16">
-                <input type="hidden" value="${index}" class="js-index"/>
-                
+    newDiv = `<div class="w3-row-padding w3-padding-16" id="shortcut${index}">
+                <input type="hidden" value="${index}" class="js-index"/>	
                 <div class="w3-col l6 m12 s12">															
                         <div class="w3-row-padding">                                                    
                             <div class="w3-col m3 s6">                                                  
-                                <input type="text" placeholder="comment" name="comment${index}" id="comment${index}" class="fullWidth" oninput="markDirty()"/>
-                            </div>
-                            <div class="w3-col m2 s6">  
-                                <label title="Press a combination of buttons/keys to trigger an action"><input type="radio" id="func${index}KEY" name="func${index}" value="KEY" onclick="setHotKey(${index});" checked /> Hotkey</label>
-                                <span class="w3-hide-small"><br/></span>
-                                <label title="Type out a sequence to trigger an action"><input type="radio" id="func${index}STRING" name="func${index}" value="STRING" onclick="setHotString(\'${index}\');"> Hotstring</input></label>
-                            </div>
-                            <div class="w3-col m7 s12 w3-right">
+                                <input type="text" placeholder="comment" name="comment${index}" id="comment${index}" class="fullWidth" oninput="markDirty()"/>                               \
+                            </div>															            \
+                            <div class="w3-col m2 s6">  												\
+                                <label title="Press a combination of buttons/keys to trigger an action"><input type="radio" id="func${index}KEY" name="func${index}" value="KEY" onclick="setHotKey(${index});" checked /> Hotkey</label>	 \
+                                <span class="w3-hide-small"><br/></span>                                \
+                                <label title="Type out a sequence to trigger an action"><input type="radio" id="func${index}STRING" name="func${index}" value="STRING" onclick="setHotString(\'${index}\');"> Hotstring</input></label>	 \
+                            </div>                                                                      \                                                                    \
+                            <div class="w3-col m7 s12 w3-right">                                        \
                                 <div id="optionsShortcut${index}" class="w3-row">` + genHotkeyRegion(index) + `</div>
                             </div>
                         </div>
