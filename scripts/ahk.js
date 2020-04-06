@@ -198,37 +198,29 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
 }
 
 function _load_get(location) {
-    var result = {}
-    if (location.indexOf('?') == -1) {
-        _debug_log("No query string");
-        return result;
-    }
-    var query = location
-        // get the query string
-        .replace(/^.*?\?/, '')
-        // and remove any existing hash string (thanks, @vrijdenker)
-        .replace(/#.*$/, '')
-        .replace(new RegExp(escapeRegExp('+'), 'g'), ' ')
-        .split('&');
+    if (location.indexOf('?') !== -1) {
+        var query = document.location
+            .toString()
+            // get the query string
+            .replace(/^.*?\?/, '')
+            // and remove any existing hash string (thanks, @vrijdenker)
+            .replace(/#.*$/, '')
+            .replace(new RegExp(escapeRegExp('+'), 'g'), ' ')
+            .split('&');
 
-    for (var i = 0, l = query.length; i < l; i++) {
-        aux = decodeURIComponent(query[i])
-        _debug_log(aux)
-        key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
-        _debug_log(key)
-        value = aux.replace(key + "=", "")
-        _debug_log(value)
-        if (key in result) {
-            if (result[key].constructor === Array) {
-                result[key].push(value)
-            } else {
-                result[key] = [result[key], value]
-            }
-        } else {
-            if (key.includes('[]')) {
-                _debug_log("Array detected")
-                result[key] = [];
-                result[key].push(value)
+        for (var i = 0, l = query.length; i < l; i++) {
+            aux = decodeURIComponent(query[i])
+                //console.log(aux)
+            key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
+            //console.log(key)
+            value = aux.replace(key + "=", "")
+                //console.log(value)
+            if (key in GET) {
+                if (GET[key].constructor === Array) {
+                    GET[key].push(value)
+                } else {
+                    GET[key] = [GET[key], value]
+                }
             } else {
                 result[key] = value;
             }
@@ -244,73 +236,20 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
     GET = _load_get(document.location.toString());
 }
 
-var CONFIG = {};
-
-function _handle_segment(get_arr, k) {
-    var expected_keys = [
-        `func${k}`,
-        `option${k}`,
-        `skeyValue${k}`,
-    ]
-    const has_key = (key) => key in get_arr;
-    const not_has_key = (key) => (!(key in get_arr));
-    // if any missing, report error
-    if (expected_keys.some(not_has_key)) {
-        return [false, { "ERROR": `Missing crucial values. Must have each of ${expected_keys}` }];
-    }
-
-    var result = {
-        'func': get_arr['func' + k],
-        'option': get_arr['option' + k],
-        'skeyValue': get_arr['skeyValue' + k]
-    }
-
-    if (result['func'] == 'KEY') {
-        // hotkey
-        if ('skey' + k + '[]' in get_arr) {
-            result['modifiers[]'] = get_arr['skey' + k + '[]']
-        } else {
-            result['modifiers[]'] = []
-            _debug_log("empty list")
-        }
-
-    } else {
-        // hotstring - nothing more in this case
-    }
-
-    var option = get_arr['option' + k]
-
-    if (option == 'Send' || option == 'SendUnicodeChar') {
-        result['input'] = get_arr['input' + k]
-
-    } else if (option == "ActivateOrOpen" || option == 'ActivateOrOpenChrome') {
-        result['Program'] = get_arr['Program' + k]
-        result['Window'] = get_arr['Window' + k]
-
-    } else if (option == "Replace") {
-        result['input'] = get_arr['input' + k]
-
-    } else if (option == 'Custom') {
-        result['Code'] = get_arr['Code' + k]
-    } else if (option == 'OpenConfig') {
-        // NOOP
-    }
-
-    if ('comment' + k in get_arr && get_arr['comment' + k].length > 0) {
-        _debug_log("Comment in " + k)
-        result['comment'] = get_arr['comment' + k]
-        _debug_log(result)
-    }
-
-    return [true, result];
+function load_get() { //originally from https:///stackoverflow.com/a/12049737
+    _load_get(document.location.toString());
 }
 
-function _handle_length(get_arr) {
-    var result = {}
-    var num_keys = get_arr['length'];
-    if (num_keys * 4 > Object.keys(get_arr).length) {
-        _debug_log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
-        _debug_log(get_arr)
+var CONFIG = {};
+
+
+function parse_get() {
+    //CONFIG['length'] = GET['length']
+    num_keys = GET['length'];
+    if (num_keys * 4 > Object.keys(GET).length)
+    {
+        console.log("Num Keys: " + num_keys + "\n  Get.Length: " + GET.Length)
+        console.log(GET)
         // error, display warning and leave
         result['ERROR'] = `Insufficient data, expecting at least ${num_keys * 4} values. Got (${get_arr})`
         return result;
