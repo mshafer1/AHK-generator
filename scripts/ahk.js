@@ -1,16 +1,10 @@
----
----
-GET_KEYS = {
-    enable_debug_logging: 'DEBUG_LOG',
-    enable_eager_compile: 'EAGER_COMPILE',
-}
-
-try {
+try
+{
     $(window).load(init);
 
     // Create Element.remove() function if not exist
     if (!('remove' in Element.prototype)) {
-        Element.prototype.remove = function () {
+        Element.prototype.remove = function() {
             if (this.parentNode) {
                 this.parentNode.removeChild(this);
             }
@@ -19,9 +13,9 @@ try {
 
     //Disable function - from https://stackoverflow.com/a/16788240
     jQuery.fn.extend({
-        disable: function (state) {
+        disable: function(state) {
             console.log("disable " + state)
-            return this.each(function () {
+            return this.each(function() {
                 var $this = $(this);
                 if ($this.is('input, button, textarea, select'))
                     this.disabled = state;
@@ -30,54 +24,6 @@ try {
             });
         }
     });
-
-    // from https://stackoverflow.com/a/14042239/8100990
-    //
-    // $('#element').donetyping(callback[, timeout=1000])
-    // Fires callback when a user has finished typing. This is determined by the time elapsed
-    // since the last keystroke and timeout parameter or the blur event--whichever comes first.
-    //   @callback: function to be called when even triggers
-    //   @timeout:  (default=1000) timeout, in ms, to to wait before triggering event if not
-    //              caused by blur.
-    // Requires jQuery 1.7+ 
-    ; (function ($) {
-        $.fn.extend({
-            donetyping: function (callback, timeout) {
-                timeout = timeout || 5e2; // default to 1/2 s
-                var timeoutReference,
-                    doneTyping = function (el) {
-                        if (!timeoutReference) return;
-                        timeoutReference = null;
-                        // console.log($(el));
-                        callback.call($(el));
-                    };
-                return this.each(function (i, el) {
-                    var $el = $(el);
-                    // Chrome Fix (Use keyup over keypress to detect backspace)
-                    // thank you @palerdot
-                    $el.is(':input') && $el.on('keyup keypress paste change', function (e) {
-                        // This catches the backspace button in chrome, but also prevents
-                        // the event from triggering too preemptively. Without this line,
-                        // using tab/shift+tab will make the focused element fire the callback.
-                        if (e.type == 'keyup' && e.keyCode != 8) return;
-
-                        // Check if timeout has been set. If it has, "reset" the clock and
-                        // start over again.
-                        if (timeoutReference) clearTimeout(timeoutReference);
-                        timeoutReference = setTimeout(function () {
-                            // if we made it here, our timeout has elapsed. Fire the
-                            // callback
-                            doneTyping(el);
-                        }, timeout);
-                    }).on('blur', function () {
-                        // If we can, fire the event since we're leaving the field
-                        doneTyping(el);
-                    });
-                });
-            }
-        });
-        console.log("donetyping loaded");
-    })(jQuery);
 } catch (error) {
     // pass
 }
@@ -96,13 +42,7 @@ if (!String.prototype.includes) {
     };
 }
 
-function _debug_log() {
-    if (!DEBUG_LOGGING_ENABLED) {
-        return; // NO-OP
-    }
 
-    console.info(...arguments);
-}
 
 function init() {
     $('#hotkeyRegion').sortable({
@@ -198,9 +138,9 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
 }
 
 function _load_get(location) {
+    var result = {}
     if (location.indexOf('?') !== -1) {
-        var query = document.location
-            .toString()
+        var query = location
             // get the query string
             .replace(/^.*?\?/, '')
             // and remove any existing hash string (thanks, @vrijdenker)
@@ -215,29 +155,32 @@ function _load_get(location) {
             //console.log(key)
             value = aux.replace(key + "=", "")
                 //console.log(value)
-            if (key in GET) {
-                if (GET[key].constructor === Array) {
-                    GET[key].push(value)
+            if (key in result) {
+                if (result[key].constructor === Array) {
+                    result[key].push(value)
                 } else {
-                    GET[key] = [GET[key], value]
+                    result[key] = [result[key], value]
                 }
             } else {
-                result[key] = value;
+                if (key.includes('[]')) {
+                    //console.log("Array detected")
+                    result[key] = [];
+                    result[key].push(value)
+                } else {
+                    result[key] = value;
+                }
+                //console.log(key + ":" + result[key])
+                //console.log();
             }
             _debug_log(key + ":" + result[key])
             _debug_log();
         }
     }
-
     return result;
 }
 
 function load_get() { //originally from https:///stackoverflow.com/a/12049737
     GET = _load_get(document.location.toString());
-}
-
-function load_get() { //originally from https:///stackoverflow.com/a/12049737
-    _load_get(document.location.toString());
 }
 
 var CONFIG = {};
@@ -754,36 +697,15 @@ function scrollToTop() {
 function download() {
     _cancel_id = setTimeout(function () { alert("Uh, oh. It seems we can't download the file right now - you can still copy and paste it"); }, 800)
     console.log("downloading")
-    _download_link = document.getElementById('downloadLink');
-    if ('msSaveBlob' in window.navigator) {
-        var _header_len = DOWNLOAD_FILE_HEADER.length;
-        var _raw_file = decodeURI(_download_link.href.substring(_header_len));
-        var textFileAsBlob = new Blob([_raw_file], {
-            type: 'text/plain'
-        });
-
-        window.navigator.msSaveBlob(textFileAsBlob, "hotkey.ahk");
-    } else {
-        _download_link.click()
-    }
-
-    try {
-        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });
-    } catch (error) {
-        // pass
-    }
-
-    clearTimeout(_cancel_id);
+    document.getElementById('downloadLink').click()
 }
 
 
 try {
-    // from https://stackoverflow.com/a/11279639
-    // if module is availble, we must be getting included via a 'require', export methods
     var exports = module.exports = {};
+    // from https://stackoverflow.com/a/11279639
 
     exports._load_get = _load_get;
-    exports._parse_get = _parse_get;
 } catch (error) {
     // pass
 }
