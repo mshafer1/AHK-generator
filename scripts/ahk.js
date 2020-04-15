@@ -1,10 +1,9 @@
-try
-{
+try {
     $(window).load(init);
 
     // Create Element.remove() function if not exist
     if (!('remove' in Element.prototype)) {
-        Element.prototype.remove = function() {
+        Element.prototype.remove = function () {
             if (this.parentNode) {
                 this.parentNode.removeChild(this);
             }
@@ -13,9 +12,9 @@ try
 
     //Disable function - from https://stackoverflow.com/a/16788240
     jQuery.fn.extend({
-        disable: function(state) {
+        disable: function (state) {
             console.log("disable " + state)
-            return this.each(function() {
+            return this.each(function () {
                 var $this = $(this);
                 if ($this.is('input, button, textarea, select'))
                     this.disabled = state;
@@ -67,11 +66,42 @@ function init() {
     }
     try {
         ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
-    }
-    catch (_) {
-        // pass - user must have blocked ga from loading
-    }
+        parse_get();
 
+        //disable submit
+        $('#btnSubmit').disable(true);
+        $('#btnDownload').disable(false);
+
+        $.getScript("scripts/keygen.js", loaded)
+        // build form from GET
+        //console.log(GET)
+        //console.log(CONFIG)
+        num_keys = GET['length'];
+        //console.log(num_keys)
+        for (i = 0; i < num_keys; i++) {
+            newRow();
+            $('#func' + i + CONFIG[i]['func']).prop("checked", true)
+            //console.log(CONFIG[i]['func'])
+
+            if ('comment' in CONFIG[i]) {
+                $('#comment' + i).val(CONFIG[i]['comment'])
+            }
+
+            if (CONFIG[i]['func'] == 'KEY') {
+                setHotKey(i, true);
+
+                //console.log(CONFIG[i]['skeyValue'])
+                $('#skey' + i + 'key').val(CONFIG[i]['skeyValue'])
+                modifiers = CONFIG[i]['modifiers[]']
+                //console.log(modifiers)
+                modifiers.forEach(function (entry) {
+                    //console.log('#skey' + i + entry)
+                    $('#skey' + i + entry).prop("checked", true)
+                })
+            } else {
+                setHotString(i, true);
+                $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
+            }
 
     //disable submit
     $('#btnSubmit').disable(true);
@@ -150,11 +180,11 @@ function _load_get(location) {
 
         for (var i = 0, l = query.length; i < l; i++) {
             aux = decodeURIComponent(query[i])
-                //console.log(aux)
+            //console.log(aux)
             key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
             //console.log(key)
             value = aux.replace(key + "=", "")
-                //console.log(value)
+            //console.log(value)
             if (key in result) {
                 if (result[key].constructor === Array) {
                     result[key].push(value)
@@ -185,31 +215,33 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
 
 var CONFIG = {};
 
-
-function parse_get() {
-    //CONFIG['length'] = GET['length']
-    num_keys = GET['length'];
-    if (num_keys * 4 > Object.keys(GET).length)
-    {
-        console.log("Num Keys: " + num_keys + "\n  Get.Length: " + GET.Length)
-        console.log(GET)
+function _parse_get(get_arr) {
+    var result = {};
+    //result['length'] = get_arr['length']
+    var num_keys = get_arr['length'];
+    if (num_keys * 4 > Object.keys(get_arr).length) {
+        console.log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
+        console.log(get_arr)
         // error, display warning and leave
         result['ERROR'] = `Insufficient data, expecting at least ${num_keys * 4} values. Got (${get_arr})`
         return result;
     }
-    console.log("Number of keys: ", num_keys)
     for (i = 0, k = 0; i < get_arr['length']; k++) {
-        if (!('func' + k in get_arr)) {
-            continue;
-        }
-        _part = _handle_segment(get_arr, k);
-        _debug_log(_part)
-        if (!_part[0]) {
-            result['ERROR'] = _part[1];
-            break;
-        }
+        if ('func' + k in get_arr) {
+            result[i] = {
+                'func': get_arr['func' + k],
+                'option': get_arr['option' + k],
+                'skeyValue': get_arr['skeyValue' + k]
+            }
 
-        result[i] = _part[1];
+            if (result[i]['func'] == 'KEY') {
+                // hotkey
+                if ('skey' + k + '[]' in get_arr) {
+                    result[i]['modifiers[]'] = get_arr['skey' + k + '[]']
+                } else {
+                    result[i]['modifiers[]'] = []
+                    //console.log("empty list")
+                }
 
         i++
     }
@@ -255,39 +287,22 @@ function _parse_get(get_arr) {
         return result;
     }
 
-    if ('indexes' in get_arr) {
-        return _handle_indexes(get_arr);
-    }
-    else if ('length' in get_arr) {
-        return _handle_length(get_arr);
-    }
-    else {
-        result['ERROR'] = `Do not know how to handle ${get_arr}`
-    }
-}
+            var option = get_arr['option' + k]
 
-function parse_get() {
-    CONFIG = _parse_get(GET);
-}
+            if (option == 'Send' || option == 'SendUnicodeChar') {
+                result[i]['input'] = get_arr['input' + k]
 
-function _check_form(show_error = true, check_required_fields = false) {
-    _debug_log("Checking for submit")
-    result = true;
+            } else if (option == "ActivateOrOpen" || option == 'ActivateOrOpenChrome') {
+                result[i]['Program'] = get_arr['Program' + k]
+                result[i]['Window'] = get_arr['Window' + k]
 
-    // compile list of IDs into hidden input then submit.
-    var ids = [];
-    $(".js-index").each(function () {
-        ids.push($(this).val());
-    });
+            } else if (option == "Replace") {
+                result[i]['input'] = get_arr['input' + k]
 
-    $("#indexes").val(ids)
-
-    result = ids.every(function (index) {
-        if ($('#option' + index).length == 0 && $('#function' + index).length > 0) {
-            //it doesn't exist
-            result = false;
-            if (show_error) {
-                alert("Must select a function for all rows");
+            } else if (option == 'Custom') {
+                result[i]['Code'] = get_arr['Code' + k]
+            } else if (option == 'OpenConfig') {
+                // NOOP
             }
             return result;
         }
@@ -295,13 +310,10 @@ function _check_form(show_error = true, check_required_fields = false) {
     })
 
 
-    if (check_required_fields) {
-        var required = $('input,textarea,select').filter('[required]:visible');
-        var allRequired_have_values = true;
-        required.each(function () {
-            if ($(this).val() == '') {
-                allRequired_have_values = false;
-                return;
+            if ('comment' + k in get_arr && get_arr['comment' + k].length > 0) {
+                // console.log("Comment in " + i)
+                result[i]['comment'] = get_arr['comment' + k]
+                // console.log(result)
             }
         });
 
@@ -310,14 +322,17 @@ function _check_form(show_error = true, check_required_fields = false) {
             // TODO: show error??
         }
     }
+    return result;
+}
 
-    return result; // return false to cancel form action
+function parse_get() {
+    CONFIG = _parse_get(GET);
 }
 
 function ready() {
     //newRow();
     // console.log("Registering for check")
-    $('#hotkeyForm').submit(function() {
+    $('#hotkeyForm').submit(function () {
         // console.log("Checking for submit")
         result = true;
         for (var i = 0; i < count; i++) {
@@ -334,7 +349,7 @@ function ready() {
         $(".js-index").each(function () {
             ids.push($(this).val());
         });
-        
+
         $("#indexes").val(ids)
 
         return result; // return false to cancel form action
@@ -389,72 +404,54 @@ function select(item, id, backend) {
 
     result = '';
 
-    if(FEATURE_TOGGLES.SINGLE_SOURCE) {
-        {% for method in site.data.methods %}
-        {% unless forloop.first %}else {% endunless %}if (item == '{{ method.code_key }}') {
-            result=`{% include _method_signatures/_generic.html method=method %}`
-        }{% endfor %}
-    
-        $('#function' + id).html(result);
-    }
-    else {
-        if (item == 'ActivateOrOpen') {
-            $('#function' + id).html('ActivateOrOpen(\
-                        "<input type="text" name="Window{0}" id="window{0}" placeholder="Window" class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
-                        "<input id="program{0}" type="text" name="Program{0}" placeholder="Program"  class="keyWidth"  oninput="markDirty()" required/>")\
-                        <input type="hidden" value="ActivateOrOpen" name="option{0}" id="option{0}"/>'.format(id))
+        $("#program" + id).click(function (event) {
+            event.stopPropagation();
+        });
+        $("#window" + id).click(function (event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'Send') {
+        $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input"  oninput="markDirty()" required/>")\
+					<input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
 
-            $("#program" + id).click(function (event) {
-                event.stopPropagation();
-            });
-            $("#window" + id).click(function (event) {
-                event.stopPropagation();
-            });
-        } else if (item == 'Send') {
-            $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input"  oninput="markDirty()" required/>")\
-                        <input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
+        $("#input" + id).click(function (event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'Replace') {
+        $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input"  oninput="markDirty()" required/>")\
+					<input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
+        $("#input" + id).click(function (event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'ActivateOrOpenChrome') {
+        $('#function' + id).html('ActivateOrOpenChrome(<span class="w3-hide-large w3-hide-medium"><br/></span>\
+					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name"  class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
+					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth"  oninput="markDirty()" required/>")\
+					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
 
-            $("#input" + id).click(function (event) {
-                event.stopPropagation();
-            });
-        } else if (item == 'Replace') {
-            $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input"  oninput="markDirty()" required/>")\
-                        <input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
-            $("#input" + id).click(function (event) {
-                event.stopPropagation();
-            });
-        } else if (item == 'ActivateOrOpenChrome') {
-            $('#function' + id).html('ActivateOrOpenChrome(<span class="w3-hide-large w3-hide-medium"><br/></span>\
-                        "<input type="text" name="Window{0}" id="window{0}" placeholder="tab name"  class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
-                        "<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth"  oninput="markDirty()" required/>")\
-                        <input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
+        $("#program" + id).click(function (event) {
+            event.stopPropagation();
+        });
+        $("#window" + id).click(function (event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'Custom') {
+        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
+					<input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
 
-            $("#program" + id).click(function (event) {
-                event.stopPropagation();
-            });
-            $("#window" + id).click(function (event) {
-                event.stopPropagation();
-            });
-        } else if (item == 'Custom') {
-            $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
-                        <input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
+        $("#code" + id).click(function (event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'SendUnicodeChar') {
+        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth"  oninput="markDirty()" required/>)\
+					<input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
 
-            $("#code" + id).click(function (event) {
-                event.stopPropagation();
-            });
-        } else if (item == 'SendUnicodeChar') {
-            $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth"  oninput="markDirty()" required/>)\
-                        <input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
-
-            $("#input" + id).click(function (event) {
-                event.stopPropagation();
-            });
-        } else if (item == 'OpenConfig') {
-            console.log("open config");
-            $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
-        }
-
-        _register_done_typing(`#function${id}`, id)
+        $("#input" + id).click(function (event) {
+            event.stopPropagation();
+        });
+    } else if (item == 'OpenConfig') {
+        console.log("open config");
+        $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
     }
 
     if (!backend) {
@@ -667,15 +664,9 @@ function newRow() {
 function loaded() {
     _debug_log("seeting url")
     script = keygen(CONFIG)
-    _setup_download(CONFIG);
-}
-
-function _setup_download(configuration) {
-    _debug_log("seeting url");
-    script = keygen(configuration);
-    $('#downloadLink').attr('href', DOWNLOAD_FILE_HEADER + encodeURIComponent(script));
-
-    $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>');
+    $('#downloadLink').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script))
+    //setTimeout(download, 500)
+    $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>')
     $('#skipToScript').removeClass("w3-hide");
     $('#scriptZone').removeClass("w3-hide");
     $('.js_download_btn').removeClass("w3-hide");
@@ -702,10 +693,12 @@ function download() {
 
 
 try {
-    var exports = module.exports = {};
     // from https://stackoverflow.com/a/11279639
+    // if module is availble, we must be getting included via a 'require', export methods
+    var exports = module.exports = {};
 
     exports._load_get = _load_get;
+    exports._parse_get = _parse_get;
 } catch (error) {
     // pass
 }
