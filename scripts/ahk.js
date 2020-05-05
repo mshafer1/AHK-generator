@@ -215,12 +215,68 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
 
 var CONFIG = {};
 
-function _handle_segment(i) {
+function _handle_segment(get_arr, k) {
+    var expected_keys = [
+        `func${k}`,
+        `option${k}`,
+        `skeyValue${k}`,
+    ]
+    const has_key = (key) => key in get_arr;
+    const not_has_key = (key) => (!(key in get_arr));
+    // if any missing, report error
+    if(expected_keys.some(not_has_key)) {
+        return [false, {"ERROR": `Missing crucial values. Must have each of ${expected_keys}`}];
+    }
 
+
+    var result = {
+        'func': get_arr['func' + k],
+        'option': get_arr['option' + k],
+        'skeyValue': get_arr['skeyValue' + k]
+    }
+
+    if (result['func'] == 'KEY') {
+        // hotkey
+        if ('skey' + k + '[]' in get_arr) {
+            result['modifiers[]'] = get_arr['skey' + k + '[]']
+        } else {
+            result['modifiers[]'] = []
+            //console.log("empty list")
+        }
+
+    } else {
+        // hotstring - nothing more in this case
+    }
+
+    var option = get_arr['option' + k]
+
+    if (option == 'Send' || option == 'SendUnicodeChar') {
+        result['input'] = get_arr['input' + k]
+
+    } else if (option == "ActivateOrOpen" || option == 'ActivateOrOpenChrome') {
+        result['Program'] = get_arr['Program' + k]
+        result['Window'] = get_arr['Window' + k]
+
+    } else if (option == "Replace") {
+        result['input'] = get_arr['input' + k]
+
+    } else if (option == 'Custom') {
+        result['Code'] = get_arr['Code' + k]
+    } else if (option == 'OpenConfig') {
+        // NOOP
+    }
+
+    if ('comment' + k in get_arr && get_arr['comment' + k].length > 0) {
+        // console.log("Comment in " + i)
+        result['comment'] = get_arr['comment' + k]
+        // console.log(result)
+    }
+
+    return [true, result];
 }
 
 function _handle_length(get_arr) {
-    result = {}
+    var result = {}
     var num_keys = get_arr['length'];
     if (num_keys * 4 > Object.keys(get_arr).length) {
         console.log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
@@ -233,48 +289,14 @@ function _handle_length(get_arr) {
         if (!('func' + k in get_arr)) {
             continue;
         }
-        result[i] = {
-            'func': get_arr['func' + k],
-            'option': get_arr['option' + k],
-            'skeyValue': get_arr['skeyValue' + k]
+        _part = _handle_segment(get_arr, k);
+        console.debug(_part)
+        if (!_part[0]) {
+            result['ERROR'] = _part[1];
+            break;
         }
 
-        if (result[i]['func'] == 'KEY') {
-            // hotkey
-            if ('skey' + k + '[]' in get_arr) {
-                result[i]['modifiers[]'] = get_arr['skey' + k + '[]']
-            } else {
-                result[i]['modifiers[]'] = []
-                //console.log("empty list")
-            }
-
-        } else {
-            // hotstring - nothing more in this case
-        }
-
-        var option = get_arr['option' + k]
-
-        if (option == 'Send' || option == 'SendUnicodeChar') {
-            result[i]['input'] = get_arr['input' + k]
-
-        } else if (option == "ActivateOrOpen" || option == 'ActivateOrOpenChrome') {
-            result[i]['Program'] = get_arr['Program' + k]
-            result[i]['Window'] = get_arr['Window' + k]
-
-        } else if (option == "Replace") {
-            result[i]['input'] = get_arr['input' + k]
-
-        } else if (option == 'Custom') {
-            result[i]['Code'] = get_arr['Code' + k]
-        } else if (option == 'OpenConfig') {
-            // NOOP
-        }
-
-        if ('comment' + k in get_arr && get_arr['comment' + k].length > 0) {
-            // console.log("Comment in " + i)
-            result[i]['comment'] = get_arr['comment' + k]
-            // console.log(result)
-        }
+        result[i] = _part[1];
 
         i++
     }
@@ -294,6 +316,9 @@ function _parse_get(get_arr) {
 
     if ('length' in get_arr) {
         return _handle_length(get_arr);
+    }
+    else {
+        result['ERROR'] = `Do not know how to handle ${get_arr}`
     }
 }
 
