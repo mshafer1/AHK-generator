@@ -215,15 +215,18 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
 
 var CONFIG = {};
 
-function _parse_get(get_arr) {
-    var result = {};
-    //result['length'] = get_arr['length']
+function _handle_segment(i) {
+    
+}
+
+function _handle_length(get_arr) {
+    result = {}
     var num_keys = get_arr['length'];
     if (num_keys * 4 > Object.keys(get_arr).length) {
         console.log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
         console.log(get_arr)
         // error, display warning and leave
-        result['ERROR'] = `Insufficient data, expecting at least ${num_keys * 4} values. Got (${get_arr})`
+        result['ERROR'] = `Insufficient data, expecting at least ${num_keys*4} values. Got (${get_arr})`
         return result;
     }
     for (i = 0, k = 0; i < get_arr['length']; k++) {
@@ -323,6 +326,22 @@ function _parse_get(get_arr) {
         }
     }
     return result;
+}
+
+function _parse_get(get_arr) {
+    var result = {};
+    if (Object.keys(get_arr).length == 0) {
+        return result;
+    }
+
+    if (!('length' in get_arr) && !('indexes[]' in get_arr)) {
+        result['ERROR'] = `Missing 'indexes' parameter`
+        return result;
+    }
+
+    if ('length' in get_arr) {
+        return _handle_length(get_arr);
+    }
 }
 
 function parse_get() {
