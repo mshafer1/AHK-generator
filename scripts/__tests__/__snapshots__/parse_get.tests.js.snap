@@ -34,12 +34,6 @@ Object {
 }
 `;
 
-exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
-}
-`;
-
 exports[`_parse_get takes a basic config and returns expected:: parses a Custom correctly 1`] = `
 Object {
   "0": Object {
@@ -49,12 +43,6 @@ Object {
     "option": "Custom",
     "skeyValue": "b",
   },
-}
-`;
-
-exports[`_parse_get takes a basic config and returns expected:: parses a Custom correctly 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
 }
 `;
 
@@ -83,25 +71,6 @@ Object {
 }
 `;
 
-exports[`_parse_get takes a basic config and returns expected:: parses a Send Unicode Char correctly 3`] = `
-Object {
-  "0": Object {
-    "Program": "pandora.com",
-    "Window": "pandora",
-    "func": "KEY",
-    "modifiers[]": Array [],
-    "option": "ActivateOrOpenChrome",
-    "skeyValue": "b",
-  },
-}
-`;
-
-exports[`_parse_get takes a basic config and returns expected:: parses a Send Unicode Char correctly 4`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
-}
-`;
-
 exports[`_parse_get takes a basic config and returns expected:: parses a basic replace correctly 1`] = `
 Object {
   "0": Object {
@@ -111,12 +80,6 @@ Object {
     "option": "Replace",
     "skeyValue": "a",
   },
-}
-`;
-
-exports[`_parse_get takes a basic config and returns expected:: parses a basic replace correctly 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
 }
 `;
 
@@ -132,8 +95,6 @@ Object {
 }
 `;
 
-exports[`_parse_get takes a basic config and returns expected:: parses a basic send value correctly 2`] = `Object {}`;
-
 exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt) 1`] = `
 Object {
   "0": Object {
@@ -146,12 +107,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-}
-`;
-
-exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt) 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
 }
 `;
 
@@ -172,12 +127,6 @@ Object {
 }
 `;
 
-exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt, shift, win) 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
-}
-`;
-
 exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (alt) 1`] = `
 Object {
   "0": Object {
@@ -189,12 +138,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-}
-`;
-
-exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (alt) 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
 }
 `;
 
@@ -212,12 +155,6 @@ Object {
 }
 `;
 
-exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (ctrl) 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
-}
-`;
-
 exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (shift) 1`] = `
 Object {
   "0": Object {
@@ -229,12 +166,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-}
-`;
-
-exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (shift) 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
 }
 `;
 
@@ -252,12 +183,6 @@ Object {
 }
 `;
 
-exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (win) 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
-}
-`;
-
 exports[`_parse_get takes a basic config and returns expected:: parses an Activate Or Open correctly 1`] = `
 Object {
   "0": Object {
@@ -271,12 +196,6 @@ Object {
 }
 `;
 
-exports[`_parse_get takes a basic config and returns expected:: parses an Activate Or Open correctly 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
-}
-`;
-
 exports[`_parse_get takes a basic config and returns expected:: parses an OpenConfig correctly 1`] = `
 Object {
   "0": Object {
@@ -285,11 +204,5 @@ Object {
     "option": "OpenConfig",
     "skeyValue": "b",
   },
-}
-`;
-
-exports[`_parse_get takes a basic config and returns expected:: parses an OpenConfig correctly 2`] = `
-Object {
-  "ERROR": "Missing 'indexes' parameter",
 }
 `;
