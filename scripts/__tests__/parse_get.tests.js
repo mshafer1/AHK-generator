@@ -277,5 +277,16 @@ describe('_parse_get', () => {
 
             expect(result).toMatchSnapshot();
         })
-    })
+    });
+
+    describe('Allowes missing params when optional', () => {
+        it('allows for comment to not be provided', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?indexes=0&func0=KEY&skey0%5B%5D=CTRL&skey0%5B%5D=ALT&skeyValue0=b&input0=a&option0=Send'
+            ));
+
+            expect(result).toMatchSnapshot();
+        })
+    });
 })

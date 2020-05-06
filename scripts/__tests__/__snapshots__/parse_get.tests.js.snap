@@ -33,6 +33,21 @@ Object {
 }
 `;
 
+exports[`_parse_get Allowes missing params when optional allows for comment to not be provided 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "a",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "b",
+  },
+}
+`;
+
 exports[`_parse_get Handles indexes correctly get desired indexes in order 1`] = `
 Object {
   "0": Object {
