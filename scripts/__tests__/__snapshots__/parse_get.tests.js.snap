@@ -69,6 +69,20 @@ Object {
 }
 `;
 
+exports[`_parse_get Handles indexes correctly handles basic send command 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "a",
+    "modifiers[]": Array [
+      "CTRL",
+    ],
+    "option": "Send",
+    "skeyValue": "Space",
+  },
+}
+`;
+
 exports[`_parse_get Handles old query urls as well parses example URL correctly 1`] = `
 Object {
   "0": Object {
