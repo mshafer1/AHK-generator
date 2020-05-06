@@ -69,6 +69,260 @@ Object {
 }
 `;
 
+exports[`_parse_get Handles old query urls as well parses example URL correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "STRING",
+    "input": "0x2192",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";implies",
+  },
+  "1": Object {
+    "func": "STRING",
+    "input": "0x00b0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";degree",
+  },
+  "10": Object {
+    "Program": "cmd",
+    "Window": "ahk_exe cmd.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "c",
+  },
+  "11": Object {
+    "Program": "notepad  .exe",
+    "Window": "- Notepad  ",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "n",
+  },
+  "12": Object {
+    "Program": "chrome.exe",
+    "Window": "- Google Chrome",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "i",
+  },
+  "13": Object {
+    "Code": "
+	Send, ^c
+	Sleep 50
+	Run, http://www.google.com/search?q=%clipboard%
+	Return",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Custom",
+    "skeyValue": "g",
+  },
+  "14": Object {
+    "Program": "%temp%\\\\LabVIEW\\\\LabVIEW.exe",
+    "Window": "ahk_exe LabVIEW NXG.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "l",
+  },
+  "15": Object {
+    "Code": "
+    Send !{Space}
+    Send n
+    return
+",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "WIN",
+    ],
+    "option": "Custom",
+    "skeyValue": "m",
+  },
+  "2": Object {
+    "func": "STRING",
+    "input": "0x2713",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";check",
+  },
+  "3": Object {
+    "func": "STRING",
+    "input": "0x2639",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";frown",
+  },
+  "4": Object {
+    "func": "STRING",
+    "input": "0x263A",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";smile",
+  },
+  "5": Object {
+    "func": "STRING",
+    "input": "0x03B8",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";theta",
+  },
+  "6": Object {
+    "func": "STRING",
+    "input": "0x03C0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";pi",
+  },
+  "7": Object {
+    "func": "STRING",
+    "input": "0x00A2",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";cents",
+  },
+  "8": Object {
+    "Program": "http://dictionary.reference.com/",
+    "Window": "dictionary.com",
+    "func": "STRING",
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": ";dict",
+  },
+  "9": Object {
+    "Program": "C:\\\\Program Files (x86)\\\\PuTTY\\\\putty.exe",
+    "Window": "ahk_exe putty.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "p",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 2`] = `
+Object {
+  "0": Object {
+    "func": "STRING",
+    "input": "0x00b0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";degree",
+  },
+  "1": Object {
+    "func": "STRING",
+    "input": "0x2713",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";check",
+  },
+  "10": Object {
+    "Program": "notepad  .exe",
+    "Window": "- Notepad  ",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "n",
+  },
+  "11": Object {
+    "Program": "chrome.exe",
+    "Window": "- Google Chrome",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "i",
+  },
+  "12": Object {
+    "Code": "
+	Send, ^c
+	Sleep 50
+	Run, http://www.google.com/search?q=%clipboard%
+	Return",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Custom",
+    "skeyValue": "g",
+  },
+  "2": Object {
+    "func": "STRING",
+    "input": "0x2639",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";frown",
+  },
+  "3": Object {
+    "func": "STRING",
+    "input": "0x263A",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";smile",
+  },
+  "4": Object {
+    "func": "STRING",
+    "input": "0x03B8",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";theta",
+  },
+  "5": Object {
+    "func": "STRING",
+    "input": "0x03C0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";pi",
+  },
+  "6": Object {
+    "func": "STRING",
+    "input": "0x00A2",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";cents",
+  },
+  "7": Object {
+    "Program": "http://dictionary.reference.com/",
+    "Window": "dictionary.com",
+    "func": "STRING",
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": ";dict",
+  },
+  "8": Object {
+    "Program": "C:\\\\Program Files (x86)\\\\PuTTY\\\\putty.exe",
+    "Window": "ahk_exe putty.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "p",
+  },
+  "9": Object {
+    "Program": "cmd",
+    "Window": "ahk_exe cmd.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "c",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 1`] = `
 Object {
   "0": Object {

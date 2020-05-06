@@ -19,7 +19,7 @@ describe('_load_get', () => {
 
     it('takes index array and turns into array', () => {
         expect(ahk_js._load_get('ahkgen.com/?indexes=0'))
-            .toEqual({ 'indexes[]': ['0'] })
+            .toEqual({ 'indexes': '0' })
     });
 
     it('takes duplicate values into array', () => {
@@ -289,4 +289,32 @@ describe('_parse_get', () => {
             expect(result).toMatchSnapshot();
         })
     });
+
+    describe("Handles old query urls as well", () => {
+        // data pulled from site tracking and scrubbed
+        it('parses example URL correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?length=16&comment0=&func0=STRING&skeyValue0=%3Bimplies&input0=0x2192&option0=SendUnicodeChar&comment1=&func1=STRING&skeyValue1=%3Bdegree&input1=0x00b0&option1=SendUnicodeChar&comment2=&func2=STRING&skeyValue2=%3Bcheck&input2=0x2713&option2=SendUnicodeChar&comment3=&func3=STRING&skeyValue3=%3Bfrown&input3=0x2639&option3=SendUnicodeChar&comment4=&func4=STRING&skeyValue4=%3Bsmile&input4=0x263A&option4=SendUnicodeChar&comment5=&func5=STRING&skeyValue5=%3Btheta&input5=0x03B8&option5=SendUnicodeChar&comment6=&func6=STRING&skeyValue6=%3Bpi&input6=0x03C0&option6=SendUnicodeChar&comment7=&func7=STRING&skeyValue7=%3Bcents&input7=0x00A2&option7=SendUnicodeChar&comment8=&func8=STRING&skeyValue8=%3Bdict&Window8=dictionary.com&Program8=http%3A%2F%2Fdictionary.reference.com%2F&option8=ActivateOrOpenChrome&comment9=&func9=KEY&skey9%5B%5D=CTRL&skey9%5B%5D=ALT&skeyValue9=p&Window9=ahk_exe+putty.exe&Program9=C%3A%5CProgram+Files+%28x86%29%5CPuTTY%5Cputty.exe&option9=ActivateOrOpen&comment10=&func10=KEY&skey10%5B%5D=CTRL&skey10%5B%5D=ALT&skeyValue10=c&Window10=ahk_exe+cmd.exe&Program10=cmd&option10=ActivateOrOpen&comment11=&func11=KEY&skey11%5B%5D=CTRL&skey11%5B%5D=ALT&skeyValue11=n&Window11=-+Notepad++&Program11=notepad++.exe&option11=ActivateOrOpen&comment12=&func12=KEY&skey12%5B%5D=CTRL&skey12%5B%5D=ALT&skeyValue12=i&Window12=-+Google+Chrome&Program12=chrome.exe&option12=ActivateOrOpen&comment13=&func13=KEY&skey13%5B%5D=CTRL&skey13%5B%5D=ALT&skeyValue13=g&Code13=%0D%0A%09Send%2C+%5Ec%0D%0A%09Sleep+50%0D%0A%09Run%2C+http%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3D%25clipboard%25%0D%0A%09Return&option13=Custom&comment14=&func14=KEY&skey14%5B%5D=CTRL&skey14%5B%5D=ALT&skeyValue14=l&Window14=ahk_exe+LabVIEW+NXG.exe&Program14=%25temp%25%5CLabVIEW%5CLabVIEW.exe&option14=ActivateOrOpen&comment15=&func15=KEY&skey15%5B%5D=WIN&skeyValue15=m&Code15=%0D%0A++++Send+%21%7BSpace%7D%0D%0A++++Send+n%0D%0A++++return%0D%0A&option15=Custom'
+            ));
+
+            expect(result).toMatchSnapshot();
+        });
+        it('parses example URL correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?indexes=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13&comment0=&func0=STRING&skeyValue0=%3Bimplies&input0=0x2192&option0=SendUnicodeChar&comment1=&func1=STRING&skeyValue1=%3Bdegree&input1=0x00b0&option1=SendUnicodeChar&comment2=&func2=STRING&skeyValue2=%3Bcheck&input2=0x2713&option2=SendUnicodeChar&comment3=&func3=STRING&skeyValue3=%3Bfrown&input3=0x2639&option3=SendUnicodeChar&comment4=&func4=STRING&skeyValue4=%3Bsmile&input4=0x263A&option4=SendUnicodeChar&comment5=&func5=STRING&skeyValue5=%3Btheta&input5=0x03B8&option5=SendUnicodeChar&comment6=&func6=STRING&skeyValue6=%3Bpi&input6=0x03C0&option6=SendUnicodeChar&comment7=&func7=STRING&skeyValue7=%3Bcents&input7=0x00A2&option7=SendUnicodeChar&comment8=&func8=STRING&skeyValue8=%3Bdict&Window8=dictionary.com&Program8=http%3A%2F%2Fdictionary.reference.com%2F&option8=ActivateOrOpenChrome&comment9=&func9=KEY&skey9%5B%5D=CTRL&skey9%5B%5D=ALT&skeyValue9=p&Window9=ahk_exe+putty.exe&Program9=C%3A%5CProgram+Files+%28x86%29%5CPuTTY%5Cputty.exe&option9=ActivateOrOpen&comment10=&func10=KEY&skey10%5B%5D=CTRL&skey10%5B%5D=ALT&skeyValue10=c&Window10=ahk_exe+cmd.exe&Program10=cmd&option10=ActivateOrOpen&comment11=&func11=KEY&skey11%5B%5D=CTRL&skey11%5B%5D=ALT&skeyValue11=n&Window11=-+Notepad++&Program11=notepad++.exe&option11=ActivateOrOpen&comment12=&func12=KEY&skey12%5B%5D=CTRL&skey12%5B%5D=ALT&skeyValue12=i&Window12=-+Google+Chrome&Program12=chrome.exe&option12=ActivateOrOpen&comment13=&func13=KEY&skey13%5B%5D=CTRL&skey13%5B%5D=ALT&skeyValue13=g&Code13=%0D%0A%09Send%2C+%5Ec%0D%0A%09Sleep+50%0D%0A%09Run%2C+http%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3D%25clipboard%25%0D%0A%09Return&option13=Custom&comment14=&func14=KEY&skey14%5B%5D=CTRL&skey14%5B%5D=ALT&skeyValue14=l&Window14=ahk_exe+LabVIEW+NXG.exe&Program14=%25temp%25%5CLabVIEW%5CLabVIEW.exe&option14=ActivateOrOpen&comment15=&func15=KEY&skey15%5B%5D=WIN&skeyValue15=m&Code15=%0D%0A++++Send+%21%7BSpace%7D%0D%0A++++Send+n%0D%0A++++return%0D%0A&option15=Custom'
+            ));
+
+            expect(result).toMatchSnapshot();
+        });
+        // it('parses example URL correctly', () => {
+        //     const result = ahk_js
+        //     ._parse_get(ahk_js._load_get(
+        //         ''
+        //     ));
+
+        //     expect(result).toMatchSnapshot();
+        // });
+    })
 })
