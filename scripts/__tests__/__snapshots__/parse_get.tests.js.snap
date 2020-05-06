@@ -86,11 +86,10 @@ Object {
 exports[`_parse_get takes a basic config and returns expected:: parses a Send Unicode Char correctly 2`] = `
 Object {
   "0": Object {
-    "Program": "pandora.com",
-    "Window": "pandora",
     "func": "KEY",
+    "input": "0x00A2",
     "modifiers[]": Array [],
-    "option": "ActivateOrOpenChrome",
+    "option": "SendUnicodeChar",
     "skeyValue": "b",
   },
 }
@@ -342,6 +341,32 @@ Object {
     "modifiers[]": Array [],
     "option": "ActivateOrOpen",
     "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an ActivateOrOpenChrome correctly 1`] = `
+Object {
+  "0": Object {
+    "Program": "pandora.com",
+    "Window": "pandora",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an ActivateOrOpenChrome correctly 2`] = `
+Object {
+  "0": Object {
+    "Program": "pandora.com",
+    "Window": "pandora",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": "b",
   },
 }
 `;

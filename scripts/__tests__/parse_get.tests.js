@@ -217,27 +217,27 @@ describe('_parse_get', () => {
                 ))
             expect(result).toMatchSnapshot();
         });
-        // it('parses a Send Unicode Char correctly', () => {
-        //     const result = ahk_js
-        //     ._parse_get(ahk_js._load_get(
-        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&input0=0x00A2&option0=SendUnicodeChar'
-        //     ))
-        //     expect(result).toMatchSnapshot();
-        // });
         it('parses a Send Unicode Char correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&input0=0x00A2&option0=SendUnicodeChar'
+            ))
+            expect(result).toMatchSnapshot();
+        });
+        it('parses an ActivateOrOpenChrome correctly', () => {
             const result = ahk_js
                 ._parse_get(ahk_js._load_get(
                     'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&Window0=pandora&Program0=pandora.com&option0=ActivateOrOpenChrome'
                 ))
             expect(result).toMatchSnapshot();
         });
-        // it('parses a Send Unicode Char correctly', () => {
-        //     const result = ahk_js
-        //     ._parse_get(ahk_js._load_get(
-        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Window0=pandora&Program0=pandora.com&option0=ActivateOrOpenChrome'
-        //     ))
-        //     expect(result).toMatchSnapshot();
-        // });
+        it('parses an ActivateOrOpenChrome correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Window0=pandora&Program0=pandora.com&option0=ActivateOrOpenChrome'
+            ))
+            expect(result).toMatchSnapshot();
+        });
         it('parses an OpenConfig correctly', () => {
             const result = ahk_js
                 ._parse_get(ahk_js._load_get(
