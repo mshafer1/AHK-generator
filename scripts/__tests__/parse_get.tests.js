@@ -245,13 +245,13 @@ describe('_parse_get', () => {
                 ))
             expect(result).toMatchSnapshot();
         });
-        // it('parses an OpenConfig correctly', () => {
-        //     const result = ahk_js
-        //     ._parse_get(ahk_js._load_get(
-        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&option0=OpenConfig'
-        //     ))
-        //     expect(result).toMatchSnapshot();
-        // });
+        it('parses an OpenConfig correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&option0=OpenConfig'
+            ))
+            expect(result).toMatchSnapshot();
+        });
         it('parses a Custom correctly', () => {
             const result = ahk_js
                 ._parse_get(ahk_js._load_get(
@@ -259,12 +259,12 @@ describe('_parse_get', () => {
                 ))
             expect(result).toMatchSnapshot();
         });
-        // it('parses a Custom correctly', () => {
-        //     const result = ahk_js
-        //     ._parse_get(ahk_js._load_get(
-        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Code0=send%2C+a&option0=Custom'
-        //     ))
-        //     expect(result).toMatchSnapshot();
-        // });
+        it('parses a Custom correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Code0=send%2C+a&option0=Custom'
+            ))
+            expect(result).toMatchSnapshot();
+        });
     })
 })

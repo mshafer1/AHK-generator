@@ -71,6 +71,18 @@ Object {
 }
 `;
 
+exports[`_parse_get takes a basic config and returns expected:: parses a Custom correctly 2`] = `
+Object {
+  "0": Object {
+    "Code": "send, a",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "Custom",
+    "skeyValue": "b",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: parses a Send Unicode Char correctly 1`] = `
 Object {
   "0": Object {
@@ -372,6 +384,17 @@ Object {
 `;
 
 exports[`_parse_get takes a basic config and returns expected:: parses an OpenConfig correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "OpenConfig",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an OpenConfig correctly 2`] = `
 Object {
   "0": Object {
     "func": "KEY",
