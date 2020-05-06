@@ -22,7 +22,32 @@ Object {
 }
 `;
 
+exports[`_load_get takes no issue with an indexes query 1`] = `
+Object {
+  "comment0": "",
+  "func0": "KEY",
+  "indexes[]": Array [
+    "1",
+  ],
+  "input0": "b",
+  "option0": "Send",
+  "skeyValue0": "a",
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 2`] = `
 Object {
   "0": Object {
     "func": "KEY",
@@ -83,7 +108,31 @@ Object {
 }
 `;
 
+exports[`_parse_get takes a basic config and returns expected:: parses a basic replace correctly 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Replace",
+    "skeyValue": "a",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: parses a basic send value correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a basic send value correctly 2`] = `
 Object {
   "0": Object {
     "func": "KEY",
@@ -203,6 +252,14 @@ Object {
     "modifiers[]": Array [],
     "option": "OpenConfig",
     "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: return an error for a missing index 1`] = `
+Object {
+  "ERROR": Object {
+    "ERROR": "Missing crucial values. Must have each of func1,option1,skeyValue1",
   },
 }
 `;

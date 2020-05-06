@@ -169,43 +169,43 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
 
 function _load_get(location) {
     var result = {}
-    if (location.indexOf('?') !== -1) {
-        var query = location
-            // get the query string
-            .replace(/^.*?\?/, '')
-            // and remove any existing hash string (thanks, @vrijdenker)
-            .replace(/#.*$/, '')
-            .replace(new RegExp(escapeRegExp('+'), 'g'), ' ')
-            .split('&');
+    if (location.indexOf('?') == -1) {
+        return result;
+    }
+    var query = location
+        // get the query string
+        .replace(/^.*?\?/, '')
+        // and remove any existing hash string (thanks, @vrijdenker)
+        .replace(/#.*$/, '')
+        .replace(new RegExp(escapeRegExp('+'), 'g'), ' ')
+        .split('&');
 
-        for (var i = 0, l = query.length; i < l; i++) {
-            aux = decodeURIComponent(query[i])
-            //console.log(aux)
-            key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
-            //console.log(key)
-            value = aux.replace(key + "=", "")
-            //console.log(value)
-            if (key in result) {
-                if (result[key].constructor === Array) {
-                    result[key].push(value)
-                } else {
-                    result[key] = [result[key], value]
-                }
+    for (var i = 0, l = query.length; i < l; i++) {
+        aux = decodeURIComponent(query[i])
+        //console.log(aux)
+        key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
+        //console.log(key)
+        value = aux.replace(key + "=", "")
+        //console.log(value)
+        if (key in result) {
+            if (result[key].constructor === Array) {
+                result[key].push(value)
             } else {
-                if (key.includes('[]')) {
-                    //console.log("Array detected")
-                    result[key] = [];
-                    result[key].push(value)
-                } else {
-                    result[key] = value;
-                }
-                //console.log(key + ":" + result[key])
-                //console.log();
+                result[key] = [result[key], value]
             }
-            _debug_log(key + ":" + result[key])
-            _debug_log();
+        } else {
+            if (key.includes('[]')) {
+                //console.log("Array detected")
+                result[key] = [];
+                result[key].push(value)
+            } else {
+                result[key] = value;
+            }
+            //console.log(key + ":" + result[key])
+            //console.log();
         }
     }
+
     return result;
 }
 
@@ -224,10 +224,9 @@ function _handle_segment(get_arr, k) {
     const has_key = (key) => key in get_arr;
     const not_has_key = (key) => (!(key in get_arr));
     // if any missing, report error
-    if(expected_keys.some(not_has_key)) {
-        return [false, {"ERROR": `Missing crucial values. Must have each of ${expected_keys}`}];
+    if (expected_keys.some(not_has_key)) {
+        return [false, { "ERROR": `Missing crucial values. Must have each of ${expected_keys}` }];
     }
-
 
     var result = {
         'func': get_arr['func' + k],
@@ -279,8 +278,8 @@ function _handle_length(get_arr) {
     var result = {}
     var num_keys = get_arr['length'];
     if (num_keys * 4 > Object.keys(get_arr).length) {
-        console.log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
-        console.log(get_arr)
+        // console.log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
+        // console.log(get_arr)
         // error, display warning and leave
         result['ERROR'] = `Insufficient data, expecting at least ${num_keys * 4} values. Got (${get_arr})`
         return result;
@@ -290,7 +289,7 @@ function _handle_length(get_arr) {
             continue;
         }
         _part = _handle_segment(get_arr, k);
-        console.debug(_part)
+        // console.debug(_part)
         if (!_part[0]) {
             result['ERROR'] = _part[1];
             break;
@@ -299,6 +298,24 @@ function _handle_length(get_arr) {
         result[i] = _part[1];
 
         i++
+    }
+    return result;
+}
+
+function _handle_indexes(get_arr) {
+    var result = {}
+    var indexes = get_arr['indexes[]'];
+    console.debug("Indexes: ", indexes);
+    for (var i = 0; i < indexes.length; i++) {
+        var index = indexes[i];
+        var _parts = _handle_segment(get_arr, index);
+        console.log("try_handle: ", _parts)
+        if (!(_parts[0])) {
+            result['ERROR'] = _parts[1];
+            break;
+        }
+
+        result[i] = _parts[1];
     }
     return result;
 }
@@ -316,6 +333,9 @@ function _parse_get(get_arr) {
 
     if ('length' in get_arr) {
         return _handle_length(get_arr);
+    }
+    else if ('indexes[]' in get_arr) {
+        return _handle_indexes(get_arr);
     }
     else {
         result['ERROR'] = `Do not know how to handle ${get_arr}`
