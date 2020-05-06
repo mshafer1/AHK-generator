@@ -308,13 +308,29 @@ describe('_parse_get', () => {
 
             expect(result).toMatchSnapshot();
         });
-        // it('parses example URL correctly', () => {
-        //     const result = ahk_js
-        //     ._parse_get(ahk_js._load_get(
-        //         ''
-        //     ));
+        it('parses example URL correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=F3&Code0=%0D%0A%09next+%3D+GetNextProgram%28%29%3B%0D%0A%09get_exe_name+%3D+GetExe%28next%29%3B%0D%0A%09MsgBox%2C+Next+Program%3A+%25next%25%60nExe%3A+%25get_exe_name%25%0D%0A%09ActivateOrOpen%28next%2C+get_exe_name%29%3B%0D%0A%09return%3B%0D%0A%0D%0AGetNextProgram%28%29%0D%0A%7B%0D%0A%09if+WinActive%28%22ahk_class+MozillaWindowClass%22%29%0D%0A%09%7B%0D%0A%09%09return+%22ahk_exe+excel.exe%22%3B%0D%0A%09%7D%0D%0A%09if+WinActive%28%22ahk_exe+excel.exe%22%29%0D%0A%09%7B%0D%0A%09%09return+%22ahk_exe+outlook.exe%22%3B%0D%0A%09%7D%0D%0A%09if+WinActive%28%22ahk_exe+sage%22%29%0D%0A%09%7B%0D%0A%09%09return+%22ahk_class+MozillaWindowClass%22%29%3B%0D%0A%09%7D%0D%0A%7D%0D%0AGetExe%28program%29%0D%0A%7B%0D%0A%09if+%28program+%3D+%22ahk_exe+excel.exe%22%29%0D%0A%09%7B%0D%0A%09%09return+%22excel.exe%22%3B%0D%0A%09%7D%0D%0A%09if+program+%3D+%22ahk_exe+outlook.exe%22%29%0D%0A%09%7B%0D%0A%09%09return+%22outlook.exe%22%3B%0D%0A%09%7D%0D%0A%09if+program+%3D+%22ahk_class+MozillaWindowClass%22%29%0D%0A%09%7B%0D%0A%09%09return+%22Mozilla.exe%22%29%3B%0D%0A%09%7D%0D%0A%7D&option0=Custom'
+            ));
 
-        //     expect(result).toMatchSnapshot();
-        // });
+            expect(result).toMatchSnapshot();
+        });
+        it('parses example URL correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                `ahkgen.com/?length=2&comment0=CTRL+++ALT+++M+%3D+main.vi+%28if+open%29&func0=KEY&skey0%5B%5D=CTRL&skey0%5B%5D=ALT&skeyValue0=m&Code0=%0D%0A++if+WinExist%28%22Robot+Main.vi%22%29%0D%0A++%7B%0D%0A++++WinActivate++%3B+Uses+the+last+found+window.+%0D%0A++%7D%0D%0A++return&option0=Custom&comment1=CTRL+++ALT+++D+%3D+Driver+Station&func1=KEY&skey1%5B%5D=CTRL&skey1%5B%5D=ALT&skeyValue1=d&Window1=ahk_exe+DriverStation.exe&Program1=C%3A%5CProgram+Files+%28x86%29%5CFRC+Driver+Station%5CDriverstation.exe&option1=ActivateOrOpen`
+            ));
+
+            expect(result).toMatchSnapshot();
+        });
+        it('parses example URL correctly', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=Space&input0=r&option0=Send'
+            ));
+
+            expect(result).toMatchSnapshot();
+        });
     })
 })

@@ -323,6 +323,99 @@ Object {
 }
 `;
 
+exports[`_parse_get Handles old query urls as well parses example URL correctly 3`] = `
+Object {
+  "0": Object {
+    "Code": "
+	next = GetNextProgram();
+	get_exe_name = GetExe(next);
+	MsgBox, Next Program: %next%\`nExe: %get_exe_name%
+	ActivateOrOpen(next, get_exe_name);
+	return;
+
+GetNextProgram()
+{
+	if WinActive(\\"ahk_class MozillaWindowClass\\")
+	{
+		return \\"ahk_exe excel.exe\\";
+	}
+	if WinActive(\\"ahk_exe excel.exe\\")
+	{
+		return \\"ahk_exe outlook.exe\\";
+	}
+	if WinActive(\\"ahk_exe sage\\")
+	{
+		return \\"ahk_class MozillaWindowClass\\");
+	}
+}
+GetExe(program)
+{
+	if (program = \\"ahk_exe excel.exe\\")
+	{
+		return \\"excel.exe\\";
+	}
+	if program = \\"ahk_exe outlook.exe\\")
+	{
+		return \\"outlook.exe\\";
+	}
+	if program = \\"ahk_class MozillaWindowClass\\")
+	{
+		return \\"Mozilla.exe\\");
+	}
+}",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "Custom",
+    "skeyValue": "F3",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 4`] = `
+Object {
+  "0": Object {
+    "Code": "
+  if WinExist(\\"Robot Main.vi\\")
+  {
+    WinActivate  ; Uses the last found window. 
+  }
+  return",
+    "comment": "CTRL   ALT   M = main.vi (if open)",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Custom",
+    "skeyValue": "m",
+  },
+  "1": Object {
+    "Program": "C:\\\\Program Files (x86)\\\\FRC Driver Station\\\\Driverstation.exe",
+    "Window": "ahk_exe DriverStation.exe",
+    "comment": "CTRL   ALT   D = Driver Station",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "d",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 5`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "r",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "Space",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 1`] = `
 Object {
   "0": Object {
