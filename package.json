@@ -1,5 +1,16 @@
 {
     "scripts": {
-        "coveralls": "jest --coverage | coveralls"
+        "coveralls": "jest --coverage | coveralls",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "coveralls": "^3.1.0",
+        "jest": "^26.0.1"
+    },
+    "jest": {
+        "collectCoverage": true,
+        "coverageReporters": [
+            "coveralls"
+        ]
     }
 }
