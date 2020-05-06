@@ -159,7 +159,39 @@ Object {
 }
 `;
 
+exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt, shift, win) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+      "SHIFT",
+      "ALT",
+      "WIN",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt, shift, win) 2`] = `
 Object {
   "0": Object {
     "func": "KEY",
@@ -190,7 +222,35 @@ Object {
 }
 `;
 
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (alt) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (ctrl) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (ctrl) 2`] = `
 Object {
   "0": Object {
     "func": "KEY",
@@ -218,6 +278,20 @@ Object {
 }
 `;
 
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (shift) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "SHIFT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (win) 1`] = `
 Object {
   "0": Object {
@@ -232,7 +306,34 @@ Object {
 }
 `;
 
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (win) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "WIN",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: parses an Activate Or Open correctly 1`] = `
+Object {
+  "0": Object {
+    "Program": "chrome.exe",
+    "Window": "ahk_exe chrome.exe",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "ActivateOrOpen",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an Activate Or Open correctly 2`] = `
 Object {
   "0": Object {
     "Program": "chrome.exe",

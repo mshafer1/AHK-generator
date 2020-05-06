@@ -4,7 +4,7 @@ describe('_load_get', () => {
     var empty = {};
     it('returns empty for empty query', () => {
         expect(ahk_js._load_get('ahkgen.com/'))
-        .toEqual(empty);
+            .toEqual(empty);
     });
 
     it('takes values into object', () => {
@@ -45,7 +45,7 @@ describe('_load_get', () => {
             'ahkgen.com/?indexes%5B%5D=1&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
         );
         expect(result).toMatchSnapshot();
-})
+    })
 })
 
 
@@ -72,37 +72,37 @@ describe('_parse_get', () => {
         })
         it('packs values down to lowest index', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment5=&func5=KEY&skeyValue5=a&input5=b&option5=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment5=&func5=KEY&skeyValue5=a&input5=b&option5=Send'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('packs values down to lowest index', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
+                ._parse_get(ahk_js._load_get(
                     'ahkgen.com/?indexes%5B%5D=5&comment5=&func5=KEY&skeyValue5=a&input5=b&option5=Send'
-            ))
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a basic send value correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
+                ))
             expect(result).toMatchSnapshot();
         })
         it('parses a basic send value correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
+                ._parse_get(ahk_js._load_get(
                     'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ))
             expect(result).toMatchSnapshot();
         })
         it('parses a basic replace correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Replace'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Replace'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a basic replace correctly', () => {
@@ -114,9 +114,9 @@ describe('_parse_get', () => {
         });
         it('parses a modifier keys correctly (ctrl)', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=CTRL&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=CTRL&skeyValue0=a&input0=b&option0=Send'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a modifier keys correctly (ctrl)', () => {
@@ -128,9 +128,9 @@ describe('_parse_get', () => {
         });
         it('parses a modifier keys correctly (alt)', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=ALT&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=ALT&skeyValue0=a&input0=b&option0=Send'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a modifier keys correctly (alt)', () => {
@@ -142,9 +142,9 @@ describe('_parse_get', () => {
         });
         it('parses a modifier keys correctly (shift)', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=SHIFT&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=SHIFT&skeyValue0=a&input0=b&option0=Send'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a modifier keys correctly (shift)', () => {
@@ -156,9 +156,9 @@ describe('_parse_get', () => {
         });
         it('parses a modifier keys correctly (win)', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=WIN&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=WIN&skeyValue0=a&input0=b&option0=Send'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a modifier keys correctly (win)', () => {
@@ -170,9 +170,9 @@ describe('_parse_get', () => {
         });
         it('parses a group modifier keys correctly (ctrl, alt)', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=CTRL&skey0%5B%5D=ALT&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=CTRL&skey0%5B%5D=ALT&skeyValue0=a&input0=b&option0=Send'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a group modifier keys correctly (ctrl, alt)', () => {
@@ -184,9 +184,9 @@ describe('_parse_get', () => {
         });
         it('parses a group modifier keys correctly (ctrl, alt, shift, win)', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=CTRL&skey0%5B%5D=SHIFT&skey0%5B%5D=ALT&skey0%5B%5D=WIN&skeyValue0=a&input0=b&option0=Send'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skey0%5B%5D=CTRL&skey0%5B%5D=SHIFT&skey0%5B%5D=ALT&skey0%5B%5D=WIN&skeyValue0=a&input0=b&option0=Send'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses a group modifier keys correctly (ctrl, alt, shift, win)', () => {
@@ -198,9 +198,9 @@ describe('_parse_get', () => {
         });
         it('parses an Activate Or Open correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=a&Window0=ahk_exe+chrome.exe&Program0=chrome.exe&option0=ActivateOrOpen'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=a&Window0=ahk_exe+chrome.exe&Program0=chrome.exe&option0=ActivateOrOpen'
+                ))
             expect(result).toMatchSnapshot();
         });
         it('parses an Activate Or Open correctly', () => {
@@ -212,59 +212,59 @@ describe('_parse_get', () => {
         });
         it('parses a Send Unicode Char correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&input0=0x00A2&option0=SendUnicodeChar'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&input0=0x00A2&option0=SendUnicodeChar'
+                ))
             expect(result).toMatchSnapshot();
         });
+        // it('parses a Send Unicode Char correctly', () => {
+        //     const result = ahk_js
+        //     ._parse_get(ahk_js._load_get(
+        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&input0=0x00A2&option0=SendUnicodeChar'
+        //     ))
+        //     expect(result).toMatchSnapshot();
+        // });
         it('parses a Send Unicode Char correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&input0=0x00A2&option0=SendUnicodeChar'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&Window0=pandora&Program0=pandora.com&option0=ActivateOrOpenChrome'
+                ))
             expect(result).toMatchSnapshot();
         });
-        it('parses a Send Unicode Char correctly', () => {
-            const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&Window0=pandora&Program0=pandora.com&option0=ActivateOrOpenChrome'
-            ))
-            expect(result).toMatchSnapshot();
-        });
-        it('parses a Send Unicode Char correctly', () => {
-            const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Window0=pandora&Program0=pandora.com&option0=ActivateOrOpenChrome'
-            ))
-            expect(result).toMatchSnapshot();
-        });
+        // it('parses a Send Unicode Char correctly', () => {
+        //     const result = ahk_js
+        //     ._parse_get(ahk_js._load_get(
+        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Window0=pandora&Program0=pandora.com&option0=ActivateOrOpenChrome'
+        //     ))
+        //     expect(result).toMatchSnapshot();
+        // });
         it('parses an OpenConfig correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&option0=OpenConfig'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&option0=OpenConfig'
+                ))
             expect(result).toMatchSnapshot();
         });
-        it('parses an OpenConfig correctly', () => {
-            const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&option0=OpenConfig'
-            ))
-            expect(result).toMatchSnapshot();
-        });
+        // it('parses an OpenConfig correctly', () => {
+        //     const result = ahk_js
+        //     ._parse_get(ahk_js._load_get(
+        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&option0=OpenConfig'
+        //     ))
+        //     expect(result).toMatchSnapshot();
+        // });
         it('parses a Custom correctly', () => {
             const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&Code0=send%2C+a&option0=Custom'
-            ))
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?length=1&comment0=&func0=KEY&skeyValue0=b&Code0=send%2C+a&option0=Custom'
+                ))
             expect(result).toMatchSnapshot();
         });
-        it('parses a Custom correctly', () => {
-            const result = ahk_js
-            ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Code0=send%2C+a&option0=Custom'
-            ))
-            expect(result).toMatchSnapshot();
-        });
+        // it('parses a Custom correctly', () => {
+        //     const result = ahk_js
+        //     ._parse_get(ahk_js._load_get(
+        //         'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=b&Code0=send%2C+a&option0=Custom'
+        //     ))
+        //     expect(result).toMatchSnapshot();
+        // });
     })
 })
