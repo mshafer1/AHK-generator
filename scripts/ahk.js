@@ -304,7 +304,7 @@ function _handle_length(get_arr) {
 
 function _handle_indexes(get_arr) {
     var result = {}
-    var indexes = get_arr['indexes[]'];
+    var indexes = get_arr['indexes'].split(',');
     console.debug("Indexes: ", indexes);
     for (var i = 0; i < indexes.length; i++) {
         var index = indexes[i];
@@ -326,16 +326,16 @@ function _parse_get(get_arr) {
         return result;
     }
 
-    if (!('length' in get_arr) && !('indexes[]' in get_arr)) {
+    if (!('length' in get_arr) && !('indexes' in get_arr)) {
         result['ERROR'] = `Missing 'indexes' parameter`
         return result;
     }
 
-    if ('length' in get_arr) {
-        return _handle_length(get_arr);
-    }
-    else if ('indexes[]' in get_arr) {
+    if ('indexes' in get_arr) {
         return _handle_indexes(get_arr);
+    }
+    else if ('length' in get_arr) {
+        return _handle_length(get_arr);
     }
     else {
         result['ERROR'] = `Do not know how to handle ${get_arr}`

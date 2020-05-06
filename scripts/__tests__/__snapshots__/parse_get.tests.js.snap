@@ -26,12 +26,31 @@ exports[`_load_get takes no issue with an indexes query 1`] = `
 Object {
   "comment0": "",
   "func0": "KEY",
-  "indexes[]": Array [
-    "1",
-  ],
+  "indexes": "1",
   "input0": "b",
   "option0": "Send",
   "skeyValue0": "a",
+}
+`;
+
+exports[`_parse_get Handles indexes correctly get desired indexes in order 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "a",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "b",
+  },
+  "1": Object {
+    "func": "STRING",
+    "input": "this is a test",
+    "option": "Replace",
+    "skeyValue": "\`;test",
+  },
 }
 `;
 
