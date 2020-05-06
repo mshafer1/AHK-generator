@@ -9,22 +9,22 @@ describe('_load_get', () => {
 
     it('takes values into object', () => {
         expect(ahk_js._load_get('ahkgen.com/?length=0'))
-        .toEqual({'length': "0"});
+            .toEqual({ 'length': "0" });
     });
 
-    it('takes array values into array', () =>{
+    it('takes array values into array', () => {
         expect(ahk_js._load_get('ahkgen.com/?skey0%5B%5D=CTRL&skey0%5B%5D=ALT'))
-        .toEqual({'skey0[]': ['CTRL', 'ALT']})
+            .toEqual({ 'skey0[]': ['CTRL', 'ALT'] })
     });
 
-    it('takes index array and turns into array', () =>{
+    it('takes index array and turns into array', () => {
         expect(ahk_js._load_get('ahkgen.com/?indexes%5B%5D=0'))
-        .toEqual({'indexes[]': ['0']})
+            .toEqual({ 'indexes[]': ['0'] })
     });
 
-    it('takes duplicate values into array', () =>{
+    it('takes duplicate values into array', () => {
         expect(ahk_js._load_get('ahkgen.com/?skey0=CTRL&skey0=ALT'))
-        .toEqual({'skey0': ['CTRL', 'ALT']})
+            .toEqual({ 'skey0': ['CTRL', 'ALT'] })
     });
 
     it('takes a basic query and returns expected data', () => {
@@ -47,12 +47,12 @@ describe('_parse_get', () => {
         expect(ahk_js._parse_get({})).toEqual(empty)
     });
 
-    describe('takes a basic config and returns expected::', ()=> {
+    describe('takes a basic config and returns expected::', () => {
         it('returns promptly if not enough data is passed', () => {
-            expect(ahk_js._parse_get({'length': '5'})).toHaveProperty('ERROR');
+            expect(ahk_js._parse_get({ 'length': '5' })).toHaveProperty('ERROR');
         });
         it('returns an error if length is not provided', () => {
-            expect(ahk_js._parse_get({FOO:'bar'})).toHaveProperty('ERROR');
+            expect(ahk_js._parse_get({ FOO: 'bar' })).toHaveProperty('ERROR');
         });
         it('packs values down to lowest index', () => {
             const result = ahk_js
