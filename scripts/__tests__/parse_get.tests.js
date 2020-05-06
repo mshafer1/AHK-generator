@@ -38,6 +38,14 @@ describe('_load_get', () => {
             ._load_get('ahkgen.com/?length=1&comment5=&func5=KEY&skeyValue5=a&input5=b&option5=Replace');
         expect(result).toMatchSnapshot();
     });
+
+    it('takes no issue with an indexes query', () => {
+        const result = ahk_js
+        ._load_get(
+            'ahkgen.com/?indexes%5B%5D=1&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
+        );
+        expect(result).toMatchSnapshot();
+})
 })
 
 
@@ -54,6 +62,14 @@ describe('_parse_get', () => {
         it('returns an error if length is not provided', () => {
             expect(ahk_js._parse_get({ FOO: 'bar' })).toHaveProperty('ERROR');
         });
+        it('return an error for a missing index', () => {
+            const result = ahk_js
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?indexes%5B%5D=1&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
+                ))
+            expect(result).toHaveProperty('ERROR')
+            expect(result).toMatchSnapshot();
+        })
         it('packs values down to lowest index', () => {
             const result = ahk_js
             ._parse_get(ahk_js._load_get(
@@ -64,7 +80,7 @@ describe('_parse_get', () => {
         it('packs values down to lowest index', () => {
             const result = ahk_js
             ._parse_get(ahk_js._load_get(
-                'ahkgen.com/?indexes%5B%5D=0&comment5=&func5=KEY&skeyValue5=a&input5=b&option5=Send'
+                    'ahkgen.com/?indexes%5B%5D=5&comment5=&func5=KEY&skeyValue5=a&input5=b&option5=Send'
             ))
             expect(result).toMatchSnapshot();
         });
@@ -78,7 +94,7 @@ describe('_parse_get', () => {
         it('parses a basic send value correctly', () => {
             const result = ahk_js
             ._parse_get(ahk_js._load_get(
-                'ahkgen.com/indexes%5B%5D=01&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
+                    'ahkgen.com/?indexes%5B%5D=0&comment0=&func0=KEY&skeyValue0=a&input0=b&option0=Send'
             ))
             expect(result).toMatchSnapshot();
         })
