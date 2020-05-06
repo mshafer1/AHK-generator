@@ -30,8 +30,6 @@ try {
 var GET = {}
 var LOADED = false;
 var DEBUG_LOGGING_ENABLED = false;
-var EAGER_COMPILE_ENABLED = false;
-var DOWNLOAD_FILE_HEADER = 'data:text/plain;charset=utf-8,';
 
 // from https://stackoverflow.com/a/31221374/8100990
 if (!String.prototype.includes) {
@@ -41,7 +39,13 @@ if (!String.prototype.includes) {
     };
 }
 
+function _debug_log() {
+    if (!DEBUG_LOGGING_ENABLED) {
+        return; // NO-OP
+    }
 
+    console.debug(...arguments);
+}
 
 function init() {
     $('#hotkeyRegion').sortable({
@@ -55,107 +59,67 @@ function init() {
     _debug_log("Debug logging enabled");
     ready()
     load_get()
-    parse_get();
-    console.log("GET: ", GET)
-    console.log("CONFIG: ", CONFIG)
-    num_keys = Object.keys(CONFIG).length;
-    if (num_keys == 0) {
+    console.log(GET)
+    if (GET.length == 0) {
         _debug_log("New row")
         newRow()
         return;
     }
-    try {
-        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
-        parse_get();
-
-        //disable submit
-        $('#btnSubmit').disable(true);
-        $('#btnDownload').disable(false);
-
-        $.getScript("scripts/keygen.js", loaded)
-        // build form from GET
-        //console.log(GET)
-        //console.log(CONFIG)
-        num_keys = GET['length'];
-        //console.log(num_keys)
-        for (i = 0; i < num_keys; i++) {
-            newRow();
-            $('#func' + i + CONFIG[i]['func']).prop("checked", true)
-            //console.log(CONFIG[i]['func'])
-
-            if ('comment' in CONFIG[i]) {
-                $('#comment' + i).val(CONFIG[i]['comment'])
-            }
-
-            if (CONFIG[i]['func'] == 'KEY') {
-                setHotKey(i, true);
-
-                //console.log(CONFIG[i]['skeyValue'])
-                $('#skey' + i + 'key').val(CONFIG[i]['skeyValue'])
-                modifiers = CONFIG[i]['modifiers[]']
-                //console.log(modifiers)
-                modifiers.forEach(function (entry) {
-                    //console.log('#skey' + i + entry)
-                    $('#skey' + i + entry).prop("checked", true)
-                })
-            } else {
-                setHotString(i, true);
-                $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
-            }
+    ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
+    parse_get();
 
     //disable submit
     $('#btnSubmit').disable(true);
-    $('.js_download_btn').disable(false);
+    $('#btnDownload').disable(false);
 
     $.getScript("scripts/keygen.js", loaded)
     // build form from GET
     _debug_log("GET: ", GET)
     _debug_log("CONFIG: ", CONFIG)
-
-    console.log("Num Keys: ", num_keys)
+    num_keys = GET['length'];
+    _debug_log(num_keys)
     for (i = 0; i < num_keys; i++) {
         newRow();
-        setup_row(i, CONFIG);
-    }
-}
+        $('#func' + i + CONFIG[i]['func']).prop("checked", true)
+        _debug_log(CONFIG[i]['func'])
 
-function setup_row(i, config) {
-    $('#func' + i + config[i]['func']).attr("checked", true);
-    _debug_log(config[i]['func']);
-    if ('comment' in config[i]) {
-        $('#comment' + i).val(config[i]['comment']);
-    }
-    if (config[i]['func'] == 'KEY') {
-        setHotKey(i, true);
-        _debug_log(config[i]['skeyValue']);
-        $('#skey' + i + 'key').val(config[i]['skeyValue']);
-        modifiers = config[i]['modifiers[]'];
-        _debug_log(modifiers);
-        modifiers.forEach(function (entry) {
-            _debug_log('#skey' + i + entry);
-            $('#skey' + i + entry).prop("checked", true);
-        });
-    }
-    else {
-        setHotString(i, true);
-        $('#skey' + i + 'string').val(config[i]['skeyValue']);
-    }
-    option = config[i]['option'];
-    _debug_log(option);
-    select(option, i, true); // select drop down option
-    _debug_log(config[i]['option'], i);
-    if (option == 'Send' || option == 'Replace' || option == 'SendUnicodeChar') {
-        $('#input' + i).val(config[i]['input']);
-    }
-    else if (option == 'ActivateOrOpen' || option == 'ActivateOrOpenChrome') {
-        _debug_log('activate mode');
-        _debug_log(config[i]['Program']);
-        _debug_log(config[i]['Window']);
-        $('#window' + i).val(config[i]['Window']);
-        $('#program' + i).val(config[i]['Program']);
-    }
-    else if (option == 'Custom') {
-        $('#code' + i).val(config[i]['Code']);
+        if ('comment' in CONFIG[i]) {
+            $('#comment' + i).val(CONFIG[i]['comment'])
+        }
+
+        if (CONFIG[i]['func'] == 'KEY') {
+            setHotKey(i, true);
+
+            _debug_log(CONFIG[i]['skeyValue'])
+            $('#skey' + i + 'key').val(CONFIG[i]['skeyValue'])
+            modifiers = CONFIG[i]['modifiers[]']
+            _debug_log(modifiers)
+            modifiers.forEach(function (entry) {
+                _debug_log('#skey' + i + entry)
+                $('#skey' + i + entry).prop("checked", true)
+            })
+        } else {
+            setHotString(i, true);
+            $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
+        }
+
+        option = CONFIG[i]['option'];
+        _debug_log(option)
+        select(option, i, true) // select drop down option
+
+        _debug_log(CONFIG[i]['option'], i)
+        if (option == 'Send' || option == 'Replace' || option == 'SendUnicodeChar') {
+            $('#input' + i).val(CONFIG[i]['input'])
+        } else if (option == 'ActivateOrOpen' || option == 'ActivateOrOpenChrome') {
+            _debug_log('activate mode')
+            _debug_log(CONFIG[i]['Program'])
+            _debug_log(CONFIG[i]['Window'])
+
+            $('#window' + i).val(CONFIG[i]['Window'])
+            $('#program' + i).val(CONFIG[i]['Program'])
+        } else if (option == 'Custom') {
+            $('#code' + i).val(CONFIG[i]['Code'])
+        }
     }
 }
 
@@ -170,6 +134,7 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
 function _load_get(location) {
     var result = {}
     if (location.indexOf('?') == -1) {
+        _debug_log("No query string");
         return result;
     }
     var query = location
@@ -182,11 +147,11 @@ function _load_get(location) {
 
     for (var i = 0, l = query.length; i < l; i++) {
         aux = decodeURIComponent(query[i])
-        //console.log(aux)
+        _debug_log(aux)
         key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
-        //console.log(key)
+        _debug_log(key)
         value = aux.replace(key + "=", "")
-        //console.log(value)
+        _debug_log(value)
         if (key in result) {
             if (result[key].constructor === Array) {
                 result[key].push(value)
@@ -195,14 +160,14 @@ function _load_get(location) {
             }
         } else {
             if (key.includes('[]')) {
-                //console.log("Array detected")
+                _debug_log("Array detected")
                 result[key] = [];
                 result[key].push(value)
             } else {
                 result[key] = value;
             }
-            //console.log(key + ":" + result[key])
-            //console.log();
+            _debug_log(key + ":" + result[key])
+            _debug_log();
         }
     }
 
@@ -240,7 +205,7 @@ function _handle_segment(get_arr, k) {
             result['modifiers[]'] = get_arr['skey' + k + '[]']
         } else {
             result['modifiers[]'] = []
-            //console.log("empty list")
+            _debug_log("empty list")
         }
 
     } else {
@@ -266,9 +231,9 @@ function _handle_segment(get_arr, k) {
     }
 
     if ('comment' + k in get_arr && get_arr['comment' + k].length > 0) {
-        // console.log("Comment in " + i)
+        _debug_log("Comment in " + i)
         result['comment'] = get_arr['comment' + k]
-        // console.log(result)
+        _debug_log(result)
     }
 
     return [true, result];
@@ -278,18 +243,19 @@ function _handle_length(get_arr) {
     var result = {}
     var num_keys = get_arr['length'];
     if (num_keys * 4 > Object.keys(get_arr).length) {
-        // console.log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
-        // console.log(get_arr)
+        _debug_log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
+        _debug_log(get_arr)
         // error, display warning and leave
         result['ERROR'] = `Insufficient data, expecting at least ${num_keys * 4} values. Got (${get_arr})`
         return result;
     }
+    console.log("Number of keys: ", num_keys)
     for (i = 0, k = 0; i < get_arr['length']; k++) {
         if (!('func' + k in get_arr)) {
             continue;
         }
         _part = _handle_segment(get_arr, k);
-        // console.debug(_part)
+        _debug_log(_part)
         if (!_part[0]) {
             result['ERROR'] = _part[1];
             break;
@@ -305,7 +271,8 @@ function _handle_length(get_arr) {
 function _handle_indexes(get_arr) {
     var result = {}
     var indexes = get_arr['indexes'].split(',');
-    console.debug("Indexes: ", indexes);
+    console.log("Indexes: ", indexes)
+    _debug_log("Indexes: ", indexes);
     for (var i = 0; i < indexes.length; i++) {
         var index = indexes[i];
         var _parts = _handle_segment(get_arr, index);
@@ -317,6 +284,7 @@ function _handle_indexes(get_arr) {
 
         result[i] = _parts[1];
     }
+    result['length'] = Object.keys(result).length;
     return result;
 }
 
@@ -326,6 +294,10 @@ function _parse_get(get_arr) {
         return result;
     }
 
+    if ('DEBUG_LOG' in get_arr) {
+        DEBUG_LOGGING_ENABLED = true;
+    }
+    _debug_log("Debug Logging enabled");
     if (!('length' in get_arr) && !('indexes' in get_arr)) {
         result['ERROR'] = `Missing 'indexes' parameter`
         return result;
@@ -348,9 +320,9 @@ function parse_get() {
 
 function ready() {
     //newRow();
-    // console.log("Registering for check")
+    _debug_log("Registering for check")
     $('#hotkeyForm').submit(function () {
-        // console.log("Checking for submit")
+        _debug_log("Checking for submit")
         result = true;
         for (var i = 0; i < count; i++) {
             if ($('#option' + i).length == 0 && $('#function' + i).length > 0) {
