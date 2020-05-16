@@ -239,7 +239,7 @@ function _handle_segment(get_arr, k) {
     }
 
     if ('comment' + k in get_arr && get_arr['comment' + k].length > 0) {
-        _debug_log("Comment in " + i)
+        _debug_log("Comment in " + k)
         result['comment'] = get_arr['comment' + k]
         _debug_log(result)
     }
