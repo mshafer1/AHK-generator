@@ -45,7 +45,6 @@ Object {
     "option": "Send",
     "skeyValue": "b",
   },
-  "length": 1,
 }
 `;
 
@@ -67,7 +66,6 @@ Object {
     "option": "Replace",
     "skeyValue": "\`;test",
   },
-  "length": 2,
 }
 `;
 
@@ -82,7 +80,6 @@ Object {
     "option": "Send",
     "skeyValue": "Space",
   },
-  "length": 1,
 }
 `;
 
@@ -337,7 +334,6 @@ Object {
     "option": "ActivateOrOpen",
     "skeyValue": "c",
   },
-  "length": 13,
 }
 `;
 
@@ -455,7 +451,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -480,7 +475,6 @@ Object {
     "option": "Custom",
     "skeyValue": "b",
   },
-  "length": 1,
 }
 `;
 
@@ -505,7 +499,6 @@ Object {
     "option": "SendUnicodeChar",
     "skeyValue": "b",
   },
-  "length": 1,
 }
 `;
 
@@ -530,7 +523,6 @@ Object {
     "option": "Replace",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -555,7 +547,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -586,7 +577,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -621,7 +611,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -650,7 +639,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -679,7 +667,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -708,7 +695,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -737,7 +723,6 @@ Object {
     "option": "Send",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -764,7 +749,6 @@ Object {
     "option": "ActivateOrOpen",
     "skeyValue": "a",
   },
-  "length": 1,
 }
 `;
 
@@ -791,7 +775,6 @@ Object {
     "option": "ActivateOrOpenChrome",
     "skeyValue": "b",
   },
-  "length": 1,
 }
 `;
 
@@ -814,7 +797,6 @@ Object {
     "option": "OpenConfig",
     "skeyValue": "b",
   },
-  "length": 1,
 }
 `;
 
@@ -823,6 +805,5 @@ Object {
   "ERROR": Object {
     "ERROR": "Missing crucial values. Must have each of func1,option1,skeyValue1",
   },
-  "length": 1,
 }
 `;
