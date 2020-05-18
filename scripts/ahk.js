@@ -68,7 +68,12 @@ function init() {
         newRow()
         return;
     }
-    ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
+    try {
+        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
+    }
+    catch {
+        // pass - user must have blocked ga from loading
+    }
     
 
     //disable submit
