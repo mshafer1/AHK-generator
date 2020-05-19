@@ -5,7 +5,7 @@ var LOADED = false;
 
 // from https://stackoverflow.com/a/31221374/8100990
 if (!String.prototype.includes) {
-    String.prototype.includes = function() {
+    String.prototype.includes = function () {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
     };
@@ -13,7 +13,7 @@ if (!String.prototype.includes) {
 
 // Create Element.remove() function if not exist
 if (!('remove' in Element.prototype)) {
-    Element.prototype.remove = function() {
+    Element.prototype.remove = function () {
         if (this.parentNode) {
             this.parentNode.removeChild(this);
         }
@@ -25,7 +25,12 @@ function init() {
     load_get()
 
     if (GET.length > 0) {
-        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
+        try {
+            ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
+        }
+        catch {
+            // pass
+        }
         parse_get();
 
         //disable submit
@@ -33,15 +38,15 @@ function init() {
         $('#btnDownload').disable(false);
 
         $.getScript("scripts/keygen.js", loaded)
-            // build form from GET
-            //console.log(GET)
-            //console.log(CONFIG)
+        // build form from GET
+        //console.log(GET)
+        //console.log(CONFIG)
         num_keys = GET['length'];
         //console.log(num_keys)
         for (i = 0; i < num_keys; i++) {
             newRow();
             $('#func' + i + CONFIG[i]['func']).prop("checked", true)
-                //console.log(CONFIG[i]['func'])
+            //console.log(CONFIG[i]['func'])
 
             if ('comment' in CONFIG[i]) {
                 $('#comment' + i).val(CONFIG[i]['comment'])
@@ -53,8 +58,8 @@ function init() {
                 //console.log(CONFIG[i]['skeyValue'])
                 $('#skey' + i + 'key').val(CONFIG[i]['skeyValue'])
                 modifiers = CONFIG[i]['modifiers[]']
-                    //console.log(modifiers)
-                modifiers.forEach(function(entry) {
+                //console.log(modifiers)
+                modifiers.forEach(function (entry) {
                     //console.log('#skey' + i + entry)
                     $('#skey' + i + entry).prop("checked", true)
                 })
@@ -108,11 +113,11 @@ function load_get() { //originally from https:///stackoverflow.com/a/12049737
 
         for (var i = 0, l = query.length; i < l; i++) {
             aux = decodeURIComponent(query[i])
-                //console.log(aux)
+            //console.log(aux)
             key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
             //console.log(key)
             value = aux.replace(key + "=", "")
-                //console.log(value)
+            //console.log(value)
             if (key in GET) {
                 if (GET[key].constructor === Array) {
                     GET[key].push(value)
@@ -139,8 +144,7 @@ var CONFIG = {};
 function parse_get() {
     //CONFIG['length'] = GET['length']
     num_keys = GET['length'];
-    if (num_keys * 4 > Object.keys(GET).length)
-    {
+    if (num_keys * 4 > Object.keys(GET).length) {
         console.log("Num Keys: " + num_keys + "\n  Get.Length: " + GET.Length)
         console.log(GET)
         // error, display warning and leave
@@ -160,7 +164,7 @@ function parse_get() {
                     CONFIG[i]['modifiers[]'] = GET['skey' + k + '[]']
                 } else {
                     CONFIG[i]['modifiers[]'] = []
-                        //console.log("empty list")
+                    //console.log("empty list")
                 }
 
             } else {
@@ -188,7 +192,7 @@ function parse_get() {
             if ('comment' + k in GET && GET['comment' + k].length > 0) {
                 // console.log("Comment in " + i)
                 CONFIG[i]['comment'] = GET['comment' + k]
-                    // console.log(CONFIG)
+                // console.log(CONFIG)
             }
 
             i++
@@ -199,7 +203,7 @@ function parse_get() {
 function ready() {
     //newRow();
     // console.log("Registering for check")
-    $('#hotkeyForm').submit(function() {
+    $('#hotkeyForm').submit(function () {
         // console.log("Checking for submit")
         result = true;
         for (var i = 0; i < count; i++) {
@@ -214,7 +218,7 @@ function ready() {
     });
 
     //if clicking anywhere but on dropdown, close it.
-    $(document).bind('click', function(e) { //from http://stackoverflow.com/a/15098861
+    $(document).bind('click', function (e) { //from http://stackoverflow.com/a/15098861
         if ($(e.target).closest('.w3-dropdown-click').length === 0) {
             $(".w3-dropdown-content").removeClass("w3-show").removeClass("on-top"); //hide all - make sure none of the others are open
             $(".fa-caret-right").removeClass("fa-rotate-90");
@@ -228,7 +232,7 @@ function handleClick(ev) {
 }
 
 //from http://stackoverflow/a/20729945
-String.prototype.format = function() {
+String.prototype.format = function () {
     var str = this;
     for (var i = 0; i < arguments.length; i++) {
         var reg = new RegExp("\\{" + i + "\\}", "gm");
@@ -239,9 +243,9 @@ String.prototype.format = function() {
 
 //Disable function - from https://stackoverflow.com/a/16788240
 jQuery.fn.extend({
-    disable: function(state) {
+    disable: function (state) {
         console.log("disable " + state)
-        return this.each(function() {
+        return this.each(function () {
             var $this = $(this);
             if ($this.is('input, button, textarea, select'))
                 this.disabled = state;
@@ -280,23 +284,23 @@ function select(item, id, backend) {
 					"<input id="program{0}" type="text" name="Program{0}" placeholder="Program"  class="keyWidth"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="ActivateOrOpen" name="option{0}" id="option{0}"/>'.format(id))
 
-        $("#program" + id).click(function(event) {
+        $("#program" + id).click(function (event) {
             event.stopPropagation();
         });
-        $("#window" + id).click(function(event) {
+        $("#window" + id).click(function (event) {
             event.stopPropagation();
         });
     } else if (item == 'Send') {
         $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
 
-        $("#input" + id).click(function(event) {
+        $("#input" + id).click(function (event) {
             event.stopPropagation();
         });
     } else if (item == 'Replace') {
         $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
-        $("#input" + id).click(function(event) {
+        $("#input" + id).click(function (event) {
             event.stopPropagation();
         });
     } else if (item == 'ActivateOrOpenChrome') {
@@ -305,24 +309,24 @@ function select(item, id, backend) {
 					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth"  oninput="markDirty()" required/>")\
 					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
 
-        $("#program" + id).click(function(event) {
+        $("#program" + id).click(function (event) {
             event.stopPropagation();
         });
-        $("#window" + id).click(function(event) {
+        $("#window" + id).click(function (event) {
             event.stopPropagation();
         });
     } else if (item == 'Custom') {
         $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
 					<input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
 
-        $("#code" + id).click(function(event) {
+        $("#code" + id).click(function (event) {
             event.stopPropagation();
         });
     } else if (item == 'SendUnicodeChar') {
         $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth"  oninput="markDirty()" required/>)\
 					<input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
 
-        $("#input" + id).click(function(event) {
+        $("#input" + id).click(function (event) {
             event.stopPropagation();
         });
     } else if (item == 'OpenConfig') {
@@ -450,7 +454,7 @@ function loaded() {
     //console.log("seeting url")
     script = keygen(CONFIG)
     $('#downloadLink').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script))
-        //setTimeout(download, 500)
+    //setTimeout(download, 500)
     $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>')
     $('#skipToScript').removeClass("w3-hide");
     $('#scriptZone').removeClass("w3-hide");
