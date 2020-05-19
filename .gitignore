@@ -5,3 +5,5 @@ unittests/*.exe
 unittests/*.pyc
 _site/*
 _env/*
+node_modules
+coverage/*
