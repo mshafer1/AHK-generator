@@ -132,6 +132,7 @@ function init() {
 
     $('#hotkeyRegion').sortable({
         placeholder: 'placeholder',
+        handle: '.draggabble_handle',
         update: function( event, ui ) {markDirty()},
       });
 }
@@ -622,7 +623,7 @@ function setHotString(id, backend) {
 
 function newRow() {
     newDiv = `<div class="w3-container" style="display:relative">
-                <div style="width: 15px; display:inline-block; position:absolute; margin-top:15px; margin-left:8px;">
+                <div style="width: 15px; display:inline-block; position:absolute; margin-top:15px; margin-left:8px;" class="draggabble_handle">
                     <i class="fas fa-grip-vertical"></i>
                 </div>
                 <div style="display:inline-block position:abosolute; left:15px; right:0px; width:100%;">
