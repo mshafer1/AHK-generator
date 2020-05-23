@@ -76,7 +76,11 @@ body {
     }
 }
 
-.placeholder { height: 3.0em; line-height: 1.2em; border: 1px dashed black;}
+.placeholder {
+    height: 3em;
+    line-height: 1.2em;
+    border: 1px dashed black;
+}
 
 .draggabble_handle {
     cursor: -webkit-grab;
