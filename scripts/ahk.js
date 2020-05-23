@@ -585,25 +585,23 @@ function _register_done_typing(parent_identifier, id) {
 }
 
 function genHotkeyRegion(id) {
-    var _handle_change = (EAGER_COMPILE_ENABLED) ? '' : 'oninput="markDirty()"';
-    var _register_change = (EAGER_COMPILE_ENABLED) ? 'js_donetyping' : '';
     return `<div class="w3-row w3-col s6">
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>
+                    <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>
                 </div>
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label>
+                    <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label>
                 </div>
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>
+                    <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>
                 </div>
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>
+                    <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>
                 </div>
             </div>
             <div class="w3-row w3-col s6">
                 <div class="w3-col s12">
-                    <input type="text" placeholder="key" id="skey{0}key" ${ _handle_change} name="skeyValue{0}" class="keyWidth ${_register_change}"  autocomplete="off"  list="specialKeys" title="Set the key to hit (special keys are available for autocomplete" required/>
+                    <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" class="keyWidth"  oninput="markDirty()" autocomplete="off"  list="specialKeys" title="Set the key to hit (special keys are available for autocomplete" required/>
                 </div>
             </div>`.format(id);
 }
@@ -613,10 +611,9 @@ function setHotString(id, backend) {
     var _register_change = (EAGER_COMPILE_ENABLED) ? 'js_donetyping' : '';
 
     console.log("configuring #optionsShortcut" + id)
-    $('#optionsShortcut' + id).html(`<div class="w3-col s6">
-												<input type="text" id="skey${id}string" placeholder="string" name="skeyValue${id}" class="${_register_change}" ${_handle_change} required/>
-                                            </div>`)
-    _register_done_typing("#optionsShortcut" + id, id);
+    $('#optionsShortcut' + id).html('<div class="w3-col s6">
+												<input type="text" id="skey{0}string" placeholder="string" name="skeyValue{0}" onchange="markDirty()" required/>
+                                            </div>'.format(id))
     if (!backend) {
         markDirty()
     }
@@ -628,14 +625,14 @@ function newRow() {
                 <div class="w3-col l6 m12 s12">															
                         <div class="w3-row-padding">                                                    
                             <div class="w3-col m3 s6">                                                  
-                                <input type="text" placeholder="comment" name="comment${index}" id="comment${index}" class="fullWidth" oninput="markDirty()"/>                               \
-                            </div>															            \
-                            <div class="w3-col m2 s6">  												\
-                                <label title="Press a combination of buttons/keys to trigger an action"><input type="radio" id="func${index}KEY" name="func${index}" value="KEY" onclick="setHotKey(${index});" checked /> Hotkey</label>	 \
-                                <span class="w3-hide-small"><br/></span>                                \
-                                <label title="Type out a sequence to trigger an action"><input type="radio" id="func${index}STRING" name="func${index}" value="STRING" onclick="setHotString(\'${index}\');"> Hotstring</input></label>	 \
-                            </div>                                                                      \                                                                    \
-                            <div class="w3-col m7 s12 w3-right">                                        \
+                                <input type="text" placeholder="comment" name="comment${index}" id="comment${index}" class="fullWidth" oninput="markDirty()"/>
+                            </div>
+                            <div class="w3-col m2 s6">  
+                                <label title="Press a combination of buttons/keys to trigger an action"><input type="radio" id="func${index}KEY" name="func${index}" value="KEY" onclick="setHotKey(${index});" checked /> Hotkey</label>
+                                <span class="w3-hide-small"><br/></span>
+                                <label title="Type out a sequence to trigger an action"><input type="radio" id="func${index}STRING" name="func${index}" value="STRING" onclick="setHotString(\'${index}\');"> Hotstring</input></label>
+                            </div>
+                            <div class="w3-col m7 s12 w3-right">
                                 <div id="optionsShortcut${index}" class="w3-row">` + genHotkeyRegion(index) + `</div>
                             </div>
                         </div>
