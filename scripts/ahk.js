@@ -622,12 +622,12 @@ function setHotString(id, backend) {
 }
 
 function newRow() {
-    newDiv = `<div class="w3-container" style="display:relative">
+    newDiv = `<div class="w3-container" style="display:relative" id="shortcut${index}">
                 <div style="width: 15px; display:inline-block; position:absolute; margin-top:15px; margin-left:8px;" class="draggabble_handle">
                     <i class="fas fa-grip-vertical"></i>
                 </div>
                 <div style="display:inline-block position:abosolute; left:15px; right:0px; width:100%;">
-            <div class="w3-row-padding w3-padding-16" id="shortcut${index}">
+            <div class="w3-row-padding w3-padding-16">
                 <input type="hidden" value="${index}" class="js-index"/>
                 
                 <div class="w3-col l6 m12 s12">															
