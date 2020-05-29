@@ -30,6 +30,7 @@ try {
 var GET = {}
 var LOADED = false;
 var DEBUG_LOGGING_ENABLED = false;
+var DOWNLOAD_FILE_HEADER = 'data:text/plain;charset=utf-8,';
 
 // from https://stackoverflow.com/a/31221374/8100990
 if (!String.prototype.includes) {
@@ -71,14 +72,14 @@ function init() {
     try {
         ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Post', eventLabel: 'Post', eventValue: 1 });
     }
-    catch {
+    catch(_) {
         // pass - user must have blocked ga from loading
     }
     
 
     //disable submit
     $('#btnSubmit').disable(true);
-    $('#btnDownload').disable(false);
+    $('.js_download_btn').disable(false);
 
     $.getScript("scripts/keygen.js", loaded)
     // build form from GET
@@ -464,10 +465,8 @@ function select(item, id, backend) {
 
 function _mark_helper(dirty = true) {
     //disable download link
-    $('.js_download_btn').disable(dirty);
-    _out_of_date = (dirty) ? "Script out of date, submit to update to configuration changes" : "";
-    _generate = (dirty) ? "" : "Select to generate new script";
-    $('.js_download_btn').prop('title', _out_of_date);
+    $('.js_download_btn').disable(true);
+    $('.js_download_btn').prop('title', "Script out of date, submit to update to configuration changes");
 
     //indicate script is out of date as well
     if (dirty) {
@@ -670,13 +669,13 @@ function newRow() {
 function loaded() {
     _debug_log("seeting url")
     script = keygen(CONFIG)
-    $('#downloadLink').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script))
+    $('#downloadLink').attr('href',DOWNLOAD_FILE_HEADER +  encodeURIComponent(script))
     //setTimeout(download, 500)
     $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>')
     $('#skipToScript').removeClass("w3-hide");
     $('#scriptZone').removeClass("w3-hide");
     $('.js_download_btn').removeClass("w3-hide");
-    hljs.highlightBlock($('#scriptZone')[0]);
+    hljs.initHighlighting();
 }
 
 function scrollToCode() {
@@ -692,9 +691,28 @@ function scrollToTop() {
 }
 
 function download() {
-    _cancel_id = setTimeout(function () { alert("Uh, oh. It seems we can't download the file right now - you can still copy and paste it"); }, 800)
+    _cancel_id = setTimeout(function () {alert("Uh, oh. It seems we can't download the file right now - you can still copy and paste it");}, 800)
     console.log("downloading")
-    document.getElementById('downloadLink').click()
+    _download_link = document.getElementById('downloadLink');
+    if ('msSaveBlob' in window.navigator) {
+        var _header_len = DOWNLOAD_FILE_HEADER.length;
+        var _raw_file = decodeURI(_download_link.href.substring(_header_len));
+        var textFileAsBlob = new Blob([_raw_file], {
+            type: 'text/plain'
+          });
+        
+        window.navigator.msSaveBlob(textFileAsBlob, "hotkey.ahk");
+    } else {
+        _download_link.click()
+    }
+    
+    try {   
+        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Download', eventLabel: 'Download', eventValue: 1 });
+    } catch(error) {
+        // pass
+    }
+    // if we got here it succeeded??
+    clearTimeout(_cancel_id);
 }
 
 

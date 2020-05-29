@@ -27,9 +27,15 @@ layout: basic
             Action
         </div>
     </div>
+    <div id="skipToScript" class="w3-row w3-hide w3-margin">
+        <div class="w3-col s12">
+            <button type="button" class="w3-btn" style="float:left;" onclick="scrollToCode();">Skip to script
+                region</button>
+        </div>
+    </div>
     <div id="hotkeyRegion">
     </div>
-    <div id="newRow" class="w3-row">
+    <div id="newRow" class="w3-row w3-padding-bottom">
         <div class="w3-col s12 w3-center">
             <button type="button" id="btnAdd" class="w3-btn" onclick="newRow(); markDirty()" title="Add row"><i
                     class="fa fa-plus"></i></button>
@@ -50,7 +56,7 @@ layout: basic
                 title="Click to download AHK script"
                 onClick="download();"
                 disabled>Download</button>
-            <a id="downloadLink" href='#downloadLink' download="hotkeys.ahk" class="w3-hide">download</a>
+            <a id="downloadLink" href='#' download="hotkeys.ahk" class="w3-hide">download</a>
         </div>
     </div>
 </form>
