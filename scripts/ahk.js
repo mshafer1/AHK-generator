@@ -1,3 +1,8 @@
+GET_KEYS = {
+    enable_debug_logging: 'DEBUG_LOG',
+    enable_eager_compile: 'EAGER_COMPILE',
+}
+
 try {
     $(window).load(init);
 
@@ -23,6 +28,54 @@ try {
             });
         }
     });
+
+    // from https://stackoverflow.com/a/14042239/8100990
+    //
+    // $('#element').donetyping(callback[, timeout=1000])
+    // Fires callback when a user has finished typing. This is determined by the time elapsed
+    // since the last keystroke and timeout parameter or the blur event--whichever comes first.
+    //   @callback: function to be called when even triggers
+    //   @timeout:  (default=1000) timeout, in ms, to to wait before triggering event if not
+    //              caused by blur.
+    // Requires jQuery 1.7+ 
+    ; (function ($) {
+        $.fn.extend({
+            donetyping: function (callback, timeout) {
+                timeout = timeout || 5e2; // default to 1/2 s
+                var timeoutReference,
+                    doneTyping = function (el) {
+                        if (!timeoutReference) return;
+                        timeoutReference = null;
+                        // console.log($(el));
+                        callback.call($(el));
+                    };
+                return this.each(function (i, el) {
+                    var $el = $(el);
+                    // Chrome Fix (Use keyup over keypress to detect backspace)
+                    // thank you @palerdot
+                    $el.is(':input') && $el.on('keyup keypress paste', function (e) {
+                        // This catches the backspace button in chrome, but also prevents
+                        // the event from triggering too preemptively. Without this line,
+                        // using tab/shift+tab will make the focused element fire the callback.
+                        if (e.type == 'keyup' && e.keyCode != 8) return;
+
+                        // Check if timeout has been set. If it has, "reset" the clock and
+                        // start over again.
+                        if (timeoutReference) clearTimeout(timeoutReference);
+                        timeoutReference = setTimeout(function () {
+                            // if we made it here, our timeout has elapsed. Fire the
+                            // callback
+                            doneTyping(el);
+                        }, timeout);
+                    }).on('blur', function () {
+                        // If we can, fire the event since we're leaving the field
+                        doneTyping(el);
+                    });
+                });
+            }
+        });
+        console.log("donetyping loaded");
+    })(jQuery);
 } catch (error) {
     // pass
 }
@@ -30,6 +83,7 @@ try {
 var GET = {}
 var LOADED = false;
 var DEBUG_LOGGING_ENABLED = false;
+var EAGER_COMPILE_ENABLED = false;
 var DOWNLOAD_FILE_HEADER = 'data:text/plain;charset=utf-8,';
 
 // from https://stackoverflow.com/a/31221374/8100990
@@ -45,15 +99,10 @@ function _debug_log() {
         return; // NO-OP
     }
 
-    console.debug(...arguments);
+    console.info(...arguments);
 }
 
 function init() {
-    $('#hotkeyRegion').sortable({
-        placeholder: 'placeholder',
-        handle: '.draggabble_handle',
-        update: function (event, ui) { markDirty() },
-    });
     window.onpopstate = _handle_pop_state; // lazy do this so that jest doesn't encounter it
     DEBUG_LOGGING_ENABLED = FEATURE_TOGGLES.DEBUG_LOGGING
     EAGER_COMPILE_ENABLED = FEATURE_TOGGLES.EAGER_COMPILE
@@ -89,46 +138,7 @@ function init() {
     console.log("Num Keys: ", num_keys)
     for (i = 0; i < num_keys; i++) {
         newRow();
-        $('#func' + i + CONFIG[i]['func']).prop("checked", true)
-        _debug_log(CONFIG[i]['func'])
-
-        if ('comment' in CONFIG[i]) {
-            $('#comment' + i).val(CONFIG[i]['comment'])
-        }
-
-        if (CONFIG[i]['func'] == 'KEY') {
-            setHotKey(i, true);
-
-            _debug_log(CONFIG[i]['skeyValue'])
-            $('#skey' + i + 'key').val(CONFIG[i]['skeyValue'])
-            modifiers = CONFIG[i]['modifiers[]']
-            _debug_log(modifiers)
-            modifiers.forEach(function (entry) {
-                _debug_log('#skey' + i + entry)
-                $('#skey' + i + entry).prop("checked", true)
-            })
-        } else {
-            setHotString(i, true);
-            $('#skey' + i + 'string').val(CONFIG[i]['skeyValue'])
-        }
-
-        option = CONFIG[i]['option'];
-        _debug_log(option)
-        select(option, i, true) // select drop down option
-
-        _debug_log(CONFIG[i]['option'], i)
-        if (option == 'Send' || option == 'Replace' || option == 'SendUnicodeChar') {
-            $('#input' + i).val(CONFIG[i]['input'])
-        } else if (option == 'ActivateOrOpen' || option == 'ActivateOrOpenChrome') {
-            _debug_log('activate mode')
-            _debug_log(CONFIG[i]['Program'])
-            _debug_log(CONFIG[i]['Window'])
-
-            $('#window' + i).val(CONFIG[i]['Window'])
-            $('#program' + i).val(CONFIG[i]['Program'])
-        } else if (option == 'Custom') {
-            $('#code' + i).val(CONFIG[i]['Code'])
-        }
+        setup_row(i, CONFIG);
     }
 
     $('#hotkeyRegion').sortable({
@@ -136,6 +146,46 @@ function init() {
         handle: '.draggabble_handle',
         update: function (event, ui) { markDirty() },
     });
+}
+
+function setup_row(i, config) {
+    $('#func' + i + config[i]['func']).prop("checked", true);
+    _debug_log(config[i]['func']);
+    if ('comment' in config[i]) {
+        $('#comment' + i).val(config[i]['comment']);
+    }
+    if (config[i]['func'] == 'KEY') {
+        setHotKey(i, true);
+        _debug_log(config[i]['skeyValue']);
+        $('#skey' + i + 'key').val(config[i]['skeyValue']);
+        modifiers = config[i]['modifiers[]'];
+        _debug_log(modifiers);
+        modifiers.forEach(function (entry) {
+            _debug_log('#skey' + i + entry);
+            $('#skey' + i + entry).prop("checked", true);
+        });
+    }
+    else {
+        setHotString(i, true);
+        $('#skey' + i + 'string').val(config[i]['skeyValue']);
+    }
+    option = config[i]['option'];
+    _debug_log(option);
+    select(option, i, true); // select drop down option
+    _debug_log(config[i]['option'], i);
+    if (option == 'Send' || option == 'Replace' || option == 'SendUnicodeChar') {
+        $('#input' + i).val(config[i]['input']);
+    }
+    else if (option == 'ActivateOrOpen' || option == 'ActivateOrOpenChrome') {
+        _debug_log('activate mode');
+        _debug_log(config[i]['Program']);
+        _debug_log(config[i]['Window']);
+        $('#window' + i).val(config[i]['Window']);
+        $('#program' + i).val(config[i]['Program']);
+    }
+    else if (option == 'Custom') {
+        $('#code' + i).val(config[i]['Code']);
+    }
 }
 
 function escapeRegExp(str) { // from https://stackoverflow.com/a/1144788/8100990
@@ -309,8 +359,12 @@ function _parse_get(get_arr) {
         return result;
     }
 
-    if ('DEBUG_LOG' in get_arr) {
+    if (GET_KEYS.enable_debug_logging in get_arr) {
         DEBUG_LOGGING_ENABLED = true;
+    }
+    if (GET_KEYS.enable_eager_compile in get_arr) {
+        EAGER_COMPILE_ENABLED = true;
+        console.log("Enabling Eager Compile.")
     }
     _debug_log("Debug Logging enabled");
     if (!('length' in get_arr) && !('indexes' in get_arr)) {
@@ -333,31 +387,54 @@ function parse_get() {
     CONFIG = _parse_get(GET);
 }
 
+function _check_form(show_error = true, check_required_fields = false) {
+    _debug_log("Checking for submit")
+    result = true;
+
+    // compile list of IDs into hidden input then submit.
+    var ids = [];
+    $(".js-index").each(function () {
+        ids.push($(this).val());
+    });
+
+    $("#indexes").val(ids)
+
+    result = ids.every(function (index) {
+        if ($('#option' + index).length == 0 && $('#function' + index).length > 0) {
+            //it doesn't exist
+            result = false;
+            if (show_error) {
+                alert("Must select a function for all rows");
+            }
+            return result;
+        }
+        return true;
+    })
+
+
+    if (check_required_fields) {
+        var required = $('input,textarea,select').filter('[required]:visible');
+        var allRequired_have_values = true;
+        required.each(function () {
+            if ($(this).val() == '') {
+                allRequired_have_values = false;
+                return;
+            }
+        });
+
+        if (!allRequired_have_values) {
+            result = false;
+            // TODO: show error??
+        }
+    }
+
+    return result; // return false to cancel form action
+}
+
 function ready() {
     //newRow();
     _debug_log("Registering for check")
-    $('#hotkeyForm').submit(function () {
-        _debug_log("Checking for submit")
-        result = true;
-        for (var i = 0; i < count; i++) {
-            if ($('#option' + i).length == 0 && $('#function' + i).length > 0) {
-                //it doesn't exist
-                result = false;
-                alert("Must select a function for all rows");
-                break;
-            }
-        }
-
-        // compile list of IDs into hidden input then submit.
-        var ids = [];
-        $(".js-index").each(function () {
-            ids.push($(this).val());
-        });
-
-        $("#indexes").val(ids)
-
-        return result; // return false to cancel form action
-    });
+    $('#hotkeyForm').submit(_check_form);
 
     //if clicking anywhere but on dropdown, close it.
     $(document).bind('click', function (e) { //from http://stackoverflow.com/a/15098861
@@ -561,6 +638,54 @@ function _update_fields(state, config) {
 
 }
 
+function eager_compile(changed_id, changed_index, changed_key) {
+    if (!EAGER_COMPILE_ENABLED) {
+        return;
+    }
+
+    var check = _check_form(false, true);
+    console.log("Ready for 'compile':", check);
+    if (!check) {
+        return;
+    }
+
+    // TODO: how to wait till done done typing?? does the script flash if I don't do this??
+    var form = $(`#hotkeyForm`)[0];
+    var data = new FormData(form);
+    var querystring = new URLSearchParams(data).toString();
+    console.log("New URL: ", querystring);
+    window.history.pushState({ "updatedfield": changed_id, "index": String(changed_index), "changed_key": String(changed_key) }, "AHK Generator", "/?" + querystring);
+}
+
+function _handle_pop_state(event) {
+    console.log("location: ", document.location, "\nstate: ", JSON.stringify(event.state));
+    var get_arry = _load_get(window.location.search);
+    var config = _parse_get(get_arry);
+    _setup_download(config);
+    _update_fields(event.state, config);
+}
+
+function _update_fields(state, config) {
+    if (state == null) {
+        num_keys = Object.keys(config).length;
+        if (num_keys == 0) {
+            // TODO: does this mean last row was was deleted??
+            console.warn("Apparently this kase IS possible");
+            return;
+        }
+        for (var i = 0; i < num_keys; i++) {
+            setup_row(i, CONFIG);
+        }
+        return
+    }
+
+    // TODO: handle row deletion and creation
+    console.log("Config: ", config);
+    var new_value = config[state.index][state.changed_key];
+    $(`#${state.updatedfield}`).val(new_value);
+
+}
+
 function destroy(id) {
     $('#shortcut' + id).remove() //destroy row from table
 
@@ -569,7 +694,11 @@ function destroy(id) {
 
 function setHotKey(id, backend) {
     $('#optionsShortcut' + id).html(genHotkeyRegion(id))
-    _register_done_typing('#optionsShortcut' + id, id);
+    if (EAGER_COMPILE_ENABLED) {
+        console.log("Registering donetyping");
+        // TODO: use $(this)??
+        $(`#skey${id}key`).donetyping(function () { markDirty(); eager_compile($(this).attr('id'), id, `skeyValue`); })
+    }
     if (!backend) {
         markDirty()
     }
@@ -602,7 +731,7 @@ function genHotkeyRegion(id) {
             </div>
             <div class="w3-row w3-col s6">
                 <div class="w3-col s12">
-                    <input type="text" placeholder="key" id="skey{0}key"  name="skeyValue{0}" class="keyWidth"  oninput="markDirty()" autocomplete="off"  list="specialKeys" title="Set the key to hit (special keys are available for autocomplete" required/>
+                    <input type="text" placeholder="key" id="skey{0}key" ${ (EAGER_COMPILE_ENABLED) ? '' : 'oninput="markDirty()"'} name="skeyValue{0}" class="keyWidth"  autocomplete="off"  list="specialKeys" title="Set the key to hit (special keys are available for autocomplete" required/>
                 </div>
             </div>`.format(id);
 }
@@ -669,9 +798,15 @@ function newRow() {
 function loaded() {
     _debug_log("seeting url")
     script = keygen(CONFIG)
-    $('#downloadLink').attr('href', DOWNLOAD_FILE_HEADER + encodeURIComponent(script))
-    //setTimeout(download, 500)
-    $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>')
+    _setup_download(CONFIG);
+}
+
+function _setup_download(configuration) {
+    _debug_log("seeting url");
+    script = keygen(configuration);
+    $('#downloadLink').attr('href', DOWNLOAD_FILE_HEADER + encodeURIComponent(script));
+
+    $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>');
     $('#skipToScript').removeClass("w3-hide");
     $('#scriptZone').removeClass("w3-hide");
     $('.js_download_btn').removeClass("w3-hide");
@@ -711,7 +846,7 @@ function download() {
     } catch (error) {
         // pass
     }
-    // if we got here it succeeded??
+
     clearTimeout(_cancel_id);
 }
 

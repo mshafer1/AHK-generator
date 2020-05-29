@@ -7,12 +7,3 @@
   code_key: DEBUG_LOGGING
   default: false
   description: turn on additional console logging for debug purposes
-- name: Editor Mode
-  code_key: EDITOR_MODE
-  default: false
-  hidden: true
-  description: handle all changes without reloading
-- name: Single Source method declarations
-  code_key: SINGLE_SOURCE
-  default: false
-  description: single source the method declarations and documentation
