@@ -103,6 +103,11 @@ function _debug_log() {
 }
 
 function init() {
+    $('#hotkeyRegion').sortable({
+        placeholder: 'placeholder',
+        handle: '.draggabble_handle',
+        update: function (event, ui) { markDirty() },
+    });
     window.onpopstate = _handle_pop_state; // lazy do this so that jest doesn't encounter it
     DEBUG_LOGGING_ENABLED = FEATURE_TOGGLES.DEBUG_LOGGING
     EAGER_COMPILE_ENABLED = FEATURE_TOGGLES.EAGER_COMPILE
@@ -140,12 +145,6 @@ function init() {
         newRow();
         setup_row(i, CONFIG);
     }
-
-    $('#hotkeyRegion').sortable({
-        placeholder: 'placeholder',
-        handle: '.draggabble_handle',
-        update: function (event, ui) { markDirty() },
-    });
 }
 
 function setup_row(i, config) {
