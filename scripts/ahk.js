@@ -534,6 +534,8 @@ function select(item, id, backend) {
         $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
     }
 
+    _register_done_typing(`#function${id}`, id)
+
     if (!backend) {
         markDirty()
     }
@@ -693,8 +695,9 @@ function setHotString(id, backend) {
 
     console.log("configuring #optionsShortcut" + id)
     $('#optionsShortcut' + id).html(`<div class="w3-col s6">
-												<input type="text" id="skey${id}string" placeholder="string" name="skeyValue${id}" onchange="markDirty()" required/>
+												<input type="text" id="skey${id}string" placeholder="string" name="skeyValue${id}" class="${_register_change}" ${_handle_change} required/>
                                             </div>`)
+    _register_done_typing("#optionsShortcut" + id, id);
     if (!backend) {
         markDirty()
     }
