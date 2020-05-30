@@ -53,7 +53,7 @@ try {
                     var $el = $(el);
                     // Chrome Fix (Use keyup over keypress to detect backspace)
                     // thank you @palerdot
-                    $el.is(':input') && $el.on('keyup keypress paste', function (e) {
+                    $el.is(':input') && $el.on('keyup keypress paste change', function (e) {
                         // This catches the backspace button in chrome, but also prevents
                         // the event from triggering too preemptively. Without this line,
                         // using tab/shift+tab will make the focused element fire the callback.
@@ -594,6 +594,10 @@ function eager_compile(changed_id, changed_index, changed_key) {
 }
 
 function _handle_pop_state(event) {
+    if (!FEATURE_TOGGLES.EDITOR_MODE) {
+        window.location.href = document.location;
+        return;
+    }
     console.log("location: ", document.location, "\nstate: ", event.state);
     var get_arry = _load_get(window.location.search);
     var config = _parse_get(get_arry);
@@ -614,15 +618,24 @@ function _update_fields(state, config) {
             return;
         }
         for (var i = 0; i < num_keys; i++) {
-            setup_row(i, config);
+            var row_n = Object.keys(config)[i];
+            setup_row(row_n, config);
         }
         return
     }
 
     // TODO: handle row deletion and creation
-    console.log("Config: ", config);
-    var new_value = config[state.index][state.changed_key];
-    $(`#${state.updatedfield}`).val(new_value);
+    console.log("Setup Row from Config: ", config);
+    setup_row(state.index, config);
+    // var new_value = config[state.index][state.changed_key];
+    // if('[]' in state.changed_key) {
+    //     // handle check boxes   
+        
+    // } else {
+    //     // handle text
+    //     $(`#${state.updatedfield}`).val(new_value);
+    // }
+    
 
 }
 
@@ -655,16 +668,16 @@ function genHotkeyRegion(id) {
     var _register_change = (EAGER_COMPILE_ENABLED) ? 'js_donetyping' : '';
     return `<div class="w3-row w3-col s6">
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>
+                    <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>
                 </div>
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label>
+                    <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label>
                 </div>
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>
+                    <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>
                 </div>
                 <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" onchange="markDirty()"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>
+                    <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>
                 </div>
             </div>
             <div class="w3-row w3-col s6">

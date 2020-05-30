@@ -16,7 +16,7 @@ layout: basic
 
             <div class="w3-container">
 
-                {% for toggle in site.data.feature_toggles %}
+                {% for toggle in site.data.feature_toggles %}{% unless toggle.hidden %}
                 <div class="w3-row-padding w3-margin" title="{{ toggle.description }}">
                     <div class="w3-col s6">{{ toggle.name }}</div>
                     <div class="w3-col s6">
@@ -28,7 +28,7 @@ layout: basic
                             </label>
                         </div>
                     </div>
-                </div>
+                </div>{% endunless %}
                 {% endfor %}
 
             </div>
