@@ -4,6 +4,7 @@ layout: basic
 
 
 <div class="w3-container w3-padding">&nbsp;</div>
+
 <div class="w3-row">
     <div class="w3-quarter w3-container">
         &nbsp;
@@ -12,22 +13,26 @@ layout: basic
         <div class="w3-card-4 w3-dark-grey">
             <header class="w3-container w3-black w3-text-white">
                 <h2>Feature Toggles</h2>
+                <div class="w3-margin-left">
+                    <p>These features can be enabled for testing or to get an early preview;<br/>however, as they are still in development, may break without warning.</p>
+                    <p>Proceed with caution.</p>
+                </div>
             </header>
 
             <div class="w3-container">
 
                 {% for toggle in site.data.feature_toggles %}{% unless toggle.hidden %}
-                <div class="w3-row-padding w3-margin" title="{{ toggle.description }}">
-                    <div class="w3-col s6">{{ toggle.name }}</div>
-                    <div class="w3-col s6">
-                        <div class="w3-bar-item" style="float:right">
+                <div class="w3-row-padding w3-padding-large {% unless forloop.first %}w3-border-top{% endunless %}" title="{{ toggle.description }}">
+                    <div class="w3-col s2">
+                        <div class="w3-bar-item">
                             <label class="rounded_switch" >
                                 <input type="checkbox" id="chbox_{{toggle.code_key}}" class="js_chbox"
-                                    name="{{toggle.code_key}}" {% if toggle.default %}checked{% endif %}>
+                                name="{{toggle.code_key}}" {% if toggle.default %}checked{% endif %}>
                                 <span class="slider round"></span>
                             </label>
                         </div>
                     </div>
+                    <div class="w3-col s10">{{ toggle.name }}</div>
                 </div>{% endunless %}
                 {% endfor %}
 
