@@ -549,7 +549,7 @@ function _mark_helper(dirty = true) {
 
     //indicate script is out of date as well
     if (dirty) {
-    $('#scriptZone').addClass('grayout');
+        $('#scriptZone').addClass('grayout');
     } else {
         $('#scriptZone').removeClass('grayout');
     }
@@ -670,7 +670,7 @@ function genHotkeyRegion(id) {
             </div>
             <div class="w3-row w3-col s6">
                 <div class="w3-col s12">
-                    <input type="text" placeholder="key" id="skey{0}key" ${ _handle_change } name="skeyValue{0}" class="keyWidth ${ _register_change }"  autocomplete="off"  list="specialKeys" title="Set the key to hit (special keys are available for autocomplete" required/>
+                    <input type="text" placeholder="key" id="skey{0}key" ${ _handle_change} name="skeyValue{0}" class="keyWidth ${_register_change}"  autocomplete="off"  list="specialKeys" title="Set the key to hit (special keys are available for autocomplete" required/>
                 </div>
             </div>`.format(id);
 }
@@ -681,8 +681,8 @@ function setHotString(id, backend) {
 
     console.log("configuring #optionsShortcut" + id)
     $('#optionsShortcut' + id).html(`<div class="w3-col s6">
-												<input type="text" id="skey{0}string" placeholder="string" name="skeyValue{0}" onchange="markDirty()" required/>
-                                            </div>`.format(id))
+												<input type="text" id="skey${id}string" placeholder="string" name="skeyValue${id}" onchange="markDirty()" required/>
+                                            </div>`)
     if (!backend) {
         markDirty()
     }
@@ -731,7 +731,7 @@ function newRow() {
     index += 1;
 
     $('#hotkeyRegion').append(newDiv)
-    _register_done_typing('#optionsShortcut' + (index-1), (index-1));
+    _register_done_typing('#optionsShortcut' + (index - 1), (index - 1));
 }
 
 function loaded() {
