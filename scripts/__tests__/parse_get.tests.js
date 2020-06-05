@@ -1,4 +1,4 @@
-const ahk_js = require('../ahk.js');
+const ahk_js = require('../../_site/scripts/ahk.js'); // pull in the cod gen'd version
 
 describe('_load_get', () => {
     var empty = {};

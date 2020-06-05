@@ -1,3 +1,5 @@
+---
+---
 GET_KEYS = {
     enable_debug_logging: 'DEBUG_LOG',
     enable_eager_compile: 'EAGER_COMPILE',
@@ -484,57 +486,73 @@ function select(item, id, backend) {
 
     result = '';
 
-        $("#program" + id).click(function (event) {
-            event.stopPropagation();
-        });
-        $("#window" + id).click(function (event) {
-            event.stopPropagation();
-        });
-    } else if (item == 'Send') {
-        $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input"  oninput="markDirty()" required/>")\
-					<input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
-
-        $("#input" + id).click(function (event) {
-            event.stopPropagation();
-        });
-    } else if (item == 'Replace') {
-        $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input"  oninput="markDirty()" required/>")\
-					<input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
-        $("#input" + id).click(function (event) {
-            event.stopPropagation();
-        });
-    } else if (item == 'ActivateOrOpenChrome') {
-        $('#function' + id).html('ActivateOrOpenChrome(<span class="w3-hide-large w3-hide-medium"><br/></span>\
-					"<input type="text" name="Window{0}" id="window{0}" placeholder="tab name"  class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
-					"<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth"  oninput="markDirty()" required/>")\
-					<input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
-
-        $("#program" + id).click(function (event) {
-            event.stopPropagation();
-        });
-        $("#window" + id).click(function (event) {
-            event.stopPropagation();
-        });
-    } else if (item == 'Custom') {
-        $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
-					<input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
-
-        $("#code" + id).click(function (event) {
-            event.stopPropagation();
-        });
-    } else if (item == 'SendUnicodeChar') {
-        $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth"  oninput="markDirty()" required/>)\
-					<input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
-
-        $("#input" + id).click(function (event) {
-            event.stopPropagation();
-        });
-    } else if (item == 'OpenConfig') {
-        console.log("open config");
-        $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
+    if(FEATURE_TOGGLES.SINGLE_SOURCE) {
+        {% for method in site.data.methods %}
+        {% unless forloop.first %}else {% endunless %}if (item == '{{ method.code_key }}') {
+            result=`{% include _method_signatures/_generic.html method=method %}`
+        }{% endfor %}
+    
+        $('#function' + id).html(result);
     }
+    else {
+        if (item == 'ActivateOrOpen') {
+            $('#function' + id).html('ActivateOrOpen(\
+                        "<input type="text" name="Window{0}" id="window{0}" placeholder="Window" class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
+                        "<input id="program{0}" type="text" name="Program{0}" placeholder="Program"  class="keyWidth"  oninput="markDirty()" required/>")\
+                        <input type="hidden" value="ActivateOrOpen" name="option{0}" id="option{0}"/>'.format(id))
 
-    _register_done_typing(`#function${id}`, id)
+            $("#program" + id).click(function (event) {
+                event.stopPropagation();
+            });
+            $("#window" + id).click(function (event) {
+                event.stopPropagation();
+            });
+        } else if (item == 'Send') {
+            $('#function' + id).html('Send( "<input name="input{0}"  id="input{0}" type="text" placeholder="input"  oninput="markDirty()" required/>")\
+                        <input type="hidden" value="Send" name="option{0}" id="option{0}"/>'.format(id))
+
+            $("#input" + id).click(function (event) {
+                event.stopPropagation();
+            });
+        } else if (item == 'Replace') {
+            $('#function' + id).html('Replace( "<input type="text" name="input{0}" id="input{0}" placeholder="input"  oninput="markDirty()" required/>")\
+                        <input type="hidden" value="Replace" name="option{0}" id="option{0}"/>'.format(id))
+            $("#input" + id).click(function (event) {
+                event.stopPropagation();
+            });
+        } else if (item == 'ActivateOrOpenChrome') {
+            $('#function' + id).html('ActivateOrOpenChrome(<span class="w3-hide-large w3-hide-medium"><br/></span>\
+                        "<input type="text" name="Window{0}" id="window{0}" placeholder="tab name"  class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>\
+                        "<input id="program{0}" type="text" name="Program{0}" placeholder="URL"  class="keyWidth"  oninput="markDirty()" required/>")\
+                        <input type="hidden" value="ActivateOrOpenChrome" name="option{0}" id="option{0}"/>'.format(id))
+
+            $("#program" + id).click(function (event) {
+                event.stopPropagation();
+            });
+            $("#window" + id).click(function (event) {
+                event.stopPropagation();
+            });
+        } else if (item == 'Custom') {
+            $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
+                        <input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
+
+            $("#code" + id).click(function (event) {
+                event.stopPropagation();
+            });
+        } else if (item == 'SendUnicodeChar') {
+            $('#function' + id).html('SendUnicodeChar(<input name="input{0}"  id="input{0}" type="text" placeholder="0x000" class="keyWidth"  oninput="markDirty()" required/>)\
+                        <input type="hidden" value="SendUnicodeChar" name="option{0}" id="option{0}"/>'.format(id))
+
+            $("#input" + id).click(function (event) {
+                event.stopPropagation();
+            });
+        } else if (item == 'OpenConfig') {
+            console.log("open config");
+            $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
+        }
+
+        _register_done_typing(`#function${id}`, id)
+    }
 
     if (!backend) {
         markDirty()
