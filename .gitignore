@@ -7,3 +7,4 @@ _site/*
 _env/*
 node_modules
 coverage/
+*.mp4
