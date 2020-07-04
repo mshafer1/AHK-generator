@@ -6,4 +6,5 @@ unittests/*.pyc
 _site/*
 _env/*
 node_modules
-coverage/*
+coverage/
+*.mp4

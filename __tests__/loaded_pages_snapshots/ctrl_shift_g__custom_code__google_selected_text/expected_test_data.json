@@ -1,0 +1,17 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "CTRL + Shift + g = search Google for the highlighted text",
+        "trigger_keys": "g",
+        "modifier_keys": [
+            "CTRL",
+            "SHIFT"
+        ],
+        "action": {
+            "function": "Custom: \\{Code0\\})",
+            "args": {
+                "Code0": "\nSend, ^c\nSleep 50\nRun, http://www.google.com/search?q=%clipboard%\nReturn"
+            }
+        }
+    }
+}

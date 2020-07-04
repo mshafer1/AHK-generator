@@ -1,0 +1,68 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "1",
+        "action": {
+            "function": "Replace(\"\\{input0\\}\")",
+            "args": {
+                "input0": "\u2680"
+            }
+        }
+    },
+    "1": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "2",
+        "action": {
+            "function": "Replace(\"\\{input1\\}\")",
+            "args": {
+                "input1": "\u2681"
+            }
+        }
+    },
+    "2": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "3",
+        "action": {
+            "function": "Replace(\"\\{input2\\}\")",
+            "args": {
+                "input2": "\u2682"
+            }
+        }
+    },
+    "3": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "4",
+        "action": {
+            "function": "Replace(\"\\{input3\\}\")",
+            "args": {
+                "input3": "\u2683"
+            }
+        }
+    },
+    "4": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "5",
+        "action": {
+            "function": "Replace(\"\\{input4\\}\")",
+            "args": {
+                "input4": "\u2684"
+            }
+        }
+    },
+    "5": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "6",
+        "action": {
+            "function": "Replace(\"\\{input5\\}\")",
+            "args": {
+                "input5": "\u2685"
+            }
+        }
+    }
+}

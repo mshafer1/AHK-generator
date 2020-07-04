@@ -1,0 +1,18 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "focus gimp",
+        "trigger_keys": "g",
+        "modifier_keys": [
+            "CTRL",
+            "ALT"
+        ],
+        "action": {
+            "function": "ActivateOrOpen(\"\\{Window0\\}\", \"\\{Program0\\}\")",
+            "args": {
+                "Window0": "ahk_exe gimp.exe",
+                "Program0": "gimp.exe"
+            }
+        }
+    }
+}

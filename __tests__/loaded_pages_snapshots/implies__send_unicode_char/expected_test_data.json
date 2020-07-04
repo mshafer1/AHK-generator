@@ -1,0 +1,13 @@
+{
+    "0": {
+        "trigger_type": "STRING",
+        "comment": "\";implies\" is replaced with an arrow",
+        "trigger_keys": ";implies",
+        "action": {
+            "function": "SendUnicodeChar(\\{input0\\})",
+            "args": {
+                "input0": "0x2192"
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "q",
+        "modifier_keys": [
+            "CTRL",
+            "SHIFT"
+        ],
+        "action": {
+            "function": "Send(\"\\{input0\\}\")",
+            "args": {
+                "input0": "testing!"
+            }
+        }
+    }
+}
