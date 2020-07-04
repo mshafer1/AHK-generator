@@ -10,12 +10,13 @@ beautifulsoup4==4.9.1     # via -r requirements_test.in
 colorama==0.4.3           # via pytest
 importlib-metadata==1.6.1  # via pluggy, pytest
 more-itertools==8.4.0     # via pytest
-packaging==20.4           # via pytest
+packaging==20.4           # via pytest, pytest-snapshot
 pluggy==0.13.1            # via pytest
 py==1.8.2                 # via pytest
 pyparsing==2.4.7          # via packaging
+pytest-snapshot==0.4.1    # via -r requirements_test.in
 pytest-subtests==0.3.1    # via -r requirements_test.in
-pytest==5.4.3             # via -r requirements_test.in, pytest-subtests
+pytest==5.4.3             # via -r requirements_test.in, pytest-snapshot, pytest-subtests
 selenium==3.141.0         # via -r requirements_test.in
 six==1.15.0               # via packaging
 soupsieve==2.0.1          # via beautifulsoup4

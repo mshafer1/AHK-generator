@@ -20,13 +20,21 @@ def pytest_addoption(parser):
         required=False,
         default=False,
     )
+    parser.addoption(
+        "--site-path",
+        dest="site_path",
+        help="Base URL to load for tests",
+        required=False,
+        default='http://localhost:4000',
+    )
 
 
 def pytest_generate_tests(metafunc):
     # This is called for every test. Only get/set command line arguments
     # if the argument is specified in the list of test "fixturenames".
-    driver_path = metafunc.config.getoption("driver_path", None)
+    driver_path  = metafunc.config.option.driver_path
     use_headless = metafunc.config.option.use_headless
+    site_path    = metafunc.config.option.site_path
 
     if driver_path is None:
         raise Exception("Must provide --driver_path")
@@ -38,6 +46,9 @@ def pytest_generate_tests(metafunc):
 
     if "use_headless" in metafunc.fixturenames:
         metafunc.parametrize("use_headless", [use_headless], scope="session")
+    
+    if "site_path" in metafunc.fixturenames:
+        metafunc.parametrize("site_path", [site_path])
 
 
 @pytest.fixture(scope="session",)
@@ -77,5 +88,5 @@ def parser():
 
 
 @pytest.fixture()
-def base_url():
-    return "http://localhost:4000"
+def base_url(site_path):
+    return site_path

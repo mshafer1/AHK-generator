@@ -1,4 +1,5 @@
 pytest
+pytest-snapshot
 pytest-subtests
 selenium
 beautifulsoup4
