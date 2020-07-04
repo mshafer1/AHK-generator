@@ -127,7 +127,7 @@ ActivateOrOpen(window, program)
 	}
 	else
 	{   ; else start requested program
-		 Run cmd /c "start ^"^" ^"%program%^""
+		 Run cmd /c "start ^"^" ^"%program%^"",, Hide ;use cmd in hidden mode to launch requested program
 		 WinWait, %window%,,5		; wait up to 5 seconds for window to exist
 		 IfWinNotActive, %window%, , WinActivate, %window%
 		 {
