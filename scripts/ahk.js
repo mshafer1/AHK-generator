@@ -328,7 +328,6 @@ function _handle_length(get_arr) {
         }
 
         result[i] = _part[1];
-
         i++
     }
     return result;
