@@ -1,0 +1,14 @@
+{
+    "0": {
+        "trigger_type": "STRING",
+        "comment": "",
+        "trigger_keys": "`;pandora",
+        "action": {
+            "function": "ActivateOrOpenChrome(\"\\{Window0\\}\", \"\\{Program0\\}\")",
+            "args": {
+                "Window0": "pandora",
+                "Program0": "http://www.pandora.com"
+            }
+        }
+    }
+}

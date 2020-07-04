@@ -1,0 +1,56 @@
+Questions for UX Testing:
+
+Have you used AHK before? if so, how often/much? - longer than 5 years ago
+  what about ahkgen.com? if so, how often/much?
+  do you have an existing script you'ld be willing for me to get a glimpse at that we can use? (is it hand-coded or ahkgen.com?)
+
+(Has AHKGen script)
+    (have load back up)
+    (switch domain name to check it loads correctly)
+
+(Has non-AHKGen script)
+    (use it as basis in next section)
+
+(Tasks)
+* One of the things you might type a lot is "I'm missing tea time", let's make a hotstring to type that out
+  - "hotstring you said"
+  - select a function - "oh, cool look at this"
+  - found tool-tip help, couldn't remember where it was it.
+  - "I'm missing tea time" -
+  - ok, I need to learn "ahk - oh, so hostring ..." - got it from tool tips on those
+  - (on Replace) "oh, ok, I can write an even shorter  string IMTT::..."
+  - so if I hit enter, it'll generate it huh.
+
+  What do you do with this code? I guess this is where I need AHK installed?
+
+  - copy
+  - "provided extra functions"
+  - ** had a hard time finding download button ** -maybe put at bottom? or right at the top left of the code region??, for sure move below add divider.
+  
+* One of the programs you might use a lot is p4v, let's make a hotkey to bring that to the front/focus easily
+
+  - hotkey, alt shift, p (saw aut-complete options and paused)
+  ** maybe make standard letters part of the list too**
+
+  - o hey, download is  greyed out now.
+  ** maybe put tool tip on parameters **
+  - missed plus button, initially, thought had to go to new window, (when prompted) found delete, found drag, then found plus
+
+* For the fun of it, let's make typeing `;smile` get replaced with a smile gliph
+  - hex code 0x263A
+
+  **can I put in :) - maybe type checks on this param?? again tool tip on parameters??
+
+* For the sake of organization, let's put the two hotstrings together in order
+  - looking to discover the re-order ability
+
+* How would you share?
+  probably do an intro, show example, maybe send script??
+
+
+(Questions)
+* What is your overall impression?
+* Was there anything else that was difficult to figure out?
+* Does it do what you would want it to do? if not, what's missing?
+* Do you have any other questions about it?
+* ...

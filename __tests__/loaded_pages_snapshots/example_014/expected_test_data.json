@@ -1,0 +1,13 @@
+{
+    "0": {
+        "trigger_type": "STRING",
+        "comment": "",
+        "trigger_keys": "afaik",
+        "action": {
+            "function": "Send(\"\\{input0\\}\")",
+            "args": {
+                "input0": "As far as I Know"
+            }
+        }
+    }
+}

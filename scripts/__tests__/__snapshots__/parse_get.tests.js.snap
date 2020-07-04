@@ -1,0 +1,809 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`_load_get takes a basic query and returns expected data 1`] = `
+Object {
+  "comment0": "",
+  "func0": "KEY",
+  "input0": "b",
+  "length": "1",
+  "option0": "Replace",
+  "skeyValue0": "a",
+}
+`;
+
+exports[`_load_get takes data in regardless of values 1`] = `
+Object {
+  "comment5": "",
+  "func5": "KEY",
+  "input5": "b",
+  "length": "1",
+  "option5": "Replace",
+  "skeyValue5": "a",
+}
+`;
+
+exports[`_load_get takes no issue with an indexes query 1`] = `
+Object {
+  "comment0": "",
+  "func0": "KEY",
+  "indexes": "1",
+  "input0": "b",
+  "option0": "Send",
+  "skeyValue0": "a",
+}
+`;
+
+exports[`_parse_get Allowes missing params when optional allows for comment to not be provided 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "a",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get Handles indexes correctly get desired indexes in order 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "a",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "b",
+  },
+  "1": Object {
+    "func": "STRING",
+    "input": "this is a test",
+    "option": "Replace",
+    "skeyValue": "\`;test",
+  },
+}
+`;
+
+exports[`_parse_get Handles indexes correctly handles basic send command 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "a",
+    "modifiers[]": Array [
+      "CTRL",
+    ],
+    "option": "Send",
+    "skeyValue": "Space",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "STRING",
+    "input": "0x2192",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";implies",
+  },
+  "1": Object {
+    "func": "STRING",
+    "input": "0x00b0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";degree",
+  },
+  "10": Object {
+    "Program": "cmd",
+    "Window": "ahk_exe cmd.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "c",
+  },
+  "11": Object {
+    "Program": "notepad  .exe",
+    "Window": "- Notepad  ",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "n",
+  },
+  "12": Object {
+    "Program": "chrome.exe",
+    "Window": "- Google Chrome",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "i",
+  },
+  "13": Object {
+    "Code": "
+	Send, ^c
+	Sleep 50
+	Run, http://www.google.com/search?q=%clipboard%
+	Return",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Custom",
+    "skeyValue": "g",
+  },
+  "14": Object {
+    "Program": "%temp%\\\\LabVIEW\\\\LabVIEW.exe",
+    "Window": "ahk_exe LabVIEW NXG.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "l",
+  },
+  "15": Object {
+    "Code": "
+    Send !{Space}
+    Send n
+    return
+",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "WIN",
+    ],
+    "option": "Custom",
+    "skeyValue": "m",
+  },
+  "2": Object {
+    "func": "STRING",
+    "input": "0x2713",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";check",
+  },
+  "3": Object {
+    "func": "STRING",
+    "input": "0x2639",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";frown",
+  },
+  "4": Object {
+    "func": "STRING",
+    "input": "0x263A",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";smile",
+  },
+  "5": Object {
+    "func": "STRING",
+    "input": "0x03B8",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";theta",
+  },
+  "6": Object {
+    "func": "STRING",
+    "input": "0x03C0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";pi",
+  },
+  "7": Object {
+    "func": "STRING",
+    "input": "0x00A2",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";cents",
+  },
+  "8": Object {
+    "Program": "http://dictionary.reference.com/",
+    "Window": "dictionary.com",
+    "func": "STRING",
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": ";dict",
+  },
+  "9": Object {
+    "Program": "C:\\\\Program Files (x86)\\\\PuTTY\\\\putty.exe",
+    "Window": "ahk_exe putty.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "p",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 2`] = `
+Object {
+  "0": Object {
+    "func": "STRING",
+    "input": "0x00b0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";degree",
+  },
+  "1": Object {
+    "func": "STRING",
+    "input": "0x2713",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";check",
+  },
+  "10": Object {
+    "Program": "notepad  .exe",
+    "Window": "- Notepad  ",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "n",
+  },
+  "11": Object {
+    "Program": "chrome.exe",
+    "Window": "- Google Chrome",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "i",
+  },
+  "12": Object {
+    "Code": "
+	Send, ^c
+	Sleep 50
+	Run, http://www.google.com/search?q=%clipboard%
+	Return",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Custom",
+    "skeyValue": "g",
+  },
+  "2": Object {
+    "func": "STRING",
+    "input": "0x2639",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";frown",
+  },
+  "3": Object {
+    "func": "STRING",
+    "input": "0x263A",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";smile",
+  },
+  "4": Object {
+    "func": "STRING",
+    "input": "0x03B8",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";theta",
+  },
+  "5": Object {
+    "func": "STRING",
+    "input": "0x03C0",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";pi",
+  },
+  "6": Object {
+    "func": "STRING",
+    "input": "0x00A2",
+    "option": "SendUnicodeChar",
+    "skeyValue": ";cents",
+  },
+  "7": Object {
+    "Program": "http://dictionary.reference.com/",
+    "Window": "dictionary.com",
+    "func": "STRING",
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": ";dict",
+  },
+  "8": Object {
+    "Program": "C:\\\\Program Files (x86)\\\\PuTTY\\\\putty.exe",
+    "Window": "ahk_exe putty.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "p",
+  },
+  "9": Object {
+    "Program": "cmd",
+    "Window": "ahk_exe cmd.exe",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "c",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 3`] = `
+Object {
+  "0": Object {
+    "Code": "
+	next = GetNextProgram();
+	get_exe_name = GetExe(next);
+	MsgBox, Next Program: %next%\`nExe: %get_exe_name%
+	ActivateOrOpen(next, get_exe_name);
+	return;
+
+GetNextProgram()
+{
+	if WinActive(\\"ahk_class MozillaWindowClass\\")
+	{
+		return \\"ahk_exe excel.exe\\";
+	}
+	if WinActive(\\"ahk_exe excel.exe\\")
+	{
+		return \\"ahk_exe outlook.exe\\";
+	}
+	if WinActive(\\"ahk_exe sage\\")
+	{
+		return \\"ahk_class MozillaWindowClass\\");
+	}
+}
+GetExe(program)
+{
+	if (program = \\"ahk_exe excel.exe\\")
+	{
+		return \\"excel.exe\\";
+	}
+	if program = \\"ahk_exe outlook.exe\\")
+	{
+		return \\"outlook.exe\\";
+	}
+	if program = \\"ahk_class MozillaWindowClass\\")
+	{
+		return \\"Mozilla.exe\\");
+	}
+}",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "Custom",
+    "skeyValue": "F3",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 4`] = `
+Object {
+  "0": Object {
+    "Code": "
+  if WinExist(\\"Robot Main.vi\\")
+  {
+    WinActivate  ; Uses the last found window. 
+  }
+  return",
+    "comment": "CTRL   ALT   M = main.vi (if open)",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Custom",
+    "skeyValue": "m",
+  },
+  "1": Object {
+    "Program": "C:\\\\Program Files (x86)\\\\FRC Driver Station\\\\Driverstation.exe",
+    "Window": "ahk_exe DriverStation.exe",
+    "comment": "CTRL   ALT   D = Driver Station",
+    "func": "KEY",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "ActivateOrOpen",
+    "skeyValue": "d",
+  },
+}
+`;
+
+exports[`_parse_get Handles old query urls as well parses example URL correctly 5`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "r",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "Space",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a Custom correctly 1`] = `
+Object {
+  "0": Object {
+    "Code": "send, a",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "Custom",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a Custom correctly 2`] = `
+Object {
+  "0": Object {
+    "Code": "send, a",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "Custom",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a Send Unicode Char correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "0x00A2",
+    "modifiers[]": Array [],
+    "option": "SendUnicodeChar",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a Send Unicode Char correctly 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "0x00A2",
+    "modifiers[]": Array [],
+    "option": "SendUnicodeChar",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a basic replace correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Replace",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a basic replace correctly 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Replace",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a basic send value correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a basic send value correctly 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt, shift, win) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+      "SHIFT",
+      "ALT",
+      "WIN",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a group modifier keys correctly (ctrl, alt, shift, win) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+      "SHIFT",
+      "ALT",
+      "WIN",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (alt) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (alt) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (ctrl) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (ctrl) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "CTRL",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (shift) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "SHIFT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (shift) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "SHIFT",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (win) 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "WIN",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses a modifier keys correctly (win) 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "b",
+    "modifiers[]": Array [
+      "WIN",
+    ],
+    "option": "Send",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an Activate Or Open correctly 1`] = `
+Object {
+  "0": Object {
+    "Program": "chrome.exe",
+    "Window": "ahk_exe chrome.exe",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "ActivateOrOpen",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an Activate Or Open correctly 2`] = `
+Object {
+  "0": Object {
+    "Program": "chrome.exe",
+    "Window": "ahk_exe chrome.exe",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "ActivateOrOpen",
+    "skeyValue": "a",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an ActivateOrOpenChrome correctly 1`] = `
+Object {
+  "0": Object {
+    "Program": "pandora.com",
+    "Window": "pandora",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an ActivateOrOpenChrome correctly 2`] = `
+Object {
+  "0": Object {
+    "Program": "pandora.com",
+    "Window": "pandora",
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "ActivateOrOpenChrome",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an OpenConfig correctly 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "OpenConfig",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: parses an OpenConfig correctly 2`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "modifiers[]": Array [],
+    "option": "OpenConfig",
+    "skeyValue": "b",
+  },
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: return an error for a missing index 1`] = `
+Object {
+  "ERROR": Object {
+    "ERROR": "Missing crucial values. Must have each of func1,option1,skeyValue1",
+  },
+}
+`;

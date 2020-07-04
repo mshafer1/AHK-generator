@@ -1,0 +1,18 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "i",
+        "modifier_keys": [
+            "CTRL",
+            "ALT"
+        ],
+        "action": {
+            "function": "ActivateOrOpen(\"\\{Window0\\}\", \"\\{Program0\\}\")",
+            "args": {
+                "Window0": "ahk_exe chrome.exe",
+                "Program0": "chrome.exe"
+            }
+        }
+    }
+}

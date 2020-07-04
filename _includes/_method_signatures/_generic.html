@@ -1,0 +1,4 @@
+<span title="{{ include.method.description }}">{{ include.method.code_key}}(
+    {% for arg in include.method.args %}<input type="text" name="{{ arg.name | downcase }}${id}" id="{{ arg.name | downcase}}${id}" placeholder="{{ arg.name }}" class="keyWidth"  oninput="markDirty()" title="{{ arg.description }}" required/>{% unless forloop.last %}, {% endunless %}
+{% endfor %})</span>
+<input type="hidden" value="{{ include.method.code_key}}" name="option${id}" id="option${id}"/>

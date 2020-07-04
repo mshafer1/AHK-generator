@@ -1,0 +1,27 @@
+Questions for UX Testing:
+
+Have you used AHK before? if so, how often/much?
+  what about ahkgen.com? if so, how often/much?
+  do you have an existing script you'ld be willing for me to get a glimpse at that we can use? (is it hand-coded or ahkgen.com?)
+
+(Has AHKGen script)
+    (have load back up)
+    (switch domain name to check it loads correctly)
+
+(Has non-AHKGen script)
+    (use it as basis in next section)
+
+(Tasks)
+* One of the things you might type a lot is "I'm missing tea time", let's make a hotstring to type that out
+* One of the programs you might use a lot is p4v, let's make a hotkey to bring that to the front/focus easily
+* For the fun of it, let's make typeing `;smile` get replaced with a smile gliph
+  - hex code 0x263A
+* For the sake of organization, let's put the two hotstrings together in order
+  - looking to discover the re-order ability
+
+(Questions)
+* What is your overall impression?
+* Was there anything else that was difficult to figure out?
+* Does it do what you would want it to do? if not, what's missing?
+* Do you have any other questions about it?
+* ...

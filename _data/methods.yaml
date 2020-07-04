@@ -1,0 +1,54 @@
+---
+- code_key: ActivateOrOpen
+  description: >
+    Brings a program whose title matches the Window (defaulting to "contains" mode) to the front or runs the Programd\n
+    i.e. ActivateOrOpen("- Chrome", "Chrome.exe") will bring Chrome to the front or open it.
+  preview_signature: ActivateOrOpen("Window", "Program")
+  args:
+  - name: Window
+    description: Text to find the window to bring to the front
+  - name: Program
+    description: Program to run if window cannot be found
+- code_key: Send
+  description: Sends input (types for you)
+  preview_signature: Send("input")
+  args:
+  - name: Input
+    description: Text to send
+- code_key: Replace
+  description: >
+    Removes what was just typed (for hotstring, but treated as Send for hotkey) and sends the valued\ni.e. 
+    Replace("by the way") can be used with a hotstring of btw to cause it to be expanded when typed
+  preview_signature: Replace("input")
+  args:
+  - name: Text
+    description: Text to replace with
+- code_key: SendUnicodeChar
+  description: >
+    Sends the unicode character given the UTF-16 valued\n
+    i.e. SendUnicodeChar("0x263A") will insert a smiley face.
+  preview_signature: SendUnicodeChar("charCode")
+  args:
+  - name: charCode
+    description: The hexidecimal value to look up turn into a unicode character
+- code_key: ActivateOrOpenChrome
+  description: >
+    Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe "url" 
+    if not foundd\n
+    i.e. ActivateOrOpenChrome("Pandora", "www.pandora.com") will search through chrome tabs for Pandora and open pandora.com if not found
+  preview_signature: ActivateOrOpenChrome("tab name", "url")
+  args:
+  - name: tab_name
+    description: the name of the tab to search for
+  - name: url
+    description: Open this URL if a matching tab is not found
+- code_key: OpenConfig
+  description: Open this script's config page in default browser
+  preview_signature: OpenConfig()
+- code_key: Custom
+  description: A sandbox for creating your own usage of the hotkey/hotstring
+  preview_signature: Custom("code")
+  args:
+  - name: code
+    description: 
+  
