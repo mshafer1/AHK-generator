@@ -1,0 +1,14 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "F12",
+        "modifier_keys": "ALT",
+        "action": {
+            "function": "Send(\"\\{input0\\}\")",
+            "args": {
+                "input0": "gds"
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "CTRL ALT WIN W=Gmail",
+        "trigger_keys": "w",
+        "modifier_keys": [
+            "CTRL",
+            "ALT",
+            "WIN"
+        ],
+        "action": {
+            "function": "ActivateOrOpenChrome(\"\\{Window0\\}\", \"\\{Program0\\}\")",
+            "args": {
+                "Window0": "Inbox",
+                "Program0": "https://mail.google.com/mail/u/0/#inbox"
+            }
+        }
+    }
+}

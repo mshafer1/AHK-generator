@@ -1,0 +1,11 @@
+{
+    "0": {
+        "trigger_type": "STRING",
+        "comment": ";config = open this page",
+        "trigger_keys": "`;config",
+        "action": {
+            "function": "OpenConfig()",
+            "args": {}
+        }
+    }
+}

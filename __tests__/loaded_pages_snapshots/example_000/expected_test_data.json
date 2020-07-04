@@ -1,0 +1,33 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "CTRL   ALT   M = main.vi (if open)",
+        "trigger_keys": "m",
+        "modifier_keys": [
+            "CTRL",
+            "ALT"
+        ],
+        "action": {
+            "function": "Custom: \\{Code0\\})",
+            "args": {
+                "Code0": "\n   if WinExist(\"Robot Main.vi\")\n   {\n      WinActivate; Uses the last found window.\n   }\n   return"
+            }
+        }
+    },
+    "1": {
+        "trigger_type": "KEY",
+        "comment": "CTRL   ALT   D = Driver Station",
+        "trigger_keys": "d",
+        "modifier_keys": [
+            "CTRL",
+            "ALT"
+        ],
+        "action": {
+            "function": "ActivateOrOpen(\"\\{Window1\\}\", \"\\{Program1\\}\")",
+            "args": {
+                "Window1": "ahk_exe DriverStation.exe",
+                "Program1": "C:\\Program Files (x86)\\FRC Driver Station\\Driverstation.exe"
+            }
+        }
+    }
+}

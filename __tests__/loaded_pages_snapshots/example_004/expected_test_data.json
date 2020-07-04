@@ -1,0 +1,13 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "SC002",
+        "action": {
+            "function": "Custom: \\{Code0\\})",
+            "args": {
+                "Code0": "\n     Loop, ; loop forever\n         Send, d\n         Sleep, 7000 ; 7,000 ms = 7 s\n         MouseMove, 0,70,,R ; move the mouse 70 pixels relative to current position\n         Click\n         Send, d\n         MouseMove, 0,-70,,R ; move the mouse 70 pixels relative to current position"
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "CTRL   ALT   M = calendar",
+        "trigger_keys": "q",
+        "modifier_keys": [
+            "CTRL",
+            "ALT",
+            "WIN"
+        ],
+        "action": {
+            "function": "ActivateOrOpenChrome(\"\\{Window0\\}\", \"\\{Program0\\}\")",
+            "args": {
+                "Window0": "Red Hat - Calendar",
+                "Program0": "https://calendar.google.com/calendar/r/week"
+            }
+        }
+    }
+}

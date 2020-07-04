@@ -1,0 +1,13 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "LButton",
+        "action": {
+            "function": "Send(\"\\{input0\\}\")",
+            "args": {
+                "input0": "12345rt"
+            }
+        }
+    }
+}

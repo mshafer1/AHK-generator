@@ -1,0 +1,13 @@
+{
+    "0": {
+        "trigger_type": "STRING",
+        "comment": "btw = by the way",
+        "trigger_keys": "btw",
+        "action": {
+            "function": "Replace(\"\\{input0\\}\")",
+            "args": {
+                "input0": "by the way"
+            }
+        }
+    }
+}

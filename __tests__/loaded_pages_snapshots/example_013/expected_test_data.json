@@ -1,0 +1,13 @@
+{
+    "0": {
+        "trigger_type": "STRING",
+        "comment": "",
+        "trigger_keys": " fs",
+        "action": {
+            "function": "Send(\"\\{input0\\}\")",
+            "args": {
+                "input0": "^s"
+            }
+        }
+    }
+}

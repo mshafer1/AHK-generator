@@ -1,0 +1,18 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "",
+        "trigger_keys": "t",
+        "modifier_keys": [
+            "CTRL",
+            "ALT"
+        ],
+        "action": {
+            "function": "ActivateOrOpen(\"\\{Window0\\}\", \"\\{Program0\\}\")",
+            "args": {
+                "Window0": "Windows Terminal",
+                "Program0": "wt"
+            }
+        }
+    }
+}

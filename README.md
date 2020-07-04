@@ -1,4 +1,7 @@
 # AHK-generator
+
+[![Coverage Status](https://coveralls.io/repos/github/mshafer1/AHK-generator/badge.svg?branch=master)](https://coveralls.io/github/mshafer1/AHK-generator?branch=master)
+
 A single page website to provide a UI for the some of the most common uses for [Auto Hotkey](https://autohotkey.com/ "Autohotkey.com") and defining custom hotstrings and hotkeys to trigger them.
 Published under MIT License.
 Available at <http://ahkgen.com>
@@ -62,5 +65,5 @@ This project relies on a couple of open source libraries
  --- | --- | --- | --- |
  Jquery | [jquery.org/license](https://jquery.org/license "JQuery license page") | v1.12.2 | In page manipulation
  W3 CSS | [No license is necessary.](https://www.w3schools.com/w3css/ "W3 CSS home page") | 2.64 | Styling
- [Font Awesome](http://fontawesome.io/icons) | [MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" ) | 4.6.3 | Icons
+ [Font Awesome](http://fontawesome.io/icons) | [MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" ) | 5.13.0 | Icons
 [highlight.js](https://highlightjs.org/) | [BSD 3 License](https://github.com/isagalaev/highlight.js/blob/master/LICENSE "Github License page") | 9.12.0 | Syntax highlighting
