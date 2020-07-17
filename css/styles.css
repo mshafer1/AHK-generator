@@ -146,3 +146,7 @@ body {
     border-radius: 50%;
   }
 /* endRegion -- Rounded slider */
+
+.may-break-space {
+    white-space: pre-wrap;
+}

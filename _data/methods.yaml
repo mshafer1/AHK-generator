@@ -13,7 +13,7 @@
   description: Sends input (types for you)
   preview_signature: Send("input")
   args:
-  - name: Input
+  - name: input
     description: Text to send
 - code_key: Replace
   description: >
@@ -21,7 +21,7 @@
     Replace("by the way") can be used with a hotstring of btw to cause it to be expanded when typed
   preview_signature: Replace("input")
   args:
-  - name: Text
+  - name: input
     description: Text to replace with
 - code_key: SendUnicodeChar
   description: >
@@ -29,18 +29,19 @@
     i.e. SendUnicodeChar("0x263A") will insert a smiley face.
   preview_signature: SendUnicodeChar("charCode")
   args:
-  - name: charCode
-    description: The hexidecimal value to look up turn into a unicode character
+  - name: input
+    description: The hexidecimal value to turn into a unicode character
+    quote: false
 - code_key: ActivateOrOpenChrome
   description: >
     Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe "url" 
-    if not foundd\n
+    if not found\n
     i.e. ActivateOrOpenChrome("Pandora", "www.pandora.com") will search through chrome tabs for Pandora and open pandora.com if not found
   preview_signature: ActivateOrOpenChrome("tab name", "url")
   args:
-  - name: tab_name
+  - name: Window
     description: the name of the tab to search for
-  - name: url
+  - name: Program
     description: Open this URL if a matching tab is not found
 - code_key: OpenConfig
   description: Open this script's config page in default browser
@@ -48,7 +49,10 @@
 - code_key: Custom
   description: A sandbox for creating your own usage of the hotkey/hotstring
   preview_signature: Custom("code")
+  paren: false
   args:
-  - name: code
+  - name: Code
     description: 
+    quote: false
+    input_type: textarea
   

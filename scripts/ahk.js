@@ -328,7 +328,6 @@ function _handle_length(get_arr) {
         }
 
         result[i] = _part[1];
-
         i++
     }
     return result;
@@ -486,11 +485,11 @@ function select(item, id, backend) {
 
     result = '';
 
-    if(FEATURE_TOGGLES.SINGLE_SOURCE) {
+    if (FEATURE_TOGGLES.SINGLE_SOURCE) {
         {% for method in site.data.methods %}
-        {% unless forloop.first %}else {% endunless %}if (item == '{{ method.code_key }}') {
-            result=`{% include _method_signatures/_generic.html method=method %}`
-        }{% endfor %}
+        {% unless forloop.first %}else {% endunless %} if (item == '{{ method.code_key }}') {
+            result = `{% include _method_signatures/_generic.html method=method %}`
+        } {% endfor %}
     
         $('#function' + id).html(result);
     }
@@ -533,7 +532,7 @@ function select(item, id, backend) {
                 event.stopPropagation();
             });
         } else if (item == 'Custom') {
-            $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
+            $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>\
                         <input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
 
             $("#code" + id).click(function (event) {

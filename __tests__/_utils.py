@@ -27,9 +27,7 @@ class AssertionObject:
             with subtests.test(
                 expected_trigger_types=self._trigger_types, actual_trigger_types=values
             ):
-                assert values == [
-                    trigger_type.value for trigger_type in self._trigger_types
-                ]
+                assert values == [trigger_type.value for trigger_type in self._trigger_types]
 
         if self._hotkey_ids:
             parsed = parser(page)
@@ -51,9 +49,7 @@ def _get_elements_through_browser(
 def _get_elements_and_desired_value_through_browser(
     path_type, path, filter, filter_attr, desired_attr, browser, sort_attribute="name"
 ):
-    desired_elements = _get_elements_through_browser(
-        path_type, path, filter, filter_attr, browser
-    )
+    desired_elements = _get_elements_through_browser(path_type, path, filter, filter_attr, browser)
     result = {}
     for element in desired_elements:
         sort_key = element.get_attribute(sort_attribute)
@@ -80,26 +76,45 @@ def __sanitize_html_inputs(function_signature):
     'SendUnicodeChar(\\{input0\\})'
     >>> __sanitize_html_inputs('Custom: <textarea name=\"Code0\" id=\"code0\" placeholder=\"code\" class=\"codeArea\" oninput=\"markDirty()\" required=\"\"></textarea>)')
     'Custom: \\{Code0\\})'
+    >>> __sanitize_html_inputs('<span title="Removes what was just typed (for hotstring, but treated as Send for hotkey) and sends the valued\ni.e.  Replace(&quot;by the way&quot;) can be used with a hotstring of btw to cause it to be expanded when typed">Replace(\n    "\\{text0\\}"\n)</span>')
+    'Replace("\\{text0\\}")'
+    >>> __sanitize_html_inputs('ActivateOrOpenChrome(<span class="w3-hide-large w3-hide-medium"><br/></span>"<input type="text" name="Window0" id="window0" placeholder="tab name"  class="keyWidth"  oninput="markDirty()" required/>", <span class="w3-hide-large"><br/></span>"<input id="program0" type="text" name="Program0" placeholder="URL"  class="keyWidth"  oninput="markDirty()" required/>")')
+    'ActivateOrOpenChrome("\\{Window0\\}", "\\{Program0\\}")'
+    >>> __sanitize_html_inputs('<span title="A sandbox for creating your own usage of the hotkey/hotstring">Custom:<span class="may-break-space"> </span><span class="w3-hide-large "><br></span><textarea name="Code0" id="code0" placeholder="Code" class="keyWidth" oninput="markDirty()" title="" required=""></textarea></span>')
+    'Custom: \\{Code0\\}'
     """
     _arg_regex = r"(\"?)\<(input|textarea) .*?name=\"(.+?)\".+?\>(?:\<\/\2\>)?\1"
 
+    # remove hidden option input
+    function_signature = re.sub(r"\<input type=\"hidden\".+?\/?\>", "", function_signature).strip()
+
+    # remove title text span
     function_signature = re.sub(
-        r"\<input type=\"hidden\".+?\/?\>", "", function_signature
-    ).strip()
-    function_signature = re.sub(_arg_regex, r"\1\{\3\}\1", function_signature).replace(
-        "\t", ""
-    )
-    function_signature = re.sub(r"\s+\"", '"', function_signature)
-    function_signature = re.sub(
-        r"\<span .+?\<br\/?\>\<\/span\>", "", function_signature
-    )  # remove page break insertions
+        r"\<span title=\"[\d\D]+?\"[\d\D]*?\>([\d\D]+)\<\/span\>", r"\1", function_signature,
+    )  # TODO: after integration, add title to testing
+
+    # repace arg inputs with names
+    function_signature = re.sub(_arg_regex, r"\1\{\3\}\1", function_signature).replace("\t", "")
+
+    # clean up newlines
+    function_signature = re.sub(r"(?:\\n|\n)", r"", function_signature)
+
+    # remove white space before quote marks, except after commas
+    function_signature = re.sub(r"([^,])[\s \n]+\"", r'\1"', function_signature)
+
+    # remove page break insertions
+    function_signature = re.sub(r"\<span .+?\<br\/?\>\<\/span\>", "", function_signature)
+
+    # add spaces after commas (like in-between parameters)
+    function_signature = re.sub(r",([\"\'])", r", \1", function_signature)
+
+    # add space between : and arg
+    function_signature = re.sub(r"\:\\\{", r": \\{", function_signature)
 
     return function_signature
 
 
-def _get_input(
-    selector, matcher, desired_value, id_filter, browser, parser, dest_name, data_store
-):
+def _get_input(selector, matcher, desired_value, id_filter, browser, parser, dest_name, data_store):
     trigger_type_inputs = _get_elements_and_desired_value_through_browser(
         By.CSS_SELECTOR, selector, matcher, "name", desired_value, browser,
     )
