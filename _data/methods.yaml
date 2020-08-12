@@ -1,8 +1,9 @@
 ---
 - code_key: ActivateOrOpen
   description: >
-    Brings a program whose title matches the Window (defaulting to "contains" mode) to the front or runs the Programd\n
-    i.e. ActivateOrOpen("- Chrome", "Chrome.exe") will bring Chrome to the front or open it.
+    Brings a program whose title matches the Window (defaulting to "contains" mode) to the front or runs the Program
+  example: 'For example, use: </p><p class="__code_class__"><code>ActivateOrOpen("- Google Chrome", "Chrome.exe")</code></p><p> to bring Chrome to the front or open it.'
+  example_url: /?indexes=0&comment0=&func0=STRING&skeyValue0=%60%3Bchrome&Window0=-+Google+Chrome&Program0=chrome.exe&option0=ActivateOrOpen
   preview_signature: ActivateOrOpen("Window", "Program")
   args:
   - name: Window
@@ -15,39 +16,47 @@
   args:
   - name: input
     description: Text to send
+  example: 'For example, use: </p><p class="__code_class__"><code>Send("be right there")</code></p><p> to type the string out'
+  example_url: /?indexes=0&comment0=&func0=KEY&skey0%5B%5D=CTRL&skeyValue0=b&input0=be+right+there&option0=Send
 - code_key: Replace
   description: >
-    Removes what was just typed (for hotstring, but treated as Send for hotkey) and sends the valued\ni.e. 
-    Replace("by the way") can be used with a hotstring of btw to cause it to be expanded when typed
+    Removes what was just typed (for hotstring, but treated as Send for hotkey) and types the value
   preview_signature: Replace("input")
   args:
   - name: input
     description: Text to replace with
+  example: 'For example, use: </p><p class="__code_class__"><code>Replace("be right there")</code></p><p> to type the string out in place of the trigger'
+  example_url: /?indexes=0&comment0=&func0=STRING&skeyValue0=%60%3Bbrt&input0=be+right+there&option0=Replace
 - code_key: SendUnicodeChar
   description: >
-    Sends the unicode character given the UTF-16 valued\n
-    i.e. SendUnicodeChar("0x263A") will insert a smiley face.
+    Sends the unicode character given the UTF-16 valued
   preview_signature: SendUnicodeChar("charCode")
   args:
   - name: input
+    placeholder: "0x0000"
     description: The hexidecimal value to turn into a unicode character
     quote: false
+  example: 'For example, use: </p><p class="__code_class__"><code>SendUnicodeChar("0x263A")</code></p><p> to insert a smiley face.'
+  example_url: /?indexes=0&comment0=&func0=STRING&skeyValue0=%60%3Bsmile&input0=0x263A&option0=SendUnicodeChar
 - code_key: ActivateOrOpenChrome
   description: >
     Searches through Chrome windows/tabs for tab with provided name - opens chrome.exe "url" 
-    if not found\n
-    i.e. ActivateOrOpenChrome("Pandora", "www.pandora.com") will search through chrome tabs for Pandora and open pandora.com if not found
+    if not found
   preview_signature: ActivateOrOpenChrome("tab name", "url")
   args:
   - name: Window
     description: the name of the tab to search for
   - name: Program
     description: Open this URL if a matching tab is not found
+  example: 'For example, use: </p><p class="__code_class__"><code>ActivateOrOpenChrome("Pandora", "www.pandora.com")</code></p><p> to search through Chrome tabs for Pandora and open pandora.com if not found.'
+  example_url: /?indexes=0&comment0=&func0=STRING&skeyValue0=%60%3Bpandora&input0=0x263A&option0=SendUnicodeChar
 - code_key: OpenConfig
   description: Open this script's config page in default browser
   preview_signature: OpenConfig()
+  example: ''
 - code_key: Custom
   description: A sandbox for creating your own usage of the hotkey/hotstring
+  example: ''
   preview_signature: Custom("code")
   paren: false
   args:

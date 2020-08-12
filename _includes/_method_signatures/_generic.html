@@ -1,3 +1,16 @@
-<span title='{{ include.method.description | replace: "'", "\\'" }}'>{{ include.method.code_key}}{% unless include.method and include.method.paren == false %}({%else%}:<span class="may-break-space"> </span>{% endunless %}<span class="w3-hide-large "><br/></span>{% for arg in include.method.args %}{% unless arg.quote == false %}"{% endunless %}<{% if arg.input_type %}{{arg.input_type}}{% else %}input type="text"{% endif %} name="{{ arg.name }}${id}" id="{{ arg.name | downcase}}${id}" placeholder="{{ arg.name }}" class="keyWidth"  oninput="markDirty()" title="{{ arg.description }}" required/>{% unless arg.quote == false %}"{% endunless %}{% unless forloop.last %},<span class="may-break-space"> </span><span class="w3-hide-large "><br/></span>{% endunless %}
+<span 
+title='{{ include.method.description | replace: "'", "\\'" }}'>{{ include.method.code_key}}{% unless include.method and include.method.paren == false %}({%else%}:<span 
+class="may-break-space">
+</span>{% endunless %}<span 
+class="w3-hide-large "><br/></span>{% for arg in include.method.args %}{% unless arg.quote == false %}"{% endunless %}<{% if arg.input_type %}{{arg.input_type}}{% else %}input type="text"{% endif %} 
+    onclick="return _prevent_default()" 
+    name="{{ arg.name }}${id}" 
+    id="{{ arg.name | downcase}}${id}" 
+    placeholder="{% unless arg.placeholder %}{{ arg.name }}{% else %}{{ arg.placeholder }}{% endunless %}" 
+    class="keyWidth"
+    oninput="markDirty()"
+    title="{{ arg.description }}"
+    required/>{% unless arg.quote == false %}"{% endunless %}{% unless forloop.last %},<span class="may-break-space"
+    > </span><span class="w3-hide-large "><br/></span>{% endunless %}
 {% endfor %}{% unless include.method.paren == false %}){% endunless %}</span>
 <input type="hidden" value="{{ include.method.code_key}}" name="option${id}" id="option${id}"/>
