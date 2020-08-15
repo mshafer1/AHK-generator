@@ -61,6 +61,7 @@ def browser_backend(driver_path, use_headless):
             opts.add_argument("--disable-gpu")
 
         browser_backend.result = webdriver.Chrome(driver_path, options=opts)
+    browser_backend.result.set_page_load_timeout(10)
     yield browser_backend.result
 
     try:

@@ -35,3 +35,47 @@ basic_test_cases = {
     "pandora__activate_or_open_chrome__pandora_com": "/?length=1&comment0=&func0=STRING&skeyValue0=%60%3Bpandora&Window0=pandora&Program0=http%3A%2F%2Fwww.pandora.com&option0=ActivateOrOpenChrome",
     "ctrl_shift_g__custom_code__google_selected_text": "/?length=1&comment17=CTRL+%2B+Shift+%2B+g+%3D+search+Google+for+the+highlighted+text&func17=KEY&skey17%5B%5D=CTRL&skey17%5B%5D=SHIFT&skeyValue17=g&Code17=%0D%0ASend%2C+%5Ec%0D%0ASleep+50%0D%0ARun%2C+http%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3D%25clipboard%25%0D%0AReturn&option17=Custom",
 }
+
+
+def _bad_urls():
+    leading_parts = [["length=1",], ["indexes={index}"]]
+
+    possible_triggers = [
+        ["func{index}=KEY", "skeyValue{index}=d",],
+        ["func{index}=KEY", "skeyValue{index}=g",],
+        ["func{index}=STRING", "skeyValue{index}=btw",],
+    ]
+
+    possible_actions = [
+        ["input{index}=by+the+way", "option{index}=Replace",],
+        [
+            "Window{index}=ahk_exe+chrome.exe",
+            "Program{index}=chrome.exe",
+            "option{index}=ActivateOrOpen",
+        ],
+        ["input{index}=0x2192", "option{index}=SendUnicodeChar",],
+        ["option{index}=OpenConfig",],
+        ["input{index}=b", "option{index}=Send",],
+        [
+            "Window{index}=pandora",
+            "Program{index}=http%3A%2F%2Fwww.pandora.com",
+            "option{index}=ActivateOrOpenChrome",
+        ],
+        [
+            "Code{index}=%0D%0ASend%2C+%5Ec%0D%0ASleep+50%0D%0ARun%2C+http%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3D%25clipboard%25%0D%0AReturn",
+            "option{index}=Custom",
+        ],
+    ]
+
+    # missing length
+    for trigger in possible_triggers:
+        yield "&".join(trigger + possible_actions[0]).format(index=1)
+
+    for leading_part in leading_parts:
+        for trigger in possible_triggers:
+            for part in trigger:
+                other_parts = [t for t in trigger if t != part]
+                yield "&".join(leading_part + other_parts + possible_actions[0]).format(index=1)
+
+
+bad_urls = list(["?" + url for url in _bad_urls()])
