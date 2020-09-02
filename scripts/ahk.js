@@ -1,9 +1,18 @@
 ---
 ---
 
+
 GET_KEYS = {
     enable_debug_logging: 'DEBUG_LOG',
     enable_eager_compile: 'EAGER_COMPILE',
+}
+
+try {
+    const zipper = require('../../_site/scripts/zip.js'); // pull in the cod gen'd version
+    unzip = zipper.unzip;
+    zip = zipper.zip;
+} catch (error) {
+    // pass
 }
 
 try {
@@ -119,6 +128,9 @@ function init() {
     DEBUG_LOGGING_ENABLED = FEATURE_TOGGLES.DEBUG_LOGGING
     EAGER_COMPILE_ENABLED = FEATURE_TOGGLES.EAGER_COMPILE
     _debug_log("Debug logging enabled");
+    if(FEATURE_TOGGLES.ENABLE_COMPRESSION) {
+        $('#CompressData').show()
+    }
     ready()
     load_get()
     parse_get();
@@ -209,8 +221,37 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
 
 function _load_get(location) {
     var result = {}
+
+    if (location.indexOf('compressed=') != -1) {
+        _debug_log("Original query string: ", location)
+        var values = location.split('?')[1].split('&')
+
+        var version = 0
+        var compressed_data = ''
+
+        for(i = 0; i < values.length; i++) {
+            parts = values[i].split('=')
+            key = parts[0]
+            value = parts[1]
+            if (key == 'version') {
+                version = unescape(value)
+            }
+            if (key == 'compressed') {
+                compressed_data = unescape(value)
+            }
+        }
+
+        // if loading compressed page, default to maintaining compression
+        $('#chkBox_CompressData').attr('checked', true)
+
+        _debug_log("version:", version, "data:", compressed_data)
+        var location = location.split('?')[0] + '?' + unzip(compressed_data, version)
+        _debug_log("Uncompressed query string:", location)
+    }
+
     if (location.indexOf('?') == -1) {
         _debug_log("No query string");
+        _debug_log(location);
         return result;
     }
     var query = location
@@ -467,7 +508,55 @@ function _check_form(show_error = true, check_required_fields = false) {
         }
     }
 
+    if (!result) {
+        return result;
+    }
+
+    // Shorten URL
+    if(FEATURE_TOGGLES.ENABLE_COMPRESSION) {
+        // https://stackoverflow.com/a/317000??
+
+        var user_requested_shortened = $('#chkBox_CompressData').is(':checked')
+        _debug_log("User requested shorten:", user_requested_shortened);
+        var formData = new FormData($('#hotkeyForm')[0]);
+        searchParams = new URLSearchParams(formData);
+        _debug_log("params: ", searchParams);
+        queryString = searchParams.toString();
+        _debug_log("QueryString:", queryString);
+
+        var should_shorten = user_requested_shortened;
+        var limit = 8.2e3
+        if(location.host.startsWith('localhost')) {
+            limit = 2e3
+        }
+        _debug_log(limit)
+        _debug_log("length:", (location.href + queryString).length)
+        if (!user_requested_shortened && (location.href + queryString).length > limit) {
+            _debug_log("warning that should shorten")
+            displayYesNoLinks(
+                "Shorten URL?",
+                `<p>The new configuration URL may be too long (${location.href.length + queryString.length} is 
+                greater than ${limit}).</p><p>Shorten the URL?<br/>("YES"
+                 to shorten and proceed, "NO" to proceed as is, or close this dialogue to cancel)</p>`, 
+                `/?${_get_shortened_url(queryString)}`, `/?${queryString}`, 
+                true
+            )
+            return false;
+        }
+
+        if (should_shorten) {
+            window.location.href='/?' + _get_shortened_url(queryString)
+            return false
+        }
+    }
+
     return result; // return false to cancel form action
+}
+
+function _get_shortened_url(queryString) {
+    var zipped = zip(queryString);
+    _debug_log("Zipped:", zipped);
+    return `version=1.0&compressed=${zipped}`;
 }
 
 function ready() {
@@ -824,6 +913,7 @@ try {
 
     exports._load_get = _load_get;
     exports._parse_get = _parse_get;
+    exports._get_shortened_url = _get_shortened_url;
 } catch (error) {
     // pass
 }

@@ -44,6 +44,7 @@ layout: basic
     <div class="w3-row w3-padding-top w3-margin-top">
         <div class="w3-col s4">
             <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
+            <label id="CompressData" style="display:none" class="unselectable"><input type="checkbox" id="chkBox_CompressData" oninput="markDirty()"/> Shorten URL</label><br/>
         </div>
         <div class="w3-col s4">
             <button type="button" id="btnTop" class="w3-btn center" title="Scroll to top of config"
@@ -77,7 +78,7 @@ layout: basic
     <div class="w3-col w3-center l3">
         <div class="w3-container">
             <div class="w3-dropdown-hover">
-                <button class="w3-btn">?</button>
+                <button class="w3-btn w3-indigo">?</button>
                 <div class="w3-dropdown-content w3-bar-block w3-border w3-padding-small">
                     <p>
                         Rather than poluting this tool with ads., these links allow you to support development of this

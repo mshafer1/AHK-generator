@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`_get_shortened_url takes a string and returns compressed data consistently 1`] = `"version=1.0&compressed=bG9yZW0gaXBzdW0="`;
