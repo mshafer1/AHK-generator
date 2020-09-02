@@ -1,6 +1,7 @@
 # AHK-generator
 
-[![Coverage Status](https://coveralls.io/repos/github/mshafer1/AHK-generator/badge.svg?branch=master)](https://coveralls.io/github/mshafer1/AHK-generator?branch=master)
+[![Build Status](https://travis-ci.com/mshafer1/AHK-generator.svg?branch=master)](https://travis-ci.com/github/mshafer1/AHK-generator) [![Coverage Status](https://coveralls.io/repos/github/mshafer1/AHK-generator/badge.svg?branch=master)](https://coveralls.io/github/mshafer1/AHK-generator?branch=master)
+
 
 A single page website to provide a UI for the some of the most common uses for [Auto Hotkey](https://autohotkey.com/ "Autohotkey.com") and defining custom hotstrings and hotkeys to trigger them.
 Published under MIT License.
