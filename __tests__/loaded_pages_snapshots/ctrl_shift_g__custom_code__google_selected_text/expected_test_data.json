@@ -8,7 +8,7 @@
             "SHIFT"
         ],
         "action": {
-            "function": "Custom: \\{Code0\\})",
+            "function": "Custom: \\{Code0\\}",
             "args": {
                 "Code0": "\nSend, ^c\nSleep 50\nRun, http://www.google.com/search?q=%clipboard%\nReturn"
             }
