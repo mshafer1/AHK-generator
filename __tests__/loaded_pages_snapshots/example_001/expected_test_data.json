@@ -4,7 +4,7 @@
         "comment": "; CTRL + Shift + c = copy to next window",
         "trigger_keys": "$^+c",
         "action": {
-            "function": "Custom: \\{Code0\\})",
+            "function": "Custom: \\{Code0\\}",
             "args": {
                 "Code0": "\n    Loop, 1 ; increase this to repeat multiple times\n    {\n      Send, ^c\n      Sleep, 300 ; let Windows do its thing\n      ; Because Excel copies cells with an endline, trim the clipboard\n      clipboard := Trim(clipboard, OmitChars := \" `n`r`t\")\n      Send, !{Tab}\n      Sleep, 300 ; let Windows catch up\n      Send, ^a\n      Send, ^v\n      Sleep, 300 ; let Windows do its thing\n      Send, {Return}\n      Send, !{Tab}\n      Sleep, 30 ; let Windows do its thing\n      Send, {Return} ; Excel wants to have it clearly indicated that the copy command is finished\n      Send, {Down}\n    }\n    return"
             }

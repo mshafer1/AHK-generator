@@ -1,6 +1,16 @@
 ---
 ---
 
+var DEBUG_LOGGING_ENABLED = false;
+
+function _debug_log() {
+    if (!FEATURE_TOGGLES.DEBUG_LOGGING) {
+        return; // NO-OP
+    }
+
+    console.info(...arguments);
+}
+
 var FEATURE_TOGGLES = {
     {% for toggle in site.data.feature_toggles %}{{toggle.code_key}}: {{toggle.default}}, // {{ toggle.description }}
     {% endfor %}

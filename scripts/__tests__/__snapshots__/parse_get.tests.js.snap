@@ -802,8 +802,28 @@ Object {
 
 exports[`_parse_get takes a basic config and returns expected:: return an error for a missing index 1`] = `
 Object {
-  "ERROR": Object {
-    "ERROR": "Missing crucial values. Must have each of func1,option1,skeyValue1",
+  "ERROR": "Missing crucial values. Must have each of func1,option1,skeyValue1",
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: returns an error for a length that is bigger than provided data 1`] = `
+Object {
+  "0": Object {
+    "func": "KEY",
+    "input": "foo",
+    "modifiers[]": Array [
+      "CTRL",
+      "ALT",
+    ],
+    "option": "Send",
+    "skeyValue": "d",
   },
+  "ERROR": "Missing crucial values. Must have each of func1,option1,skeyValue1",
+}
+`;
+
+exports[`_parse_get takes a basic config and returns expected:: returns an error if length is not provided 1`] = `
+Object {
+  "ERROR": "Missing crucial values. Must have each of func1,option1,skeyValue1",
 }
 `;

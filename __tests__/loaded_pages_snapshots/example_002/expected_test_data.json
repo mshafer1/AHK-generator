@@ -4,7 +4,7 @@
         "comment": "",
         "trigger_keys": "F3",
         "action": {
-            "function": "Custom: \\{Code0\\})",
+            "function": "Custom: \\{Code0\\}",
             "args": {
                 "Code0": "\n next = GetNextProgram()\n get_exe_name =  GetExe(next);\n MsgBox, Next Program: %next%`nExe: %get_exe_name%\n ActivateOrOpen(next, get_exe_name);\n return\n\nGetNextProgram() {\n if WinActive(\"ahk_class excel.exe\") { return \"ahk_exe outloo.exe\"}\n if WinActive(\"ahk_exe sage\") {return \"ahk_class MozillaWindowClass\"}\n}\n\nGetExe(program) {\n if (program = \"ahk_exe excel.exe\") { return \"excel.exe\"}\n if (porgram = \"ahk_exe outlook.exe\") {return \"outlook.exe\"}\n if (program = \"ahk_class MozillaWindowClass\") { return \"Mozilla.exe\"};\n}\n\n \n "
             }

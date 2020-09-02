@@ -62,6 +62,20 @@ describe('_parse_get', () => {
         it('returns an error if length is not provided', () => {
             expect(ahk_js._parse_get({ FOO: 'bar' })).toHaveProperty('ERROR');
         });
+        it('returns an error if length is not provided', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?length=1&skey1%5B%5D=CTRL&skey1%5B%5D=ALT&skeyValue1=d&input1=by+the+way&option1=Replace'
+            ))
+            expect(result).toMatchSnapshot();
+        });
+        it('returns an error for a length that is bigger than provided data', () => {
+            const result = ahk_js
+            ._parse_get(ahk_js._load_get(
+                'ahkgen.com/?length=2&comment0=&comment1=&comment2=&comment3=&func0=KEY&skey0%5B%5D=CTRL&skey0%5B%5D=ALT&skeyValue0=d&input0=foo&option0=Send'
+            ))
+            expect(result).toMatchSnapshot();
+        });
         it('return an error for a missing index', () => {
             const result = ahk_js
                 ._parse_get(ahk_js._load_get(

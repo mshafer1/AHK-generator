@@ -1,5 +1,6 @@
 ---
 ---
+
 GET_KEYS = {
     enable_debug_logging: 'DEBUG_LOG',
     enable_eager_compile: 'EAGER_COMPILE',
@@ -20,7 +21,7 @@ try {
     //Disable function - from https://stackoverflow.com/a/16788240
     jQuery.fn.extend({
         disable: function (state) {
-            console.log("disable " + state)
+            _debug_log("disable " + state)
             return this.each(function () {
                 var $this = $(this);
                 if ($this.is('input, button, textarea, select'))
@@ -48,7 +49,7 @@ try {
                     doneTyping = function (el) {
                         if (!timeoutReference) return;
                         timeoutReference = null;
-                        // console.log($(el));
+                        // _debug_log($(el));
                         callback.call($(el));
                     };
                 return this.each(function (i, el) {
@@ -76,7 +77,7 @@ try {
                 });
             }
         });
-        console.log("donetyping loaded");
+        _debug_log("donetyping loaded");
     })(jQuery);
 } catch (error) {
     // pass
@@ -105,11 +106,15 @@ function _debug_log() {
 }
 
 function init() {
+    try {
     $('#hotkeyRegion').sortable({
         placeholder: 'placeholder',
         handle: '.draggabble_handle',
         update: function (event, ui) { markDirty() },
     });
+    } catch (_) {
+        // pass - just means that jquery-ui did not load, so won't be able to drag-drop
+    }
     window.onpopstate = _handle_pop_state; // lazy do this so that jest doesn't encounter it
     DEBUG_LOGGING_ENABLED = FEATURE_TOGGLES.DEBUG_LOGGING
     EAGER_COMPILE_ENABLED = FEATURE_TOGGLES.EAGER_COMPILE
@@ -117,10 +122,15 @@ function init() {
     ready()
     load_get()
     parse_get();
-    console.log("GET: ", GET)
-    console.log("CONFIG: ", CONFIG)
+    _debug_log("GET: ", GET)
+    _debug_log("CONFIG: ", CONFIG)
+
+    if('ERROR' in CONFIG) {
+        alert(CONFIG['ERROR'])
+    }
+
     num_keys = Object.keys(CONFIG).length;
-    if (num_keys == 0) {
+    if (num_keys == 0 || 'ERROR' in CONFIG) {
         _debug_log("New row")
         newRow()
         return;
@@ -142,7 +152,7 @@ function init() {
     _debug_log("GET: ", GET)
     _debug_log("CONFIG: ", CONFIG)
 
-    console.log("Num Keys: ", num_keys)
+    _debug_log("Num Keys: ", num_keys)
     for (i = 0; i < num_keys; i++) {
         newRow();
         setup_row(i, CONFIG);
@@ -256,7 +266,7 @@ function _handle_segment(get_arr, k) {
     const not_has_key = (key) => (!(key in get_arr));
     // if any missing, report error
     if (expected_keys.some(not_has_key)) {
-        return [false, { "ERROR": `Missing crucial values. Must have each of ${expected_keys}` }];
+        return [false, `Missing crucial values. Must have each of ${expected_keys}` ];
     }
 
     var result = {
@@ -305,6 +315,15 @@ function _handle_segment(get_arr, k) {
     return [true, result];
 }
 
+function _get_index_from_name(name) {
+    var matches = name.match(/\d+$/);
+    var index = -1;
+    if(matches) {
+        index = matches[0];
+    }
+    return index;
+}
+
 function _handle_length(get_arr) {
     var result = {}
     var num_keys = get_arr['length'];
@@ -312,15 +331,33 @@ function _handle_length(get_arr) {
         _debug_log("Num Keys: " + num_keys + "\n  Get.Length: " + get_arr.Length)
         _debug_log(get_arr)
         // error, display warning and leave
-        result['ERROR'] = `Insufficient data, expecting at least ${num_keys * 4} values. Got (${get_arr})`
+        result['ERROR'] = `Insufficient data, expecting at least ${num_keys * 4} values. Got (${Object.keys(get_arr).length})`
         return result;
     }
-    console.log("Number of keys: ", num_keys)
-    for (i = 0, k = 0; i < get_arr['length']; k++) {
-        if (!('func' + k in get_arr)) {
+
+    var keys = Object.keys(get_arr);
+
+    var inverted_config = {}
+    var length = keys.length;
+    for(var i = 0; i < length; i++) {
+        var key = keys[i];
+        var index = _get_index_from_name(key)
+        if (index == -1) {
             continue;
         }
-        _part = _handle_segment(get_arr, k);
+
+        if (!(index in inverted_config)) {
+            inverted_config[index] = {}
+        }
+        inverted_config[index][key] = get_arr[key];
+    }
+    _debug_log("Inverted Config: ", inverted_config)
+
+    _debug_log("Number of keys: ", num_keys)
+    var inverted_keys = Object.keys(inverted_config)
+    for (var i = 0; i < inverted_keys.length; i++) {
+        var index = inverted_keys[i]
+        _part = _handle_segment(get_arr, index);
         _debug_log(_part)
         if (!_part[0]) {
             result['ERROR'] = _part[1];
@@ -328,20 +365,22 @@ function _handle_length(get_arr) {
         }
 
         result[i] = _part[1];
-        i++
     }
+
+    // TODO: if i < get_arr['length'], warning??
+
     return result;
 }
 
 function _handle_indexes(get_arr) {
     var result = {}
     var indexes = get_arr['indexes'].split(',');
-    console.log("Indexes: ", indexes)
+    _debug_log("Indexes: ", indexes)
     _debug_log("Indexes: ", indexes);
     for (var i = 0; i < indexes.length; i++) {
         var index = indexes[i];
         var _parts = _handle_segment(get_arr, index);
-        console.log("try_handle: ", _parts)
+        _debug_log("try_handle: ", _parts)
         if (!(_parts[0])) {
             result['ERROR'] = _parts[1];
             break;
@@ -364,11 +403,11 @@ function _parse_get(get_arr) {
     }
     if (GET_KEYS.enable_eager_compile in get_arr) {
         EAGER_COMPILE_ENABLED = true;
-        console.log("Enabling Eager Compile.")
+        _debug_log("Enabling Eager Compile.")
     }
     _debug_log("Debug Logging enabled");
     if (!('length' in get_arr) && !('indexes' in get_arr)) {
-        result['ERROR'] = `Missing 'indexes' parameter`
+        result['ERROR'] = `Missing 'indexes' parameter in url`
         return result;
     }
 
@@ -404,7 +443,7 @@ function _check_form(show_error = true, check_required_fields = false) {
             //it doesn't exist
             result = false;
             if (show_error) {
-                alert("Must select a function for all rows");
+                alert("Must select an action for each trigger");
             }
             return result;
         }
@@ -464,8 +503,10 @@ index = 0;
 count = 0;
 
 function dropdown(id) {
+    var event = window.event;
+
     _debug_log('#key' + id);
-    if ($('#key' + id).hasClass("w3-show")) {
+    if (event.defaultPrevented || $('#key' + id).hasClass("w3-show")) {
         _debug_log("Hide it");
         $(".w3-dropdown-content").removeClass("w3-show");
         $(".w3-dropdown-content").removeClass("onTop");
@@ -485,11 +526,11 @@ function select(item, id, backend) {
 
     result = '';
 
-    if(FEATURE_TOGGLES.SINGLE_SOURCE) {
+    if (FEATURE_TOGGLES.SINGLE_SOURCE) {
         {% for method in site.data.methods %}
-        {% unless forloop.first %}else {% endunless %}if (item == '{{ method.code_key }}') {
-            result=`{% include _method_signatures/_generic.html method=method %}`
-        }{% endfor %}
+        {% unless forloop.first %}else {% endunless %} if (item == '{{ method.code_key }}') {
+            result = `{% include _method_signatures/_generic.html method=method %}`
+        } {% endfor %}
     
         $('#function' + id).html(result);
     }
@@ -532,7 +573,7 @@ function select(item, id, backend) {
                 event.stopPropagation();
             });
         } else if (item == 'Custom') {
-            $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>)\
+            $('#function' + id).html('Custom: <textarea name="Code{0}"  id="code{0}" placeholder="code" class="codeArea"  oninput="markDirty()" required/>\
                         <input type="hidden" value="Custom" name="option{0}" id="option{0}"/>'.format(id))
 
             $("#code" + id).click(function (event) {
@@ -546,7 +587,7 @@ function select(item, id, backend) {
                 event.stopPropagation();
             });
         } else if (item == 'OpenConfig') {
-            console.log("open config");
+            _debug_log("open config");
             $('#function' + id).html('OpenConfig() <input type="hidden" value="OpenConfig" name="option{0}" id="option{0}"/>'.format(id))
         }
 
@@ -593,7 +634,7 @@ function eager_compile(changed_id, changed_index, changed_key) {
     }
 
     var check = _check_form(false, true);
-    console.log("Ready for 'compile':", check);
+    _debug_log("Ready for 'compile':", check);
     if (!check) {
         return;
     }
@@ -601,11 +642,17 @@ function eager_compile(changed_id, changed_index, changed_key) {
     var form = $(`#hotkeyForm`)[0];
     var data = new FormData(form);
     var querystring = new URLSearchParams(data).toString();
-    console.log("New URL: ", querystring);
+    _debug_log("New URL: ", querystring);
     window.history.pushState({ "updatedfield": changed_id, "index": String(changed_index), "changed_key": String(changed_key) }, "AHK Generator", "/?" + querystring);
     _debug_log(`/?${querystring}`);
     var get_arry = _load_get(`/?${querystring}`);
     _debug_log('get_array', get_arry);
+
+    if ('error' in get_arry) {
+        _debug_log('ERRORS: ', get_arry['error'])
+        return;
+    }
+
     var config = _parse_get(get_arry);
     _setup_download(config);
     _update_fields(null, config);
@@ -617,7 +664,7 @@ function _handle_pop_state(event) {
         window.location.href = document.location;
         return;
     }
-    console.log("location: ", document.location, "\nstate: ", event.state);
+    _debug_log("location: ", document.location, "\nstate: ", event.state);
     var get_arry = _load_get(window.location.search);
     var config = _parse_get(get_arry);
     _setup_download(config);
@@ -625,7 +672,7 @@ function _handle_pop_state(event) {
 }
 
 function _update_fields(state, config) {
-    console.log("State: ", state);
+    _debug_log("State: ", state);
     if (state == null) {
         num_keys = Object.keys(config).length;
         if (num_keys == 0) {
@@ -644,7 +691,7 @@ function _update_fields(state, config) {
     }
 
     // TODO: handle row deletion and creation
-    console.log("Setup Row from Config: ", config);
+    _debug_log("Setup Row from Config: ", config);
     setup_row(state.index, config);
     // var new_value = config[state.index][state.changed_key];
     // if('[]' in state.changed_key) {
@@ -676,41 +723,23 @@ function _register_done_typing(parent_identifier, id) {
     if (!EAGER_COMPILE_ENABLED) {
         return
     }
-    console.log("Registering donetyping");
+    _debug_log("Registering donetyping");
     var inputs = $(`${parent_identifier} .js_donetyping`);
-    console.log('Inputs: ', inputs);
+    _debug_log('Inputs: ', inputs);
     inputs.donetyping(function () { eager_compile($(this).attr('id'), id, $(this).attr('name').replace(/\d*$/g, '')); });
 }
 
 function genHotkeyRegion(id) {
     var _handle_change = (EAGER_COMPILE_ENABLED) ? '' : 'oninput="markDirty()"';
     var _register_change = (EAGER_COMPILE_ENABLED) ? 'js_donetyping' : '';
-    return `<div class="w3-row w3-col s6">
-                <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}CTRL" name="skey{0}[]" value="CTRL" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Control</span><span class="w3-hide-large">CTRL</span></label>
-                </div>
-                <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}SHIFT" name="skey{0}[]" value="SHIFT" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Shift</span><span class="w3-hide-large">Shift</span></label>
-                </div>
-                <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}ALT" name="skey{0}[]" value="ALT" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Alt</span><span class="w3-hide-large">Alt</span></label>
-                </div>
-                <div class="w3-col s6">
-                    <label><input type="checkbox" id="skey{0}WIN" name="skey{0}[]" value="WIN" ${ _handle_change } class="${ _register_change }"/><span class="w3-hide-small w3-hide-medium">Windows</span><span class="w3-hide-large">Win</span></label>
-                </div>
-            </div>
-            <div class="w3-row w3-col s6">
-                <div class="w3-col s12">
-                    <input type="text" placeholder="key" id="skey{0}key" ${ _handle_change} name="skeyValue{0}" class="keyWidth ${_register_change}"  autocomplete="off"  list="specialKeys" title="Set the key to hit (special keys are available for autocomplete" required/>
-                </div>
-            </div>`.format(id);
+    return `{% include _trigger_hotkey.html %}`.format(id);
 }
 
 function setHotString(id, backend) {
     var _handle_change = (EAGER_COMPILE_ENABLED) ? '' : 'onchange="markDirty()"';
     var _register_change = (EAGER_COMPILE_ENABLED) ? 'js_donetyping' : '';
 
-    console.log("configuring #optionsShortcut" + id)
+    _debug_log("configuring #optionsShortcut" + id)
     $('#optionsShortcut' + id).html(`<div class="w3-col s6">
 												<input type="text" id="skey${id}string" placeholder="string" name="skeyValue${id}" class="${_register_change}" ${_handle_change} required/>
                                             </div>`)
@@ -721,45 +750,7 @@ function setHotString(id, backend) {
 }
 
 function newRow() {
-    newDiv = `<div class="w3-container" style="display:relative" id="shortcut${index}">
-                <div style="width: 15px; display:inline-block; position:absolute; margin-top:15px; margin-left:8px;" class="draggabble_handle">
-                    <i class="fas fa-grip-vertical"></i>
-                </div>
-                <div style="display:inline-block position:abosolute; left:15px; right:0px; width:100%;">
-            <div class="w3-row-padding w3-padding-16">
-                <input type="hidden" value="${index}" class="js-index"/>
-                
-                <div class="w3-col l6 m12 s12">															
-                        <div class="w3-row-padding">                                                    
-                            <div class="w3-col m3 s6">                                                  
-                                <input type="text" placeholder="comment" name="comment${index}" id="comment${index}" class="fullWidth" oninput="markDirty()"/>
-                            </div>
-                            <div class="w3-col m2 s6">  
-                                <label title="Press a combination of buttons/keys to trigger an action"><input type="radio" id="func${index}KEY" name="func${index}" value="KEY" onclick="setHotKey(${index});" checked /> Hotkey</label>
-                                <span class="w3-hide-small"><br/></span>
-                                <label title="Type out a sequence to trigger an action"><input type="radio" id="func${index}STRING" name="func${index}" value="STRING" onclick="setHotString(\'${index}\');"> Hotstring</input></label>
-                            </div>
-                            <div class="w3-col m7 s12 w3-right">
-                                <div id="optionsShortcut${index}" class="w3-row">` + genHotkeyRegion(index) + `</div>
-                            </div>
-                        </div>
-                    </div>
-                <div class="w3-col l6 m12 s12">
-                    <div class="w3-row-padding">
-                        <div class="w3-col l11 m8 s10 w3-dropdown-click defaultCursor">
-                            <div class="w3-btn w3-centered fitInParent" onclick="dropdown(\'${index}\')"><span id="function${index}" >(Select a function)</span><i id="arrow${index}" class="fa fa-caret-right" aria-hidden="true"></i></div>
-                            <div id="key${index}" class="w3-dropdown-content w3-border onTop">
-                                    {% for action in site.data.methods %}
-                                    <button type="button" class="w3-btn w3-margin" onclick="select(\'{{ action.code_key }}\', \'${index}\')" title='{{ action.description | strip }}'>{{ action.preview_signature }}</button>
-                                    <br/>{% endfor %}
-                                </div>
-                        </div>
-                        <div class="w3-col l1 m4 s2">
-                            <button type="button" onclick="destroy(\'${index}\')" class="w3-btn w3-margin-left w3-margin-right" id="destroy${index}"><i class="far fa-times-circle" title="Delete hotkey"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div></div></div>`;
+    newDiv = `{% include newRow.html %}`;
     index += 1;
 
     $('#hotkeyRegion').append(newDiv)
@@ -798,7 +789,7 @@ function scrollToTop() {
 
 function download() {
     _cancel_id = setTimeout(function () { alert("Uh, oh. It seems we can't download the file right now - you can still copy and paste it"); }, 800)
-    console.log("downloading")
+    _debug_log("downloading")
     _download_link = document.getElementById('downloadLink');
     if ('msSaveBlob' in window.navigator) {
         var _header_len = DOWNLOAD_FILE_HEADER.length;
@@ -821,6 +812,10 @@ function download() {
     clearTimeout(_cancel_id);
 }
 
+function _prevent_default() {
+    var event = window.event;
+    event.preventDefault();
+}
 
 try {
     // from https://stackoverflow.com/a/11279639
