@@ -75,6 +75,10 @@ setTitleMatchMode, 2 ; set title match mode to "contains"
                 func = data[i]['Code']
             } else if (option == 'SendUnicodeChar') {
                 func = 'SendUnicodeChar(' + data[i]['input'] + ')';
+            } else if (option == 'LockWorkStation') {
+                func = `LockWorkStation()`;
+            } else if (option == 'TurnMonitorsOff') {
+                func = `TurnMonitorsOff()`;
             } else if(option == 'OpenConfig') {
                 func = '\r\nOpenConfig()\r\nreturn';
             }
@@ -116,6 +120,17 @@ setTitleMatchMode, 2 ; set title match mode to "contains"
 OpenConfig()
 {
     Run, "${document.location.toString().replace(/\%/g, '`%')}"
+}
+
+LockWorkStation()
+{
+    DllCall("LockWorkStation")
+}
+
+TurnMonitorsOff()
+{
+    ; from http://autohotkey.com/board/topic/105261-turn-monitor-off-even-when-using-the-computer/?p=642266
+    SendMessage,0x112,0xF170,2,,Program Manager
 }
 
 ActivateOrOpen(window, program)

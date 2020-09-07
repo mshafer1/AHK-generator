@@ -8,14 +8,14 @@ body {
 
 .footer {
     display: flex!important;
-    z-index: 100!important;
+    z-index: 99!important;
 }
 
 .footer>footer {
     position: fixed!important;
     bottom: 0px!important;
     left: 0px!important;
-    z-index: 100!important;
+    z-index: 99!important;
     width: 100%;
 }
 
@@ -41,9 +41,14 @@ body {
 }
 
 .onTop {
-    z-index: 100;
+    z-index: 100!important;
+}
+
+.lightGray,
+.lightGrey {
     background-color: #707070 !important;
 }
+
 
 .grayout {
     /* Real browsers */
@@ -158,4 +163,9 @@ body {
 
 .may-break-space {
     white-space: pre-wrap;
+}
+
+div.w3-dropdown-hover:hover .fa-caret-right {
+    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+    transform: rotate(90deg)
 }

@@ -1,6 +1,9 @@
 import time
 
+import pytest
 from selenium.webdriver.common.by import By
+
+import test_data
 
 
 def test__empty_query_string__load_page__assert_has_row_zero(root_page, parser):
@@ -22,9 +25,14 @@ def test__empty_query_string__load_page__has_add_new_row(root_page, parser):
     )
 
 
-def test__empty_query_string__load_page__assert_skip_to_code_not_visible(root_page, parser):
-    skip_to_script_region = root_page.find_element_by_xpath(".//div[@id='skipToScript']")
+@pytest.mark.parametrize(
+    "query_string,expected_visibility", (("", False), (test_data.basic_url, True))
+)
+def test__query_string__load_page__assert_skip_to_code_visibility(
+    query_string, expected_visibility, base_url, browser
+):
+    browser.get(base_url + query_string)
+    time.sleep(.5)
 
-    assert (
-        not skip_to_script_region.is_displayed()
-    ), "Skip to script buttons should not be visible on root page"
+    skip_to_script_region = browser.find_element_by_xpath(".//div[@id='skipToScript']")
+    assert skip_to_script_region.is_displayed() == expected_visibility

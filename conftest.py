@@ -131,10 +131,12 @@ def single_source_methods__browser(browser):
     browser_set_cookie(browser, "feature_toggles/SINGLE_SOURCE", "true")
     yield browser
 
+
 @pytest.fixture()
 def compression_enabled__browser(browser):
     browser_set_cookie(browser, "feature_toggles/ENABLE_COMPRESSION", "true")
     yield browser
+
 
 @pytest.fixture()
 def root_page(browser, base_url):
