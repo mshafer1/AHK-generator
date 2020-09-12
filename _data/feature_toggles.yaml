@@ -16,3 +16,7 @@
   code_key: SINGLE_SOURCE
   default: true
   description: single source the method declarations and documentation
+- name: Enable script data url compression
+  code_key: ENABLE_COMPRESSION
+  default: true
+  description: Enable compressing form data before posting (this allows for larger configuration to not hit the URI length limit)
