@@ -7,7 +7,7 @@ try {
 
 function zip(string) {
     var result = LZUTF8.compress(string,  {outputEncoding: 'Base64'} )
-    return result;
+    return `version=1.0&compressed=${result}`;
 }
 
 function unzip(compressed, version) {

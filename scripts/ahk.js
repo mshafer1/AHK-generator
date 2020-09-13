@@ -555,7 +555,7 @@ function _check_form(show_error = true, check_required_fields = false) {
 function _get_shortened_url(queryString) {
     var zipped = zip(queryString);
     _debug_log("Zipped:", zipped);
-    return `version=1.0&compressed=${zipped}`;
+    return zipped;
 }
 
 function ready() {
