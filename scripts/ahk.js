@@ -8,7 +8,7 @@ GET_KEYS = {
 }
 
 try {
-    const zipper = require('../../_site/scripts/zip.js'); // pull in the cod gen'd version
+    const zipper = require('../../_site/scripts/zip.js'); // pull in the code gen'd version
     unzip = zipper.unzip;
     zip = zipper.zip;
 } catch (error) {

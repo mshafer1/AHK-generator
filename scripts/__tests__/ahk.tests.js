@@ -1,4 +1,4 @@
-const ahk_js = require('../../_site/scripts/ahk.js'); // pull in the cod gen'd version
+const ahk_js = require('../../_site/scripts/ahk.js'); // pull in the code gen'd version
 
 try {
     global.jQuery = require('jquery');

@@ -1,4 +1,4 @@
-const zip = require('../../_site/scripts/zip.js'); // pull in the cod gen'd version
+const zip = require('../../_site/scripts/zip.js'); // pull in the code gen'd version
 
 describe('zip', () => {
     it('returns a smaller string for a given string', () => {
