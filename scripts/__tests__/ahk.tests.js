@@ -1,16 +1,10 @@
 const ahk_js = require('../../_site/scripts/ahk.js'); // pull in the code gen'd version
 
-try {
-    global.jQuery = require('jquery');
-    $ = function () {
-        var result = {}
-        result.attr = () => {}
-        return result
-    }
-} catch (error) {
-    // pass
-    console.warn(error)
-    console.warn("Failed to import jquery")
+global.jQuery = require('jquery');
+$ = function () {
+    var result = {}
+    result.attr = () => { }
+    return result
 }
 
 describe('_get_shortened_url', () => {
@@ -26,6 +20,6 @@ describe('compression', () => {
         var input = 'data=lorem+ipsum';
         var url = ahk_js._get_shortened_url(input);
         var result = ahk_js._load_get('http://localhost/?' + url)
-        expect(result).toEqual({"data": "lorem ipsum"})
+        expect(result).toEqual({ "data": "lorem ipsum" })
     })
 })
