@@ -524,14 +524,18 @@ function _check_form(show_error = true, check_required_fields = false) {
         queryString = searchParams.toString();
         _debug_log("QueryString:", queryString);
 
-        var should_shorten = user_requested_shortened;
+        if (user_requested_shortened) {
+            window.location.href='/?' + _get_shortened_url(queryString)
+            return false
+        }
+
         var limit = 8.2e3
         if(location.host.startsWith('localhost')) {
             limit = 2e3
         }
         _debug_log(limit)
         _debug_log("length:", (location.href + queryString).length)
-        if (!user_requested_shortened && (location.href + queryString).length > limit) {
+        if ((location.href + queryString).length > limit) {
             _debug_log("warning that should shorten")
             displayYesNoLinks(
                 "Shorten URL?",
@@ -542,11 +546,6 @@ function _check_form(show_error = true, check_required_fields = false) {
                 true
             )
             return false;
-        }
-
-        if (should_shorten) {
-            window.location.href='/?' + _get_shortened_url(queryString)
-            return false
         }
     }
 
