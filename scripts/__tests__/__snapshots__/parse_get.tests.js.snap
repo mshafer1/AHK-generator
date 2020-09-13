@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`_load_get handles user config that has compressed data like string just fine 1`] = `
+Object {
+  "comment0": "",
+  "func0": "STRING",
+  "indexes": "0",
+  "input0": "compressed=foo&version=1.0",
+  "option0": "Replace",
+  "skeyValue0": "test",
+}
+`;
+
+exports[`_load_get handles user config that has parts of compressed data fine 1`] = `
+Object {
+  "comment0": "",
+  "comment1": "",
+  "func0": "STRING",
+  "func1": "STRING",
+  "indexes": "0,1",
+  "input0": "compressed=foo",
+  "input1": "version=1.0",
+  "option0": "Replace",
+  "option1": "Replace",
+  "skeyValue0": "test",
+  "skeyValue1": "test2",
+}
+`;
+
 exports[`_load_get takes a basic query and returns expected data 1`] = `
 Object {
   "comment0": "",

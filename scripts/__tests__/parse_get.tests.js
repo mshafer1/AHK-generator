@@ -54,6 +54,16 @@ describe('_load_get', () => {
             );
         expect(result).toMatchSnapshot();
     })
+
+    it('handles user config that has parts of compressed data fine', () => {
+        const result = ahk_js._load_get('ahkgen.com/?indexes=0%2C1&comment0=&func0=STRING&skeyValue0=test&input0=compressed%3Dfoo&option0=Replace&comment1=&func1=STRING&skeyValue1=test2&input1=version%3D1.0&option1=Replace')
+        expect(result).toMatchSnapshot();
+    })
+
+    it('handles user config that has compressed data like string just fine', () => {
+        const result = ahk_js._load_get('ahkgen.com/?indexes=0&comment0=&func0=STRING&skeyValue0=test&input0=compressed%3Dfoo%26version%3D1.0&option0=Replace')
+        expect(result).toMatchSnapshot();
+    })
 })
 
 describe('_load_get takes compressed data', () => {
