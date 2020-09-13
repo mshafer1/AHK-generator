@@ -1,5 +1,26 @@
 const zip = require('../../_site/scripts/zip.js'); // pull in the code gen'd version
 
+function _get_compressed_data(input) {
+    var values = input.split('&')
+
+    var version = 0
+    var compressed_data = ''
+
+    for(i = 0; i < values.length; i++) {
+        parts = values[i].split('=')
+        key = parts[0]
+        value = parts[1]
+        if (key == 'version') {
+            version = unescape(value)
+        }
+        if (key == 'compressed') {
+            compressed_data = unescape(value)
+        }
+    }
+
+    return {data: compressed_data, version: version}
+}
+
 describe('zip', () => {
     it('returns a smaller string for a given string', () => {
         var input = 'https://www.ahkgen.com/?exampleconfig=1&length=20&comment0=+%3Bconfig+%3D+open+this+page&func0=STRING&skeyValue0=%60%3Bconfig&option0=OpenConfig&comment1=%22%3Bimplies%22+is+replaced+with+an+arrow&func1=STRING&skeyValue1=%3Bimplies&input1=0x2192&option1=SendUnicodeChar&comment2=%22%3Bdegree%22+is+replaced+with+an+degree+symbol&func2=STRING&skeyValue2=%3Bdegree&input2=0x00b0&option2=SendUnicodeChar&comment3=%22%3Bcheck%22+is+replaced+with+a+check+mark&func3=STRING&skeyValue3=%3Bcheck&input3=0x2713&option3=SendUnicodeChar&comment4=%22%3Bfrown%22+is+replaced+with+a+unicode+frown&func4=STRING&skeyValue4=%3Bfrown&input4=0x2639&option4=SendUnicodeChar&comment5=%22%3Bsmile%22+is+replaced+with+a+unicode+smile&func5=STRING&skeyValue5=%3Bsmile&input5=0x263A&option5=SendUnicodeChar&comment6=%22%3Btheta%22+is+replaced+with+%CE%B8&func6=STRING&skeyValue6=%3Btheta&input6=0x03B8&option6=SendUnicodeChar&comment7=%22%3Bpi%22+is+replaced+with+%CF%80&func7=STRING&skeyValue7=%3Bpi&input7=0x03C0&option7=SendUnicodeChar&comment8=%22%3Bcents%22+is+replaced+with+a+cents+symbol&func8=STRING&skeyValue8=%3Bcents&input8=0x00A2&option8=SendUnicodeChar&comment9=%22%3Bdict%22+%3D+open+dictionay.com&func9=STRING&skeyValue9=%3Bdict&Window9=dictionary.com&Program9=http%3A%2F%2Fdictionary.reference.com%2F&option9=ActivateOrOpenChrome&comment10=SHIFT+%2B+Wheel+%3D+fast+scroll&func10=KEY&skeyValue10=%24%2BWheelDown&input10=%7BWheelDown+5%7D&option10=Send&comment11=&func11=KEY&skeyValue11=%24%2BWheelUp&input11=%7BWheelUp+5%7D&option11=Send&comment12=CTRL+%2B+Alt+%2B+c+%3D+command+prompt&func12=KEY&skey12%5B%5D=CTRL&skey12%5B%5D=ALT&skeyValue12=c&Window12=ahk_exe+cmd.exe&Program12=cmd&option12=ActivateOrOpen&comment13=CTRL+%2B+Alt+%2B+n+%3D+notepad%2B%2B&func13=KEY&skey13%5B%5D=CTRL&skey13%5B%5D=ALT&skeyValue13=n&Window13=-+Notepad%2B%2B&Program13=notepad%2B%2B.exe&option13=ActivateOrOpen&comment14=CTRL+%2B+Alt+%2B+i+%3D+chrome+%28internet%29&func14=KEY&skey14%5B%5D=CTRL&skey14%5B%5D=ALT&skeyValue14=i&Window14=-+Google+Chrome&Program14=chrome.exe&option14=ActivateOrOpen&comment15=CTRL+%2B+Alt+%2B+w+%3D+Word&func15=KEY&skey15%5B%5D=CTRL&skey15%5B%5D=ALT&skeyValue15=w&Window15=-+Word&Program15=WINWORD&option15=ActivateOrOpen&comment16=CTRL+%2B+Alt+%2B+e+%3D+Excel&func16=KEY&skey16%5B%5D=CTRL&skey16%5B%5D=ALT&skeyValue16=e&Window16=-+Excel&Program16=excel.exe&option16=ActivateOrOpen&comment17=CTRL+%2B+Shift+%2B+g+%3D+search+Google+for+the+highlighted+text&func17=KEY&skey17%5B%5D=CTRL&skey17%5B%5D=SHIFT&skeyValue17=g&Code17=%0D%0ASend%2C+%5Ec%0D%0ASleep+50%0D%0ARun%2C+http%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3D%25clipboard%25%0D%0AReturn&option17=Custom&comment18=CTRL+%2B+Alt+%2B+v+%3D+Visual+Studio&func18=KEY&skey18%5B%5D=CTRL&skey18%5B%5D=ALT&skeyValue18=v&Window18=Visual+Studio&Program18=devenv.exe&option18=ActivateOrOpen&comment19=CTRL+%2B+Alt+%2B+p+%3D+putty&func19=KEY&skey19%5B%5D=CTRL&skey19%5B%5D=ALT&skeyValue19=p&Window19=ahk_exe+putty.exe&Program19=C%3A%5CProgram+Files+%28x86%29%5CPuTTY%5Cputty.exe&option19=ActivateOrOpen'
@@ -30,13 +51,15 @@ describe('zip', () => {
     it('decompresses to the input value', () => {
         var input = 'A little bit of a long string'
         var compressed = zip.zip(input)
-        var result = zip.unzip(compressed);
+        var data = _get_compressed_data(compressed)
+        var result = zip.unzip(data.data, data.version);
         expect(result).toEqual(input);
     })
     it('decompresses to the input value', () => {
         var input = 'http://localhost:4000/?exampleconfig=1&length=10&comment0=+%3Bconfig+%3D+open+this+page&func0=STRING&skeyValue0=%60%3Bconfig&option0=OpenConfig&comment1=%22%3Bimplies%22+is+replaced+with+an+arrow&func1=STRING&skeyValue1=%3Bimplies&input1=0x2192&option1=SendUnicodeChar&comment2=%22%3Bdegree%22+is+replaced+with+an+degree+symbol&func2=STRING&skeyValue2=%3Bdegree&input2=0x00b0&option2=SendUnicodeChar&comment3=%22%3Bcheck%22+is+replaced+with+a+check+mark&func3=STRING&skeyValue3=%3Bcheck&input3=0x2713&option3=SendUnicodeChar&comment4=%22%3Bfrown%22+is+replaced+with+a+unicode+frown&func4=STRING&skeyValue4=%3Bfrown&input4=0x2639&option4=SendUnicodeChar&comment5=%22%3Bsmile%22+is+replaced+with+a+unicode+smile&func5=STRING&skeyValue5=%3Bsmile&input5=0x263A&option5=SendUnicodeChar&comment6=%22%3Btheta%22+is+replaced+with+%CE%B8&func6=STRING&skeyValue6=%3Btheta&input6=0x03B8&option6=SendUnicodeChar&comment7=%22%3Bpi%22+is+replaced+with+%CF%80&func7=STRING&skeyValue7=%3Bpi&input7=0x03C0&option7=SendUnicodeChar&comment8=%22%3Bcents%22+is+replaced+with+a+cents+symbol&func8=STRING&skeyValue8=%3Bcents&input8=0x00A2&option8=SendUnicodeChar&comment9=%22%3Bdict%22+%3D+open+dictionay.com&func9=STRING&skeyValue9=%3Bdict&Window9=dictionary.com&Program9=http%3A%2F%2Fdictionary.reference.com%2F&option9=ActivateOrOpenChrome&comment10=SHIFT+%2B+Wheel+%3D+fast+scroll&func10=KEY&skeyValue10=%24%2BWheelDown&input10=%7BWheelDown+5%7D&option10=Send'
         var compressed = zip.zip(input);
-        var result = zip.unzip(compressed)
+        var data = _get_compressed_data(compressed)
+        var result = zip.unzip(data.data, data.version)
         expect(result).toEqual(input)
     })
     it('Even handles special chars just fine', () => {
@@ -56,8 +79,11 @@ describe('unzip', () => {
     it('can decompress data to match original', () => {
         var input = 'exampleconfig=1&length=10&comment0=+%3Bconfig+%3D+open+this+page&func0=STRING&skeyValue0=%60%3Bconfig&option0=OpenConfig&comment1=%22%3Bimplies%22+is+replaced+with+an+arrow&func1=STRING&skeyValue1=%3Bimplies&input1=0x2192&option1=SendUnicodeChar&comment2=%22%3Bdegree%22+is+replaced+with+an+degree+symbol&func2=STRING&skeyValue2=%3Bdegree&input2=0x00b0&option2=SendUnicodeChar&comment3=%22%3Bcheck%22+is+replaced+with+a+check+mark&func3=STRING&skeyValue3=%3Bcheck&input3=0x2713&option3=SendUnicodeChar&comment4=%22%3Bfrown%22+is+replaced+with+a+unicode+frown&func4=STRING&skeyValue4=%3Bfrown&input4=0x2639&option4=SendUnicodeChar&comment5=%22%3Bsmile%22+is+replaced+with+a+unicode+smile&func5=STRING&skeyValue5=%3Bsmile&input5=0x263A&option5=SendUnicodeChar&comment6=%22%3Btheta%22+is+replaced+with+%CE%B8&func6=STRING&skeyValue6=%3Btheta&input6=0x03B8&option6=SendUnicodeChar&comment7=%22%3Bpi%22+is+replaced+with+%CF%80&func7=STRING&skeyValue7=%3Bpi&input7=0x03C0&option7=SendUnicodeChar&comment8=%22%3Bcents%22+is+replaced+with+a+cents+symbol&func8=STRING&skeyValue8=%3Bcents&input8=0x00A2&option8=SendUnicodeChar&comment9=%22%3Bdict%22+%3D+open+dictionay.com&func9=STRING&skeyValue9=%3Bdict&Window9=dictionary.com&Program9=http%3A%2F%2Fdictionary.reference.com%2F&option9=ActivateOrOpenChrome&comment10=SHIFT+%2B+Wheel+%3D+fast+scroll&func10=KEY&skeyValue10=%24%2BWheelDown&input10=%7BWheelDown+5%7D&option10=Send'
         var compressed = zip.zip(input)
-        var compressed = encodeURI(compressed)
-        var unzipped = zip.unzip(compressed)
+        
+        var data = _get_compressed_data(compressed)
+
+        var compressed_data = encodeURI(data.data)
+        var unzipped = zip.unzip(compressed_data)
         expect(unzipped).toEqual(input)
         expect(unzipped).toMatchSnapshot();
     })
