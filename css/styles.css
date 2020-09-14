@@ -8,15 +8,24 @@ body {
 
 .footer {
     display: flex!important;
-    z-index: 100!important;
+    z-index: 99!important;
 }
 
 .footer>footer {
     position: fixed!important;
     bottom: 0px!important;
     left: 0px!important;
-    z-index: 100!important;
+    z-index: 99!important;
     width: 100%;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* w3-css small screen point */
@@ -32,7 +41,10 @@ body {
 }
 
 .onTop {
-    z-index: 100;
+    z-index: 100!important;
+}
+
+.lightGray, .lightGrey {
     background-color: #707070 !important;
 }
 

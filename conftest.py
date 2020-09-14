@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -78,6 +80,7 @@ browser_backend.result = None
 def browser(browser_backend, base_url):
     browser_backend.delete_all_cookies()
     browser_backend.set_window_size(*BrowserSizes.MEDIUM)
+    time.sleep(.5)
     browser_backend.get(base_url)
     yield browser_backend
 
@@ -126,6 +129,12 @@ def large_browser(browser):
 @pytest.fixture()
 def single_source_methods__browser(browser):
     browser_set_cookie(browser, "feature_toggles/SINGLE_SOURCE", "true")
+    yield browser
+
+
+@pytest.fixture()
+def compression_enabled__browser(browser):
+    browser_set_cookie(browser, "feature_toggles/ENABLE_COMPRESSION", "true")
     yield browser
 
 

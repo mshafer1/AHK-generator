@@ -4,6 +4,7 @@ import pytest
 
 import test_data
 
+
 def isAlertPresent(driver):
     try:
         driver.switch_to.alert.dismiss()
@@ -11,9 +12,8 @@ def isAlertPresent(driver):
     except Exception:
         return False
 
-@pytest.mark.parametrize(
-    "url", test_data.bad_urls, ids=test_data.bad_urls
-)
+
+@pytest.mark.parametrize("url", test_data.bad_urls, ids=test_data.bad_urls)
 @pytest.mark.parametrize(
     "browser_fixture", ("browser", "eager_compile_browser", "single_source_methods__browser",)
 )
