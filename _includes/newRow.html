@@ -27,12 +27,12 @@
         <div class="w3-row-padding">
             <div class="w3-col l11 m8 s10 w3-dropdown-click defaultCursor">
                 <div class="w3-btn w3-centered fitInParent" onclick="dropdown(\'${index}\')"><span id="function${index}" >(Choose an action)</span> <i id="arrow${index}" class="fa fa-caret-right" aria-hidden="true"></i></div>
-                <div id="key${index}" class="w3-dropdown-content w3-border onTop w3-padding">
+                <div id="key${index}" class="w3-dropdown-content w3-border onTop lightGrey w3-padding">
                         {% for action in site.data.methods %}
                         <button type="button" class="w3-btn" onclick="select(\'{{ action.code_key }}\', \'${index}\')" title='{{ action.description | strip }}'>{{ action.preview_signature }}</button>
                         {% if action.example %}
                         <span class="w3-dropdown-hover w3-padding-left"><button class="w3-button w3-black w3-text-white w3-border w3-padding">?</button>
-                            <div class="w3-dropdown-content w3-border w3-padding onTop w3-lightgrey" style="min-width: 350px; width: 50%;">
+                            <div class="w3-dropdown-content w3-border w3-padding onTop w3-lightgrey" style="min-width: 350px; width: 50%; margin-left: -307px;">
                                 <p>{{ action.description | strip }}</p>
                                 <p>{{ action.example | replace: "__code_class__", code_class }}</p>
                                 {% if action.example_url %}
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="w3-col l1 m4 s2">
-                <button type="button" onclick="destroy(\'${index}\')" class="w3-btn w3-margin-left w3-margin-right" id="destroy${index}"><i class="far fa-times-circle" title="Delete hotkey"></i></button>
+                <button type="button" onclick="destroy('${index}')" class="w3-btn w3-margin-left w3-margin-right" id="destroy${index}"><i class="far fa-times-circle" title="Delete hotkey"></i></button>
             </div>
         </div>
     </div>

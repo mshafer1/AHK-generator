@@ -68,3 +68,4 @@ This project relies on a couple of open source libraries
  W3 CSS | [No license is necessary.](https://www.w3schools.com/w3css/ "W3 CSS home page") | 2.64 | Styling
  [Font Awesome](http://fontawesome.io/icons) | [MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" ) | 5.13.0 | Icons
 [highlight.js](https://highlightjs.org/) | [BSD 3 License](https://github.com/isagalaev/highlight.js/blob/master/LICENSE "Github License page") | 9.12.0 | Syntax highlighting
+[LZUTF8](https://github.com/rotemdan/lzutf8.js/) | [MIT License](https://github.com/rotemdan/lzutf8.js/blob/c1642701e7e1df88073795be2f68a60b37fbcd02/LICENSE) | 0.5.6 | Compressing user data in URL when needed/asked
