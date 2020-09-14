@@ -8,7 +8,7 @@ GET_KEYS = {
 }
 
 try {
-    const zipper = require('../../_site/scripts/zip.js'); // pull in the cod gen'd version
+    const zipper = require('../../_site/scripts/zip.js'); // pull in the code gen'd version
     unzip = zipper.unzip;
     zip = zipper.zip;
 } catch (error) {
@@ -96,7 +96,7 @@ var GET = {}
 var LOADED = false;
 var DEBUG_LOGGING_ENABLED = false;
 var EAGER_COMPILE_ENABLED = false;
-var DOWNLOAD_FILE_HEADER = 'data:text/plain;charset=utf-8,' + `\ufeff`;
+var DOWNLOAD_FILE_HEADER = 'data:text/plain;charset=utf-8,' + `\ufeff`; // UTF8-BOM helps AHK to know how to handle non-English chars in a Send
 
 // from https://stackoverflow.com/a/31221374/8100990
 if (!String.prototype.includes) {
@@ -524,14 +524,18 @@ function _check_form(show_error = true, check_required_fields = false) {
         queryString = searchParams.toString();
         _debug_log("QueryString:", queryString);
 
-        var should_shorten = user_requested_shortened;
+        if (user_requested_shortened) {
+            window.location.href='/?' + _get_shortened_url(queryString)
+            return false
+        }
+
         var limit = 8.2e3
         if(location.host.startsWith('localhost')) {
             limit = 2e3
         }
         _debug_log(limit)
         _debug_log("length:", (location.href + queryString).length)
-        if (!user_requested_shortened && (location.href + queryString).length > limit) {
+        if ((location.href + queryString).length > limit) {
             _debug_log("warning that should shorten")
             displayYesNoLinks(
                 "Shorten URL?",
@@ -543,11 +547,6 @@ function _check_form(show_error = true, check_required_fields = false) {
             )
             return false;
         }
-
-        if (should_shorten) {
-            window.location.href='/?' + _get_shortened_url(queryString)
-            return false
-        }
     }
 
     return result; // return false to cancel form action
@@ -556,7 +555,7 @@ function _check_form(show_error = true, check_required_fields = false) {
 function _get_shortened_url(queryString) {
     var zipped = zip(queryString);
     _debug_log("Zipped:", zipped);
-    return `version=1.0&compressed=${zipped}`;
+    return zipped;
 }
 
 function ready() {

@@ -80,7 +80,7 @@ browser_backend.result = None
 def browser(browser_backend, base_url):
     browser_backend.delete_all_cookies()
     browser_backend.set_window_size(*BrowserSizes.MEDIUM)
-    time.sleep(1)
+    time.sleep(.5)
     browser_backend.get(base_url)
     yield browser_backend
 
