@@ -44,11 +44,9 @@ body {
     z-index: 100!important;
 }
 
-.lightGray,
-.lightGrey {
+.lightGray, .lightGrey {
     background-color: #707070 !important;
 }
-
 
 .grayout {
     /* Real browsers */
@@ -173,7 +171,13 @@ input:checked+.slider:before {
     white-space: pre-wrap;
 }
 
-div.w3-dropdown-hover:hover .fa-caret-right {
+img.icon {
+    max-width: 100px;
+    max-height: 42pt;
+    vertical-align: middle;
+}
+
+.w3-dropdown-hover:hover .fa-caret-right {
     -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
     transform: rotate(90deg)
 }
