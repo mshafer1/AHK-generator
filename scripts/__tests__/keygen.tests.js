@@ -23,6 +23,10 @@ const actions = [
         "input": "b",
     },
     {
+        "option": "Replace",
+        "input": "b",
+    },
+    {
         "option": "SendUnicodeChar",
         "input": "0x2192",
     },
