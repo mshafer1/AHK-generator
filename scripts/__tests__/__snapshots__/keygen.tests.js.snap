@@ -36,14 +36,6 @@ return
 "
 `;
 
-exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"Replace","input":"b"}}, then matches snapshot 1`] = `
-"^!a::
-send, b
-return
-
-"
-`;
-
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"Send","input":"b"}}, then matches snapshot 1`] = `
 "^!a::send, b
 
@@ -94,12 +86,6 @@ exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option"
 ":*c:;implies::
 OpenConfig()
 return
-
-"
-`;
-
-exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option":"Replace","input":"b"}}, then matches snapshot 1`] = `
-":*c:;implies::b
 
 "
 `;
