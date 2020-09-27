@@ -3,11 +3,13 @@
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"Program":"cmd","Window":"ahk_exe cmd.exe","option":"ActivateOrOpen"}}, then matches snapshot 1`] = `
 "^!a::ActivateOrOpen(\\"ahk_exe cmd.exe\\", \\"cmd\\")
 
+
 "
 `;
 
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"Program":"http://dictionary.reference.com/","Window":"dictionary.com","option":"ActivateOrOpenChrome"}}, then matches snapshot 1`] = `
 "^!a::ActivateOrOpenChrome(\\"dictionary.com\\", \\"http://dictionary.reference.com/\\")
+
 
 "
 `;
@@ -19,19 +21,27 @@ exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CT
             Run, http://www.google.com/search?q=%clipboard%
             Return
 
+
 "
 `;
 
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"LockWorkStation"}}, then matches snapshot 1`] = `
 "^!a::LockWorkStation()
 
+
 "
 `;
 
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"OpenConfig"}}, then matches snapshot 1`] = `
-"^!a::
-OpenConfig()
-return
+"^!a::OpenConfig()
+
+
+"
+`;
+
+exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"Replace","input":"b"}}, then matches snapshot 1`] = `
+"^!a::send, b
+
 
 "
 `;
@@ -39,11 +49,13 @@ return
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"Send","input":"b"}}, then matches snapshot 1`] = `
 "^!a::send, b
 
+
 "
 `;
 
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"SendUnicodeChar","input":"0x2192"}}, then matches snapshot 1`] = `
 "^!a::SendUnicodeChar(0x2192)
+
 
 "
 `;
@@ -51,17 +63,24 @@ exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CT
 exports[`when keygen given {"0":{"func":"KEY","skeyValue":"a","modifiers[]":["CTRL","ALT"],"option":"TurnMonitorsOff"}}, then matches snapshot 1`] = `
 "^!a::TurnMonitorsOff()
 
+
 "
 `;
 
 exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","Program":"cmd","Window":"ahk_exe cmd.exe","option":"ActivateOrOpen"}}, then matches snapshot 1`] = `
-":*c:;implies::ActivateOrOpen(\\"ahk_exe cmd.exe\\", \\"cmd\\")
+":*c:;implies::
+ActivateOrOpen(\\"ahk_exe cmd.exe\\", \\"cmd\\")
+return
+
 
 "
 `;
 
 exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","Program":"http://dictionary.reference.com/","Window":"dictionary.com","option":"ActivateOrOpenChrome"}}, then matches snapshot 1`] = `
-":*c:;implies::ActivateOrOpenChrome(\\"dictionary.com\\", \\"http://dictionary.reference.com/\\")
+":*c:;implies::
+ActivateOrOpenChrome(\\"dictionary.com\\", \\"http://dictionary.reference.com/\\")
+return
+
 
 "
 `;
@@ -73,11 +92,15 @@ exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option"
             Run, http://www.google.com/search?q=%clipboard%
             Return
 
+
 "
 `;
 
 exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option":"LockWorkStation"}}, then matches snapshot 1`] = `
-":*c:;implies::LockWorkStation()
+":*c:;implies::
+LockWorkStation()
+return
+
 
 "
 `;
@@ -87,23 +110,40 @@ exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option"
 OpenConfig()
 return
 
+
+"
+`;
+
+exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option":"Replace","input":"b"}}, then matches snapshot 1`] = `
+":*c:;implies::b
+
+
 "
 `;
 
 exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option":"Send","input":"b"}}, then matches snapshot 1`] = `
-":*c:;implies::send, b
+":*c:;implies::
+send, b
+return
+
 
 "
 `;
 
 exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option":"SendUnicodeChar","input":"0x2192"}}, then matches snapshot 1`] = `
-":*c:;implies::SendUnicodeChar(0x2192)
+":*c:;implies::
+SendUnicodeChar(0x2192)
+return
+
 
 "
 `;
 
 exports[`when keygen given {"0":{"func":"STRING","skeyValue":";implies","option":"TurnMonitorsOff"}}, then matches snapshot 1`] = `
-":*c:;implies::TurnMonitorsOff()
+":*c:;implies::
+TurnMonitorsOff()
+return
+
 
 "
 `;
