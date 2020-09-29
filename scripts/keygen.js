@@ -28,8 +28,8 @@ function configured_region(data) {
         key = ''
 
         //console.log(data[i])
-
-        if (data[i]['func'] == 'KEY') {
+        var trigger_type = data[i]['func']
+        if (trigger_type == 'KEY') {
             // hotkey
             if (data[i]['modifiers[]'].includes('CTRL')) {
                 key += '^'
@@ -51,19 +51,22 @@ function configured_region(data) {
             key += ':*c:' + data[i]['skeyValue'] + "::"
         }
 
-        func = "\r\n    return";
         option = data[i]['option'];
+        if (trigger_type == 'STRING' && option != 'Replace' && option != 'Custom') {
+            key += '\r\n'
+        }
+        func = "\r\n    return";
         if (option == 'Send') {
             func = 'send, ' + data[i]["input"];
         } else if (option == 'ActivateOrOpen') {
             func = 'ActivateOrOpen("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")';
         } else if (option == 'Replace') {
-            if (data[i][func] == "KEY") {
+            if (trigger_type == "KEY") {
                 // replace doesn't make sense for hotkey, so treat like send
-                func = '\r\nsend, ' + data[i]["input"] + '\r\nreturn';
+                func = 'send, ' + data[i]["input"];
             }
             else {
-                func = 'ActivateOrOpen("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")';
+                func =  data[i]["input"];
             }
         } else if (option == 'ActivateOrOpenChrome') {
             func = 'ActivateOrOpenChrome("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")';
@@ -76,10 +79,13 @@ function configured_region(data) {
         } else if (option == 'TurnMonitorsOff') {
             func = `TurnMonitorsOff()`;
         } else if (option == 'OpenConfig') {
-            func = '\r\nOpenConfig()\r\nreturn';
+            func = 'OpenConfig()';
         }
         else {
             console.warn("Unknown method: ", option)
+        }
+        if ([trigger_type == 'STRING', option != 'Replace', option != 'Custom'].every((o) => o)) {
+            func += '\r\nreturn'
         }
 
         key += func
@@ -88,7 +94,7 @@ function configured_region(data) {
             key = ';' + data[i]['comment'] + '\r\n' + key;
         }
 
-        value += key + "\r\n\r\n"
+        value += key + "\r\n\r\n\r\n"
     }
 
     return value
