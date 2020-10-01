@@ -1,6 +1,6 @@
 ---
-- name: Eager Compile
-  code_key: EAGER_COMPILE
+- name: Eager Generation
+  code_key: EAGER_GENERATION
   default: false
   description: apply changes to the URL and generated script as your going
 - name: Debug Logging

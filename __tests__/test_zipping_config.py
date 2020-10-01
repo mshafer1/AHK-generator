@@ -23,7 +23,7 @@ TEST_CASE_DIR = ROOT_TEST_PATH / "loaded_pages_snapshots"
     ),
 )
 @pytest.mark.parametrize(
-    "browser_fixture", ("browser", "eager_compile_browser", "single_source_methods__browser",)
+    "browser_fixture", ("browser", "eager_generation_browser", "single_source_methods__browser",)
 )
 def test__url__load_compressed_page__loaded_data_matches_uncrompressed_page(
     test_name,
