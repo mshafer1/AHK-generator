@@ -1,0 +1,38 @@
+<span style="float:right" class="js_share_region w3-hide">
+    <div class="w3-dropdown-hover w3-left-align">
+        <button class="w3-btn js_dirtiable_btn">Share: <i class="fa fa-caret-right"></i></button>
+        <div class="w3-dropdown-content w3-border w3-padding">
+            <!-- style="margin-left: -200px;" -->
+            <div class="w3-bar-item w3-padding-bottom">
+                <button class=" w3-btn js_email_share_btn js_dirtiable_btn w3-disable" type="button"
+                    title="Click to share configuration via email" onclick="$('#emailShareLink')[ 0 ].click()">
+                    <i class="far fa-envelope"></i>
+                </button>
+            </div>
+            <div class="w3-bar-item w3-padding-bottom">
+                <button class="w3-bar-item w3-btn js_fb_share_btn js_dirtiable_btn w3-disable" type="button"
+                    title="Click to share configuration via FaceBook" onclick="$('#fbShareLink')[ 0 ].click()">
+                    <i class="fab fa-facebook"></i>
+                </button>
+            </div>
+            <div class="w3-bar-item">
+                <div class="copy_tooltip">
+                    <span class="copy_tooltiptext" style="display:none">Copy to clipboard</span>
+                    <button onclick="copy_share_link(this)" type="button" class="w3-btn js_dirtiable_btn"><i class="fas fa-link"></i></button>
+                    <textarea readonly class="js_share_link" maxlength="20" style="resize: none; height: 1px; width: 1px; opacity: .01;"></textarea>
+                <!-- <div class="w3-dropdown-content w3-border w3-padding" style="margin-left: -200px;">
+                        <textarea readonly class="js_share_link" maxlength="20" style="resize: none;"></textarea>
+                        <span class="copy_tooltiptext" style="display:none">Copy to clipboard</span>
+                        <button onclick="copy_share_link(this)" type="button">copy to clipboard</button>
+                        <-- onmouseout="reset_tool_tip(this, 'Copy to clipboard')" --
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    &nbsp;
+    <button type="button" download="hotkeys.ahk" class="w3-btn js_download_btn js_dirtiable_btn"
+        title="Click to download AHK script" onClick="download();" disabled>
+        Download: <i class="fas fa-file-download"></i>
+    </button>
+</span>

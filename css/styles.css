@@ -165,7 +165,53 @@ body {
     white-space: pre-wrap;
 }
 
-div.w3-dropdown-hover:hover .fa-caret-right {
+img.icon {
+    max-width: 100px;
+    max-height: 42pt;
+    vertical-align: middle;
+}
+
+.w3-dropdown-hover:hover .fa-caret-right {
     -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
     transform: rotate(90deg)
 }
+
+/* from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_copy_clipboard2 */
+.copy_tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .copy_tooltip .copy_tooltiptext {
+    /* visibility: hidden; */
+    width: 140px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -100%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .copy_tooltip .copy_tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .copy_tooltip:hover .copy_tooltiptext {
+    /* visibility: visible; */
+    opacity: 1;
+  }
+  /* end tooltip */

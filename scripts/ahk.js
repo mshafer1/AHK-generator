@@ -675,6 +675,8 @@ function select(item, id, backend) {
 function _mark_helper(dirty = true) {
     //disable download link
     $('.js_download_btn').disable(dirty);
+    $('.js_dirtiable_btn').disable(dirty);
+
     _out_of_date = (dirty) ? "Script out of date, submit to update to configuration changes" : "";
     _generate = (dirty) ? "" : "Select to generate new script";
     $('.js_download_btn').prop('title', _out_of_date);
@@ -887,6 +889,12 @@ function loaded() {
     _setup_download(CONFIG);
 }
 
+function _uri_escape_string(string) {
+    var string = string.replace("http://localhost:4000", "https://ahkgen.com") // FB doesn't like localhost links, point at production
+    var result = encodeURIComponent(string).replaceAll("&", "%26");
+    return result;
+}
+
 function _setup_download(configuration) {
     _debug_log("seeting url");
     script = keygen(configuration, document.location.toString())
@@ -895,7 +903,13 @@ function _setup_download(configuration) {
     $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>');
     $('#skipToScript').removeClass("w3-hide");
     $('#scriptZone').removeClass("w3-hide");
-    $('.js_download_btn').removeClass("w3-hide");
+    $("#fbShareLink").attr('href', `https://www.facebook.com/sharer/sharer.php?u=${_uri_escape_string(page_location)}&amp;src=sdkpreparse`)
+    $("#emailShareLink").attr("href", `mailto:?to=&subject=Check out this AutoHotkey script I wrote using ahkgen.com
+    &body=Here is the link:%0d%0a${_uri_escape_string(page_location)}`)
+    $('.js_share_region').removeClass("w3-hide");
+    $('.js_share_link').text(page_location)
+
+    $('.js_dirtiable_btn').removeClass("w3-disable")
     hljs.highlightBlock($('#scriptZone')[0]);
 }
 
@@ -939,6 +953,30 @@ function download() {
 function _prevent_default() {
     var event = window.event;
     event.preventDefault();
+}
+
+function copy_share_link(caller) {
+    _log_shared()
+    var parent = $(caller).parent()
+    var copyText = parent.find('.js_share_link')
+    copyText.select()
+    copyText[0].setSelectionRange(0, 99999); /*For mobile devices*/
+
+    document.execCommand("copy");
+
+    var tooltip = parent.find('.copy_tooltiptext')
+    tooltip.html("Link copied")
+    tooltip.show()
+
+    window.setTimeout(() => {tooltip.fadeOut('slow')}, 1e3)
+}
+
+function _log_shared() {
+    try {
+        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Share', eventLabel: 'Share', eventValue: 1 });
+    } catch (error) {
+        // pass
+    }
 }
 
 try {
