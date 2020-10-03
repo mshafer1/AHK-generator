@@ -6,11 +6,7 @@ addons:
 language: python
 python:
   - "3.6"
-# branches:
-#   only:
-#   - master
-#   - gh-pages
-#   - _get_build_working
+
 cache:
   bundler: true
   directories:
@@ -36,7 +32,8 @@ before_script:
 script:
 - echo path=$PATH
 - bundle exec jekyll build -d _site
-- bundle exec htmlproofer ./_site --only-4xx --check-favicon --check-html
+# 441 means "quota limit" - while a ticket has been opened with the offending site, this will remove this from erroring the tests
+- bundle exec htmlproofer --http-status-ignore "441" ./_site --only-4xx --check-favicon --check-html 
 - npm test
 - bundle exec jekyll serve --no-watch &
 - sleep 5s
