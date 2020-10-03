@@ -903,12 +903,15 @@ function _setup_download(configuration) {
     $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>');
     $('#skipToScript').removeClass("w3-hide");
     $('#scriptZone').removeClass("w3-hide");
+
+    var page_location = window.location.href
+
     $("#fbShareLink").attr('href', `https://www.facebook.com/sharer/sharer.php?u=${_uri_escape_string(page_location)}&amp;src=sdkpreparse`)
     $("#emailShareLink").attr("href", `mailto:?to=&subject=Check out this AutoHotkey script I wrote using ahkgen.com
     &body=Here is the link:%0d%0a${_uri_escape_string(page_location)}`)
-    $('.js_share_region').removeClass("w3-hide");
     $('.js_share_link').text(page_location)
 
+    $('.js_share_region').removeClass("w3-hide");
     $('.js_dirtiable_btn').removeClass("w3-disable")
     hljs.highlightBlock($('#scriptZone')[0]);
 }
