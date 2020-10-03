@@ -19,6 +19,11 @@ const triggers = [
 
 const actions = [
     {
+        "Program": "cmd",
+        "Window": "ahk_exe cmd.exe",
+        "option": "ActivateOrOpen",
+    },
+    {
         "option": "Send",
         "input": "b",
     },
@@ -31,18 +36,18 @@ const actions = [
         "input": "0x2192",
     },
     {
-        "Program": "cmd",
-        "Window": "ahk_exe cmd.exe",
-        "option": "ActivateOrOpen",
+        "Program": "http://dictionary.reference.com/",
+        "Window": "dictionary.com",
+        "option": "ActivateOrOpenChrome",
+    },
+    {
+        "option": "OpenConfig",
     },
     {
         "option": "LockWorkStation",
     },
     {
         "option": "TurnMonitorsOff",
-    },
-    {
-        "option": "OpenConfig",
     },
     {
         "option": "Custom",
@@ -52,11 +57,6 @@ const actions = [
             Run, http://www.google.com/search?q=%clipboard%
             Return`,
     },
-    {
-        "Program": "http://dictionary.reference.com/",
-        "Window": "dictionary.com",
-        "option": "ActivateOrOpenChrome",
-    }
 ]
 
 
