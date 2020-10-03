@@ -526,7 +526,7 @@ function _check_form(show_error = true, check_required_fields = false, should_re
     }
 
     // Shorten URL
-    should_compress(should_redirect);
+    result = should_compress(should_redirect);
 
     return result; // return false to cancel form action
 }
@@ -910,7 +910,7 @@ function _setup_download(configuration) {
     $("#emailShareLink").attr("href", `mailto:?to=&subject=Check out this AutoHotkey script I wrote using ahkgen.com
     &body=Here is the link:%0d%0a${_uri_escape_string(page_location)}`)
     $('.js_share_link').text(page_location)
-
+    
     $('.js_share_region').removeClass("w3-hide");
     $('.js_dirtiable_btn').removeClass("w3-disable")
     hljs.highlightBlock($('#scriptZone')[0]);
