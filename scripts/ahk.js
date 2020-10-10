@@ -235,6 +235,10 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
 function _load_get(location) {
     var result = {}
 
+    if (location.indexOf('=') == -1) {
+        return result;
+    }
+
     if (location.indexOf('compressed=') != -1) {
         _debug_log("Original query string: ", location)
         var values = location.split('?')[1].split('&')
@@ -277,6 +281,9 @@ function _load_get(location) {
 
     for (var i = 0, l = query.length; i < l; i++) {
         aux = decodeURIComponent(query[i])
+        if (!(aux.includes('='))) {
+            continue
+        }
         _debug_log(aux)
         key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
         _debug_log(key)
@@ -457,7 +464,7 @@ function _parse_get(get_arr) {
     }
     if (GET_KEYS.enable_eager_generation in get_arr) {
         EAGER_GENERATION_ENABLED = true;
-        _debug_log("Enabling Eager Compile.")
+        _debug_log("Enabling Eager generation.")
     }
     _debug_log("Debug Logging enabled");
     if (!('length' in get_arr) && !('indexes' in get_arr)) {
@@ -526,7 +533,19 @@ function _check_form(show_error = true, check_required_fields = false, should_re
     }
 
     // Shorten URL
-    result = should_compress(should_redirect);
+    if (should_compress(false) && should_redirect) {
+        var form = $(`#hotkeyForm`)[0];
+        var data = new FormData(form);
+        var querystring = new URLSearchParams(data).toString();
+        
+        if(EAGER_GENERATION_ENABLED) {
+            querystring = _get_shortened_url(querystring);
+            window.history.pushState({ "updatedfield": -1, "index": -1, "changed_key": "compression" }, "AHK Generator", "/?" + querystring);
+        } else {
+            window.location.href = '/?' + _get_shortened_url(queryString)
+        }
+        return false;
+    }
 
     return result; // return false to cancel form action
 }
@@ -718,9 +737,6 @@ function should_compress(should_redirect) {
     _debug_log("QueryString:", queryString);
 
     if (user_requested_shortened) {
-        if (should_redirect) {
-            window.location.href = '/?' + _get_shortened_url(queryString)
-        }
         return true
     }
 
@@ -771,12 +787,18 @@ function eager_generation(changed_id, changed_index, changed_key) {
     var get_arry = _load_get(`/?${querystring}`);
     _debug_log('get_array', get_arry);
 
-    if ('error' in get_arry) {
+    if ('ERROR' in get_arry) {
         _debug_log('ERRORS: ', get_arry['error'])
         return;
     }
 
     var config = _parse_get(get_arry);
+
+    if ('ERROR' in config) {
+        _debug_log('ERRORS: ', config['error'])
+        return;
+    }
+
     CONFIG = config // there are still some references to the global
     _setup_download(config);
 
@@ -825,8 +847,6 @@ function _update_fields(state, config) {
     //     // handle text
     //     $(`#${state.updatedfield}`).val(new_value);
     // }
-
-
 }
 
 function destroy(id) {
@@ -853,7 +873,12 @@ function _register_done_typing(parent_identifier, id) {
     _debug_log("Registering donetyping");
     var inputs = $(`${parent_identifier} .js_donetyping`);
     _debug_log('Inputs: ', inputs);
-    inputs.donetyping(function () { eager_generation($(this).attr('id'), id, $(this).attr('name').replace(/\d*$/g, '')); $(this).focus() });
+    inputs.donetyping(function () {
+        var name = $(this).attr('name')
+        name = (typeof(name) !== 'undefined')? name.replace(/\d*$/g, ''):'';
+        eager_generation($(this).attr('id'), id, name); 
+        $(this).focus()
+    });
 }
 
 function genHotkeyRegion(id) {

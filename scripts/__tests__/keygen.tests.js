@@ -1,6 +1,6 @@
 const { printExceptionAndStackTraceToConsole } = require("lzutf8")
 
-const configured_region = require("../keygen").configured_region
+const configured_region = require("../../_site/scripts/keygen.js").configured_region
 const each = require("jest-each").default
 
 const triggers = [

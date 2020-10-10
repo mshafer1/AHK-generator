@@ -15,6 +15,16 @@ describe('_load_get', () => {
             .toEqual(empty);
     });
 
+    it('returns empty for empty query (?)', () => {
+        expect(ahk_js._load_get('ahkgen.com/?'))
+            .toEqual(empty);
+    });
+
+    it('returns empty for empty query (?indexes=)', () => {
+        expect(ahk_js._load_get('ahkgen.com/?indexes='))
+            .toEqual({'indexes': ''});
+    });
+
     it('takes values into object', () => {
         expect(ahk_js._load_get('ahkgen.com/?length=0'))
             .toEqual({ 'length': "0" });
@@ -33,6 +43,11 @@ describe('_load_get', () => {
     it('takes duplicate values into array', () => {
         expect(ahk_js._load_get('ahkgen.com/?skey0=CTRL&skey0=ALT'))
             .toEqual({ 'skey0': ['CTRL', 'ALT'] })
+    });
+
+    it('drops missing `=` sign keys', () => {
+        expect(ahk_js._load_get('ahkgen.com/?indexes=0&comment0&func0=STRING&skeyValue0=1&input0=1&option0=Send'))
+            .toEqual({ 'indexes': "0", 'func0': 'STRING', 'skeyValue0': "1", 'input0': "1", 'option0': 'Send' })
     });
 
     it('takes a basic query and returns expected data', () => {
@@ -311,6 +326,13 @@ describe('_parse_get', () => {
                 ))
             expect(result).toMatchSnapshot();
         });
+        it('handles missing comment `=`', () => {
+            const result = ahk_js
+                ._parse_get(ahk_js._load_get(
+                    'ahkgen.com/?indexes=0&comment0&func0=STRING&skeyValue0=1&input0=1&option0=Send'
+                ))
+            expect(result).toMatchSnapshot();
+        })
     })
 
     describe('Handles indexes correctly', () => {

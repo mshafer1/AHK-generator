@@ -757,6 +757,17 @@ Object {
 }
 `;
 
+exports[`_parse_get takes a basic config and returns expected:: handles missing comment \`=\` 1`] = `
+Object {
+  "0": Object {
+    "func": "STRING",
+    "input": "1",
+    "option": "Send",
+    "skeyValue": "1",
+  },
+}
+`;
+
 exports[`_parse_get takes a basic config and returns expected:: packs values down to lowest index 1`] = `
 Object {
   "0": Object {
