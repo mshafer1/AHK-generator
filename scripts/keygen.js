@@ -101,8 +101,8 @@ function configured_region(data) {
 }
 
 function keygen(data, location) {
-    console.log("Keygen: ")
-    console.log(data)
+    // console.log("Keygen: ")
+    // console.log(data)
     value = `
 ; *********************** Header - some configuration  ***********************
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
