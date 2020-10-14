@@ -15,7 +15,7 @@ def isAlertPresent(driver):
 
 @pytest.mark.parametrize("url", test_data.bad_urls, ids=test_data.bad_urls)
 @pytest.mark.parametrize(
-    "browser_fixture", ("browser", "eager_compile_browser", "single_source_methods__browser",)
+    "browser_fixture", ("browser", "eager_generation_browser", "single_source_methods__browser",)
 )
 def test__url_with_missing_required_values__load_page__shows_error_message(
     base_url, url, browser_fixture, request, browser

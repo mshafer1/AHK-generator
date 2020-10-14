@@ -23,7 +23,7 @@ TEST_CASE_DIR = ROOT_TEST_PATH / "loaded_pages_snapshots"
     ),
 )
 @pytest.mark.parametrize(
-    "browser_fixture", ("browser", "eager_compile_browser", "single_source_methods__browser",)
+    "browser_fixture", ("browser", "eager_generation_browser", "single_source_methods__browser",)
 )
 def test__url__load_compressed_page__loaded_data_matches_uncrompressed_page(
     test_name,
@@ -46,14 +46,22 @@ def test__url__load_compressed_page__loaded_data_matches_uncrompressed_page(
         try:
             chbox.click()
         except:
-            browser.execute_script("$('#chkBox_CompressData').prop('checked', true)")
-    submit_btn = browser.find_element_by_id("btnSubmit")
-    try:
-        submit_btn.click()
-    except:
-        browser.execute_script("$('#hotkeyForm').submit()")
+            browser.execute_script("$('#chkBox_CompressData').click()")
+    
+    if browser_fixture not in ["eager_generation_browser"]:
+        # eager gen does not need to submit
+        submit_btn = browser.find_element_by_id("btnSubmit")
+        try:
+            submit_btn.click()
+        except:
+            browser.execute_script("$('#hotkeyForm').submit()")
     time.sleep(2)
-
+    
+    url = browser.current_url
     compressed_data = loaded_data(browser, parser)
-
+    
     assert compressed_data == raw_data
+    assert all([
+        'compressed=' in url,
+        'version=' in url,
+    ]) or url.endswith('/')

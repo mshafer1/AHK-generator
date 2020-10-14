@@ -7,7 +7,7 @@ class="w3-hide-large "><br/></span>{% for arg in include.method.args %}{% unless
     name="{{ arg.name }}${id}" 
     id="{{ arg.name | downcase}}${id}" 
     placeholder="{% unless arg.placeholder %}{{ arg.name }}{% else %}{{ arg.placeholder }}{% endunless %}" 
-    class="keyWidth"
+    class="keyWidth js_donetyping"
     oninput="markDirty()"
     title="{{ arg.description }}"
     required/>{% unless arg.quote == false %}"{% endunless %}{% unless forloop.last %},<span class="may-break-space"

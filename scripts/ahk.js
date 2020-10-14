@@ -4,7 +4,7 @@
 
 GET_KEYS = {
     enable_debug_logging: 'DEBUG_LOG',
-        enable_eager_compile: 'EAGER_COMPILE',
+        enable_eager_generation: 'EAGER_GENERATION',
 }
 
 try {
@@ -50,10 +50,11 @@ try {
     //   @timeout:  (default=1000) timeout, in ms, to to wait before triggering event if not
     //              caused by blur.
     // Requires jQuery 1.7+ 
+    // edit - made checkboxes fire call callback without delay
     ; (function ($) {
         $.fn.extend({
             donetyping: function (callback, timeout) {
-                timeout = timeout || 5e2; // default to 1/2 s
+                timeout = timeout || 8e2; // default to .8 s
                 var timeoutReference,
                     doneTyping = function (el) {
                         if (!timeoutReference) return;
@@ -74,11 +75,22 @@ try {
                         // Check if timeout has been set. If it has, "reset" the clock and
                         // start over again.
                         if (timeoutReference) clearTimeout(timeoutReference);
-                        timeoutReference = setTimeout(function () {
-                            // if we made it here, our timeout has elapsed. Fire the
-                            // callback
-                            doneTyping(el);
-                        }, timeout);
+
+                        if($el.is(':checkbox')) {
+                            // check boxes are intantanious - note, just calling doneTyping here doesn't work, not sure why not
+                            timeoutReference = setTimeout(function () {
+                                // if we made it here, our timeout has elapsed. Fire the
+                                // callback
+                                doneTyping(el);
+                            }, 0);
+                        }
+                        else {
+                            timeoutReference = setTimeout(function () {
+                                // if we made it here, our timeout has elapsed. Fire the
+                                // callback
+                                doneTyping(el);
+                            }, timeout);
+                        }
                     }).on('blur', function () {
                         // If we can, fire the event since we're leaving the field
                         doneTyping(el);
@@ -95,7 +107,7 @@ try {
 var GET = {}
 var LOADED = false;
 var DEBUG_LOGGING_ENABLED = false;
-var EAGER_COMPILE_ENABLED = false;
+var EAGER_GENERATION_ENABLED = false;
 var DOWNLOAD_FILE_HEADER = 'data:text/plain;charset=utf-8,' + `\ufeff`; // UTF8-BOM helps AHK to know how to handle non-English chars in a Send
 
 // from https://stackoverflow.com/a/31221374/8100990
@@ -119,17 +131,18 @@ function init() {
         $('#hotkeyRegion').sortable({
             placeholder: 'placeholder',
             handle: '.draggabble_handle',
-            update: function (event, ui) { markDirty() },
+            update: function (event, ui) { eager_generation() },
         });
     } catch (_) {
         // pass - just means that jquery-ui did not load, so won't be able to drag-drop
     }
     window.onpopstate = _handle_pop_state; // lazy do this so that jest doesn't encounter it
     DEBUG_LOGGING_ENABLED = FEATURE_TOGGLES.DEBUG_LOGGING
-    EAGER_COMPILE_ENABLED = FEATURE_TOGGLES.EAGER_COMPILE
+    EAGER_GENERATION_ENABLED = FEATURE_TOGGLES.EAGER_GENERATION
     _debug_log("Debug logging enabled");
     if (FEATURE_TOGGLES.ENABLE_COMPRESSION) {
         $('#CompressData').show()
+        _register_done_typing('#CompressData')
     }
     ready()
     load_get()
@@ -222,6 +235,10 @@ function replaceAll(str, find, replace) { // from https://stackoverflow.com/a/11
 function _load_get(location) {
     var result = {}
 
+    if (location.indexOf('=') == -1) {
+        return result;
+    }
+
     if (location.indexOf('compressed=') != -1) {
         _debug_log("Original query string: ", location)
         var values = location.split('?')[1].split('&')
@@ -264,6 +281,9 @@ function _load_get(location) {
 
     for (var i = 0, l = query.length; i < l; i++) {
         aux = decodeURIComponent(query[i])
+        if (!(aux.includes('='))) {
+            continue
+        }
         _debug_log(aux)
         key = aux.match(/([\d\D]+?\=)/)[0].replace('=', '');
         _debug_log(key)
@@ -442,9 +462,9 @@ function _parse_get(get_arr) {
     if (GET_KEYS.enable_debug_logging in get_arr) {
         DEBUG_LOGGING_ENABLED = true;
     }
-    if (GET_KEYS.enable_eager_compile in get_arr) {
-        EAGER_COMPILE_ENABLED = true;
-        _debug_log("Enabling Eager Compile.")
+    if (GET_KEYS.enable_eager_generation in get_arr) {
+        EAGER_GENERATION_ENABLED = true;
+        _debug_log("Enabling Eager generation.")
     }
     _debug_log("Debug Logging enabled");
     if (!('length' in get_arr) && !('indexes' in get_arr)) {
@@ -467,7 +487,7 @@ function parse_get() {
     CONFIG = _parse_get(GET);
 }
 
-function _check_form(show_error = true, check_required_fields = false) {
+function _check_form(show_error = true, check_required_fields = false, should_redirect = true) {
     _debug_log("Checking for submit")
     result = true;
 
@@ -513,40 +533,18 @@ function _check_form(show_error = true, check_required_fields = false) {
     }
 
     // Shorten URL
-    if (FEATURE_TOGGLES.ENABLE_COMPRESSION) {
-        // https://stackoverflow.com/a/317000??
-
-        var user_requested_shortened = $('#chkBox_CompressData').is(':checked')
-        _debug_log("User requested shorten:", user_requested_shortened);
-        var formData = new FormData($('#hotkeyForm')[0]);
-        searchParams = new URLSearchParams(formData);
-        _debug_log("params: ", searchParams);
-        queryString = searchParams.toString();
-        _debug_log("QueryString:", queryString);
-
-        if (user_requested_shortened) {
+    if (should_compress(false) && should_redirect) {
+        var form = $(`#hotkeyForm`)[0];
+        var data = new FormData(form);
+        var querystring = new URLSearchParams(data).toString();
+        
+        if(EAGER_GENERATION_ENABLED) {
+            querystring = _get_shortened_url(querystring);
+            window.history.pushState({ "updatedfield": -1, "index": -1, "changed_key": "compression" }, "AHK Generator", "/?" + querystring);
+        } else {
             window.location.href = '/?' + _get_shortened_url(queryString)
-            return false
         }
-
-        var limit = 8.2e3
-        if (location.host.startsWith('localhost')) {
-            limit = 2e3
-        }
-        _debug_log(limit)
-        _debug_log("length:", (location.href + queryString).length)
-        if ((location.href + queryString).length > limit) {
-            _debug_log("warning that should shorten")
-            displayYesNoLinks(
-                "Shorten URL?",
-                `<p>The new configuration URL may be too long (${location.href.length + queryString.length} is 
-                greater than ${limit}).</p><p>Shorten the URL?<br/>("YES"
-                 to shorten and proceed, "NO" to proceed as is, or close this dialogue to cancel)</p>`,
-                `/?${_get_shortened_url(queryString)}`, `/?${queryString}`,
-                true
-            )
-            return false;
-        }
+        return false;
     }
 
     return result; // return false to cancel form action
@@ -621,6 +619,7 @@ function select(item, id, backend) {
         } {% endfor %}
 
         $('#function' + id).html(result);
+        _register_done_typing(`#function${id}`, id)
     }
     else {
         if (item == 'ActivateOrOpen') {
@@ -683,13 +682,20 @@ function select(item, id, backend) {
     }
 
     if (!backend) {
-        markDirty()
+        if(FEATURE_TOGGLES.EAGER_GENERATION) {
+            eager_generation(id, index, `option${id}`) // TODO: test re-aranging rows and then triggering
+        }
+        else {
+            markDirty()
+        }
     }
 }
 
 function _mark_helper(dirty = true) {
     //disable download link
     $('.js_download_btn').disable(dirty);
+    $('.js_dirtiable_btn').disable(dirty);
+
     _out_of_date = (dirty) ? "Script out of date, submit to update to configuration changes" : "";
     _generate = (dirty) ? "" : "Select to generate new script";
     $('.js_download_btn').prop('title', _out_of_date);
@@ -715,13 +721,53 @@ function markClean() {
     _mark_helper(false);
 }
 
-function eager_compile(changed_id, changed_index, changed_key) {
+function should_compress(should_redirect) {
+    if (!FEATURE_TOGGLES.ENABLE_COMPRESSION) {
+        return false;
+    }
+
+    // https://stackoverflow.com/a/317000??
+
+    var user_requested_shortened = $('#chkBox_CompressData').is(':checked')
+    _debug_log("User requested shorten:", user_requested_shortened);
+    var formData = new FormData($('#hotkeyForm')[0]);
+    searchParams = new URLSearchParams(formData);
+    _debug_log("params: ", searchParams);
+    queryString = searchParams.toString();
+    _debug_log("QueryString:", queryString);
+
+    if (user_requested_shortened) {
+        return true
+    }
+
+    var limit = 8.2e3
+    if (location.host.startsWith('localhost')) {
+        limit = 2e3
+    }
+    _debug_log(limit)
+    _debug_log("length:", (location.href + queryString).length)
+    if ((location.href + queryString).length > limit) {
+        _debug_log("warning that should shorten")
+        displayYesNoLinks(
+            "Shorten URL?",
+            `<p>The new configuration URL may be too long (${location.href.length + queryString.length} is 
+                greater than ${limit}).</p><p>Shorten the URL?<br/>("YES"
+                 to shorten and proceed, "NO" to proceed as is, or close this dialogue to cancel)</p>`,
+            `/?${_get_shortened_url(queryString)}`, `/?${queryString}`,
+            true
+        )
+        return false;
+    }
+}
+
+function eager_generation(changed_id, changed_index, changed_key) {
+    _debug_log("Asked to Eager Gen: ", changed_id, changed_index, changed_key)
     markDirty();
-    if (!EAGER_COMPILE_ENABLED) {
+    if (!EAGER_GENERATION_ENABLED) {
         return;
     }
 
-    var check = _check_form(false, true);
+    var check = _check_form(false, true, false);
     _debug_log("Ready for 'compile':", check);
     if (!check) {
         return;
@@ -730,20 +776,32 @@ function eager_compile(changed_id, changed_index, changed_key) {
     var form = $(`#hotkeyForm`)[0];
     var data = new FormData(form);
     var querystring = new URLSearchParams(data).toString();
+
+    if(should_compress(false)) {
+        querystring = _get_shortened_url(querystring);
+    }
+
     _debug_log("New URL: ", querystring);
     window.history.pushState({ "updatedfield": changed_id, "index": String(changed_index), "changed_key": String(changed_key) }, "AHK Generator", "/?" + querystring);
     _debug_log(`/?${querystring}`);
     var get_arry = _load_get(`/?${querystring}`);
     _debug_log('get_array', get_arry);
 
-    if ('error' in get_arry) {
+    if ('ERROR' in get_arry) {
         _debug_log('ERRORS: ', get_arry['error'])
         return;
     }
 
     var config = _parse_get(get_arry);
+
+    if ('ERROR' in config) {
+        _debug_log('ERRORS: ', config['error'])
+        return;
+    }
+
+    CONFIG = config // there are still some references to the global
     _setup_download(config);
-    _update_fields(null, config);
+
     markClean();
 }
 
@@ -789,43 +847,49 @@ function _update_fields(state, config) {
     //     // handle text
     //     $(`#${state.updatedfield}`).val(new_value);
     // }
-
-
 }
 
 function destroy(id) {
-    $('#shortcut' + id).remove() //destroy row from table
+    var changed_id = '#shortcut' + id
+    $(changed_id).remove() //destroy row from table
 
-    markDirty();
+    var index = $(`#shortcu${id} .js-index`).val()
+
+    eager_generation( changed_id, index, 'DELETE');
 }
 
 function setHotKey(id, backend) {
     $('#optionsShortcut' + id).html(genHotkeyRegion(id))
     _register_done_typing('#optionsShortcut' + id, id);
     if (!backend) {
-        markDirty()
+        eager_generation()
     }
 }
 
 function _register_done_typing(parent_identifier, id) {
-    if (!EAGER_COMPILE_ENABLED) {
+    if (!EAGER_GENERATION_ENABLED) {
         return
     }
     _debug_log("Registering donetyping");
     var inputs = $(`${parent_identifier} .js_donetyping`);
     _debug_log('Inputs: ', inputs);
-    inputs.donetyping(function () { eager_compile($(this).attr('id'), id, $(this).attr('name').replace(/\d*$/g, '')); });
+    inputs.donetyping(function () {
+        var name = $(this).attr('name')
+        name = (typeof(name) !== 'undefined')? name.replace(/\d*$/g, ''):'';
+        eager_generation($(this).attr('id'), id, name); 
+        $(this).focus()
+    });
 }
 
 function genHotkeyRegion(id) {
-    var _handle_change = (EAGER_COMPILE_ENABLED) ? '' : 'oninput="markDirty()"';
-    var _register_change = (EAGER_COMPILE_ENABLED) ? 'js_donetyping' : '';
+    var _handle_change = (EAGER_GENERATION_ENABLED) ? '' : 'oninput="markDirty()"';
+    var _register_change = (EAGER_GENERATION_ENABLED) ? 'js_donetyping' : '';
     return `{% include _trigger_hotkey.html %}`.format(id);
 }
 
 function setHotString(id, backend) {
-    var _handle_change = (EAGER_COMPILE_ENABLED) ? '' : 'onchange="markDirty()"';
-    var _register_change = (EAGER_COMPILE_ENABLED) ? 'js_donetyping' : '';
+    var _handle_change = (EAGER_GENERATION_ENABLED) ? '' : 'onchange="markDirty()"';
+    var _register_change = (EAGER_GENERATION_ENABLED) ? 'js_donetyping' : '';
 
     _debug_log("configuring #optionsShortcut" + id)
     $('#optionsShortcut' + id).html(`<div class="w3-col s6">
@@ -833,7 +897,7 @@ function setHotString(id, backend) {
                                             </div>`)
     _register_done_typing("#optionsShortcut" + id, id);
     if (!backend) {
-        markDirty()
+        eager_generation()
     }
 }
 
@@ -850,15 +914,30 @@ function loaded() {
     _setup_download(CONFIG);
 }
 
+function _uri_escape_string(string) {
+    var string = string.replace("http://localhost:4000", "https://ahkgen.com") // FB doesn't like localhost links, point at production
+    var result = encodeURIComponent(string).replaceAll("&", "%26");
+    return result;
+}
+
 function _setup_download(configuration) {
     _debug_log("seeting url");
-    script = keygen(CONFIG, document.location.toString())
+    script = keygen(configuration, document.location.toString())
     $('#downloadLink').attr('href', DOWNLOAD_FILE_HEADER + encodeURIComponent(script));
 
     $('#scriptZone').html('<p><pre><code class="autohotkey">' + script + '</code></pre></p>');
     $('#skipToScript').removeClass("w3-hide");
     $('#scriptZone').removeClass("w3-hide");
-    $('.js_download_btn').removeClass("w3-hide");
+
+    var page_location = window.location.href
+
+    $("#fbShareLink").attr('href', `https://www.facebook.com/sharer/sharer.php?u=${_uri_escape_string(page_location)}&amp;src=sdkpreparse`)
+    $("#emailShareLink").attr("href", `mailto:?to=&subject=Check out this AutoHotkey script I wrote using ahkgen.com
+    &body=Here is the link:%0d%0a${_uri_escape_string(page_location)}`)
+    $('.js_share_link').text(page_location)
+    
+    $('.js_share_region').removeClass("w3-hide");
+    $('.js_dirtiable_btn').removeClass("w3-disable")
     hljs.highlightBlock($('#scriptZone')[0]);
 }
 
@@ -902,6 +981,30 @@ function download() {
 function _prevent_default() {
     var event = window.event;
     event.preventDefault();
+}
+
+function copy_share_link(caller) {
+    _log_shared()
+    var parent = $(caller).parent()
+    var copyText = parent.find('.js_share_link')
+    copyText.select()
+    copyText[0].setSelectionRange(0, 99999); /*For mobile devices*/
+
+    document.execCommand("copy");
+
+    var tooltip = parent.find('.copy_tooltiptext')
+    tooltip.html("Link copied")
+    tooltip.show()
+
+    window.setTimeout(() => {tooltip.fadeOut('slow')}, 1e3)
+}
+
+function _log_shared() {
+    try {
+        ga('send', 'event', { eventCategory: 'AHK', eventAction: 'Share', eventLabel: 'Share', eventValue: 1 });
+    } catch (error) {
+        // pass
+    }
 }
 
 try {
