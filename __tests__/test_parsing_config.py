@@ -49,7 +49,7 @@ def test__url_and_expected_trigger_types__load_page__assert_has_expected_trigger
     ),
 )
 @pytest.mark.parametrize(
-    "browser_fixture", ("browser", "eager_compile_browser", "single_source_methods__browser",)
+    "browser_fixture", ("browser", "eager_generation_browser", "single_source_methods__browser",)
 )
 def test__url__load_page__loaded_data_matches_expected(
     test_name, browser_fixture, url, parser, base_url, snapshot, request, browser

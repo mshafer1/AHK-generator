@@ -96,8 +96,8 @@ def browser_set_cookie(browser, name, value):
 
 
 @pytest.fixture()
-def eager_compile_browser(browser):
-    browser_set_cookie(browser, "feature_toggles/EAGER_COMPILE", "true")
+def eager_generation_browser(browser):
+    browser_set_cookie(browser, "feature_toggles/EAGER_GENERATION", "true")
     yield browser
 
 

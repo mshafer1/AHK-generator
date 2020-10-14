@@ -66,7 +66,7 @@ function configured_region(data) {
                 func = 'send, ' + data[i]["input"];
             }
             else {
-                func = data[i]["input"];
+                func =  data[i]["input"];
             }
         } else if (option == 'ActivateOrOpenChrome') {
             func = 'ActivateOrOpenChrome("' + data[i]["Window"] + '", "' + data[i]["Program"] + '")';
@@ -101,8 +101,8 @@ function configured_region(data) {
 }
 
 function keygen(data, location) {
-    console.log("Keygen: ")
-    console.log(data)
+    // console.log("Keygen: ")
+    // console.log(data)
     value = `
 ; *********************** Header - some configuration  ***********************
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
@@ -125,28 +125,6 @@ setTitleMatchMode, 2 ; set title match mode to "contains"
 OpenConfig()
 {
     Run, "${location.replace(/\%/g, '`%')}"
-}
-
-LockWorkStation()
-{
-    DllCall("LockWorkStation")
-}
-
-TurnMonitorsOff()
-{
-    ; from http://autohotkey.com/board/topic/105261-turn-monitor-off-even-when-using-the-computer/?p=642266
-    SendMessage,0x112,0xF170,2,,Program Manager
-}
-
-LockWorkStation()
-{
-    DllCall("LockWorkStation")
-}
-
-TurnMonitorsOff()
-{
-    ; from http://autohotkey.com/board/topic/105261-turn-monitor-off-even-when-using-the-computer/?p=642266
-    SendMessage,0x112,0xF170,2,,Program Manager
 }
 
 LockWorkStation()

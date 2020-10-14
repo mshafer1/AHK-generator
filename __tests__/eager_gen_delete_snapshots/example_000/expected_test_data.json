@@ -1,0 +1,17 @@
+{
+    "0": {
+        "trigger_type": "KEY",
+        "comment": "CTRL   ALT   M = main.vi (if open)",
+        "trigger_keys": "m",
+        "modifier_keys": [
+            "CTRL",
+            "ALT"
+        ],
+        "action": {
+            "function": "Custom: \\{Code0\\}",
+            "args": {
+                "Code0": "\n   if WinExist(\"Robot Main.vi\")\n   {\n      WinActivate; Uses the last found window.\n   }\n   return"
+            }
+        }
+    }
+}

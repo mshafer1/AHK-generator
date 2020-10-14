@@ -17,7 +17,7 @@ import test_data
     "browser_feature_toggles",
     (
         # "browser",
-        # "eager_compile_browser",
+        # "eager_generation_browser",
         "single_source_methods__browser",
     ),
 )

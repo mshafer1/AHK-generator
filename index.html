@@ -17,6 +17,10 @@ layout: basic
     {% for digit in numbers %}
     <option value="{{ digit }}"></option>{% endfor %}
 </datalist>
+<a id="downloadLink" href='#downloadLink' download="hotkeys.ahk" class="w3-hide">download</a>
+<a id="fbShareLink" href='#downloadLink' onclick="_log_shared()" target="_blank" class="w3-hide"></a>
+<a id="emailShareLink" href='#downloadLink' onclick="_log_shared()" target="_blank" class="w3-hide"></a>
+
 <form id="hotkeyForm">
     <input type="hidden" id="indexes" name="indexes" value="" />
     <div class="w3-row w3-dark-grey w3-center">
@@ -44,7 +48,7 @@ layout: basic
     <div class="w3-row w3-padding-top w3-margin-top">
         <div class="w3-col s4">
             <button type="submit" class="w3-btn" title="Generate script" id="btnSubmit">Submit!</button>
-            <label id="CompressData" style="display:none" class="unselectable"><input type="checkbox" id="chkBox_CompressData" oninput="markDirty()"/> Shorten URL</label><br/>
+            <label id="CompressData" style="display:none" class="unselectable"><input type="checkbox" class="js_donetyping" id="chkBox_CompressData" oninput="markDirty()"/> Shorten URL</label><br/>
         </div>
         <div class="w3-col s4">
             <button type="button" id="btnTop" class="w3-btn center" title="Scroll to top of config"
@@ -53,11 +57,7 @@ layout: basic
             </button>
         </div>
         <div class="w3-col s4">
-            <button type="button" download="hotkeys.ahk" class="w3-hide w3-btn js_download_btn" style="float:right"
-                title="Click to download AHK script"
-                onClick="download();"
-                disabled>Download</button>
-            <a id="downloadLink" href='#downloadLink' download="hotkeys.ahk" class="w3-hide">download</a>
+            {% include _download_region.html %}
         </div>
     </div>
 </form>
@@ -96,10 +96,7 @@ layout: basic
     <div class="w3-col w3-center s4">&nbsp;</div>
     <div class="w3-col w3-center s4">&nbsp;</div>
     <div class="w3-col w3-center s4">
-        <button type="button" download="hotkeys.ahk" class="w3-hide w3-btn js_download_btn" style="float:right"
-            title="Click to download AHK script"
-            onClick="download();"
-            disabled>Download</button>
+        {% include _download_region.html %}
     </div>
 
 </div>
@@ -109,9 +106,6 @@ layout: basic
     <div class="w3-col w3-center s4">&nbsp;</div>
     <div class="w3-col w3-center s4">&nbsp;</div>
     <div class="w3-col w3-center s4">
-        <button type="button" download="hotkeys.ahk" class="w3-hide w3-btn js_download_btn" style="float:right"
-            title="Click to download AHK script"
-            onClick="download();"
-            disabled>Download</button>
+        {% include _download_region.html %}
     </div>
 </div>
