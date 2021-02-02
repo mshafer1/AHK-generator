@@ -1,7 +1,6 @@
 ---
 ---
 
-
 GET_KEYS = {
     enable_debug_logging: 'DEBUG_LOG',
         enable_eager_generation: 'EAGER_GENERATION',
