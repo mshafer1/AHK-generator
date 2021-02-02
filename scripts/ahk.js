@@ -244,7 +244,7 @@ function _load_get(location) {
 
         var version = 0
         var compressed_data = ''
-        var check = '"'
+        var check = '%3D'
 
         for (i = 0; i < values.length; i++) {
             parts = values[i].split('=')
@@ -262,13 +262,13 @@ function _load_get(location) {
         }
 
         var attempted_count = 1;
-        while(check != '"' && attempted_count < 5) {
+        while(check != '%3D' && attempted_count < 5) {
             compressed_data = unescape(compressed_data);
             check = unescape(check);
             attempted_count += 1
         }
         
-        if(check != '"') {
+        if(check != '%3D') {
             _debug_log("Still not fully decrypted :(");
             _debug_log(location);
         } else {
