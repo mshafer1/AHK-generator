@@ -7,7 +7,7 @@ body {
 }
 
 .footer {
-    display: flex!important;
+    display: flex;
     z-index: 99!important;
 }
 

@@ -1,11 +1,12 @@
-<div class=" w3-dark-grey w3-padding printHide" style="display:none;" id="trackingDismiss">
-    By using this site, you agree to have <b>anonymized</b> data collected on your use of the site. For details or to
-    opt out, click <a class="" href="/about.html">here</a>
-    <div><button class="w3-btn" onclick="dismiss()">Dismiss</button></div>
+<div class="w3-dark-grey w3-padding footer printHide" style="display:none;" id="trackingConsent">
+    <div>
+        <span class="w3-hide-small" title="This includes such data as refering site, browser type and size, and country of use.">May we use Google Analytics to collect anymonymized data on your use of the site?</span>
+        <span class="w3-hide-medium w3-hide-large">May we use Google Analytics to collect anymonymized data on your use of this site such as browser type and size, what site referred you, and country of uses?</span>
+        <div><button class="w3-btn" onclick="consent()">Consent</button><div>
 
-    <span>We use this to help us understand how we are doing on getting the word out, and what browsers we should be
-        testing against to make sure the site works for all our users.</span>
-    <!-- dismiss footer -->
+            <span>We use this to help us understand how we are doing on getting the word out, and what browsers we should be testing against to make sure the site works for all our readers.</span>
+    </div>
+	<!-- consent footer -->
 </div>
 
 
@@ -13,6 +14,7 @@
 
     var dismiss_cookie = 'dismiss'
     var opt_out_cookie = 'opt_out'
+    var consent_cookie = 'consent'
 
     // from https://stackoverflow.com/a/5762713
     function loadjscssfile(filename, filetype) {
@@ -35,12 +37,13 @@
         loadjscssfile("/scripts/GA.js", "js") //dynamically load and add this .js file
     }
 
-    // on dismiss, load GA.js
+    // on dismiss, hide footer
     function dismiss(from_cookie = false) {
-        $('#trackingDismiss').fadeOut(500)
+        $('#trackingConsent').fadeOut(500)
 
         // if caused by user action, store cookie to prevent re-asking
         if (!from_cookie) {
+            clear_stored_values();
             setCookie(dismiss_cookie, true, 90)
         }
     }
@@ -52,6 +55,7 @@
         dismiss(from_cookie);
 
         if (!from_cookie) {
+            clear_stored_values();
             setCookie(opt_out_cookie, true, 365);
         }
     }
@@ -63,17 +67,50 @@
         cookieVal = getCookie(opt_out_cookie);
         optOutVal = JSON.parse(cookieVal);
 
-        if (optOutVal) {
+        cookieVal = getCookie(consent_cookie);
+        consentVal = JSON.parse(cookieVal);
+
+        console.debug("dismiss", dismissVal, " optOutVal ", optOutVal, " consentVal ", consentVal)
+
+        if (optOutVal == true) {
             optOut(true);
+            console.debug("opt out, aborting")
             return; // user has opted out, just stop.
         }
 
-        loadTracking();
+        if(consentVal == true) {
+            console.debug("consented, loading")
+            loadTracking();
+            return;
+        }
 
-        if (!dismissVal) {
-            $('#trackingDismiss').fadeIn(500)
+        if (dismissVal != true) {
+            console.debug("not dismissed showing")
+            $('#trackingConsent').fadeIn(500)
         }
     }
+
+    
+
+    // on consent, load GA.js
+    function consent(from_cookie=false) {
+        loadTracking();
+        $('#trackingConsent').fadeOut(500)
+
+        // if caused by user action, store cookie to prevent re-asking
+        if(!from_cookie) {
+            clear_stored_values();
+            setCookie(consent_cookie, true, 90)
+        }
+    }
+
+    function clear_stored_values() {
+        var values_to_clear = [dismiss_cookie, consent_cookie, opt_out_cookie];
+        values_to_clear.forEach(c => {
+            eraseCookie(c);
+        });
+    }
+
 
     $(window).ready(checkCookie);
 </script>

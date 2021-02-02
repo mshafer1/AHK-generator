@@ -10,7 +10,7 @@ const DEFAULT_ENCODING = "Base64"
 
 function zip(string) {
     var result = LZUTF8.compress(string,  {outputEncoding: DEFAULT_ENCODING} )
-    return `version=${CURRENT_COMPRESSION_VERSION}&compressed=${result}`;
+    return `version=${CURRENT_COMPRESSION_VERSION}&d="&compressed=${result}`;
 }
 
 function unzip(compressed, version) {
