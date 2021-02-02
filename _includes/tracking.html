@@ -43,6 +43,7 @@
 
         // if caused by user action, store cookie to prevent re-asking
         if (!from_cookie) {
+            clear_stored_values();
             setCookie(dismiss_cookie, true, 90)
         }
     }
@@ -54,6 +55,7 @@
         dismiss(from_cookie);
 
         if (!from_cookie) {
+            clear_stored_values();
             setCookie(opt_out_cookie, true, 365);
         }
     }
@@ -78,7 +80,7 @@
 
         if(consentVal == true) {
             console.debug("consented, loading")
-        loadTracking();
+            loadTracking();
             return;
         }
 
@@ -97,8 +99,16 @@
 
         // if caused by user action, store cookie to prevent re-asking
         if(!from_cookie) {
+            clear_stored_values();
             setCookie(consent_cookie, true, 90)
         }
+    }
+
+    function clear_stored_values() {
+        var values_to_clear = [dismiss_cookie, consent_cookie, opt_out_cookie];
+        values_to_clear.forEach(c => {
+            eraseCookie(c);
+        });
     }
 
 
