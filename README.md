@@ -1,6 +1,6 @@
 # AHK-generator
 
-[![Build Status](https://travis-ci.com/mshafer1/AHK-generator.svg?branch=master)](https://travis-ci.com/github/mshafer1/AHK-generator) [![Coverage Status](https://coveralls.io/repos/github/mshafer1/AHK-generator/badge.svg?branch=master)](https://coveralls.io/github/mshafer1/AHK-generator?branch=master)
+[![Build Status](https://travis-ci.com/mshafer1/AHK-generator.svg?branch=main)](https://travis-ci.com/github/mshafer1/AHK-generator) [![Coverage Status](https://coveralls.io/repos/github/mshafer1/AHK-generator/badge.svg?branch=main)](https://coveralls.io/github/mshafer1/AHK-generator?branch=main)
 
 
 A single page website to provide a UI for the some of the most common uses for [Auto Hotkey](https://autohotkey.com/ "Autohotkey.com") and defining custom hotstrings and hotkeys to trigger them.
@@ -67,5 +67,5 @@ This project relies on a couple of open source libraries
  Jquery | [jquery.org/license](https://jquery.org/license "JQuery license page") | v1.12.2 | In page manipulation
  W3 CSS | [No license is necessary.](https://www.w3schools.com/w3css/ "W3 CSS home page") | 2.64 | Styling
  [Font Awesome](http://fontawesome.io/icons) | [MIT License](https://opensource.org/licenses/MIT "OpenSource.org page" ) | 5.13.0 | Icons
-[highlight.js](https://highlightjs.org/) | [BSD 3 License](https://github.com/isagalaev/highlight.js/blob/master/LICENSE "Github License page") | 9.12.0 | Syntax highlighting
+[highlight.js](https://highlightjs.org/) | [BSD 3 License](https://github.com/isagalaev/highlight.js/blob/main/LICENSE "Github License page") | 9.12.0 | Syntax highlighting
 [LZUTF8](https://github.com/rotemdan/lzutf8.js/) | [MIT License](https://github.com/rotemdan/lzutf8.js/blob/c1642701e7e1df88073795be2f68a60b37fbcd02/LICENSE) | 0.5.6 | Compressing user data in URL when needed/asked
