@@ -245,6 +245,7 @@ function _load_get(location) {
 
         var version = 0
         var compressed_data = ''
+        var check = '"'
 
         for (i = 0; i < values.length; i++) {
             parts = values[i].split('=')
@@ -256,6 +257,23 @@ function _load_get(location) {
             if (key == 'compressed') {
                 compressed_data = unescape(value)
             }
+            if (key == 'd') {
+                check = unescape(value)
+            }
+        }
+
+        var attempted_count = 1;
+        while(check != '"' && attempted_count < 5) {
+            compressed_data = unescape(compressed_data);
+            check = unescape(check);
+            attempted_count += 1
+        }
+        
+        if(check != '"') {
+            _debug_log("Still not fully decrypted :(");
+            _debug_log(location);
+        } else {
+            _debug_log("Number of times needed to unescape to get to data: ", attempted_count);
         }
 
         // if loading compressed page, default to maintaining compression
