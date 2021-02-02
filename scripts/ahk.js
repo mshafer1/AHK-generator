@@ -254,19 +254,22 @@ function _load_get(location) {
                 version = unescape(value)
             }
             if (key == 'compressed') {
-                compressed_data = unescape(value)
+                compressed_data = unescape(value).replaceAll(" ", "+")
             }
             if (key == 'd') {
                 check = unescape(value)
             }
         }
+        _debug_log("compressed ", compressed_data)
 
         var attempted_count = 1;
         while(check != '%3D' && attempted_count < 5) {
             compressed_data = unescape(compressed_data);
             check = unescape(check);
             attempted_count += 1
+            _debug_log("attempted un-escaping again, total: ", attempted_count)
         }
+        _debug_log("unzip count: ", attempted_count, " check value: ", check, "\n  compressed: ", compressed_data);
         
         if(check != '%3D') {
             _debug_log("Still not fully decrypted :(");
