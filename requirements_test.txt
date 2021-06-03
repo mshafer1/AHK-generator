@@ -35,7 +35,7 @@ six==1.15.0
     # via packaging
 soupsieve==2.0.1
     # via beautifulsoup4
-urllib3==1.25.9
+urllib3==1.26.5
     # via selenium
 wcwidth==0.2.4
     # via pytest
