@@ -34,8 +34,8 @@ We use [Google Analytics](https://marketingplatform.google.com/about/analytics/)
 
 Because the collected data is anonymized (by Google), **we are unable (at this time) to offer an option to delete data on a specific user**. 
 <br/>
-If you wish to have us filter your useage out of our views, please contact us via <b>admin at ahkgen.com</b> to request this (please include the public IP address you wish to have filtered), 
-<br/><b>or</b> if you wish to have your data deleted, please contact us via <b>admin at ahkgen.com</b> to request this and we will delete all data collected for the requested time period.
+If you wish to have us filter your useage out of our views, please contact us via <b><a href="https://forms.gle/FcmNGCQqfWWqqHS5A">this form</a></b> to request this (please include the public IP address you wish to have filtered), 
+<br/><b>or</b> if you wish to have your data deleted, please contact us via <b><a href="https://forms.gle/FcmNGCQqfWWqqHS5A">this form</a></b> to request this and we will delete all data collected for the requested time period.
 
 <h4 class="bold">Opt out</h4>
 If you would like to not send use-age data, <button class="w3-btn" onclick="optOut()">click here</button> to opt out.
